@@ -17,13 +17,11 @@ The goals here are to:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ```{r Load Packages, include  =FALSE}
 # Load Required Packages
 packages <- c("tidyverse", "vegan", "lubridate", "readxl")
 lapply(packages, library, character.only = TRUE)
 ```
-
 
 ```{r Import data, include = FALSE}
 # import data
@@ -37,7 +35,7 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
 
-```{r Calculate Densities, echo = FALSE}
+```{r Calculate Densities, ech = TRUE}
 #Calculations...
 bugs$Density <- bugs$Count / bugs$PercentSub / .09
 
@@ -48,6 +46,7 @@ bugs.agg <- aggregate(Density ~ CollDate + Stream + Treatment + Taxon, sum, data
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
 
+Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). After these adjustments have been made and the data aggregated (remember the data is structured so that each individual bug gets its own row, i.e. multiple occurances of "*Baetis*") we divide by three because at this point the three samples per reach in 2017 have been aggregated together and 2018 samples have been adjusted to the same value when dividing by percent sub.  (There were three samples taken per reach).
 
 ```{r Fill Missing Taxa, echo = FALSE}
 # Spread and then gather to fill missing Taxons with 0's
@@ -55,7 +54,6 @@ bugs.agg <- spread(bugs.agg, key = "Taxon", value = "Density") %>%
   mutate_if(is.numeric , replace_na, replace = 0) %>% 
   gather(key = "Taxon", value = "Density", "Ameletus":"Zapada")
 ```
-
 
 ```{r Calculate Reach Differences, echo = FALSE}
 # Create list of CollDate, Stream and Taxon
@@ -66,12 +64,15 @@ bugs.by.year$Diff <- bugs.agg$Density[bugs.agg$Treatment == "Y"] -
   bugs.agg$Density[bugs.agg$Treatment == "N"]
 ```
 
-
 ```{r Add FFG and Sizes, echo = FALSE}
+# Add FFG and Size Classes
 bugs.by.year <- merge(bugs.by.year, sizes) %>% merge(., ffg)
 bugs.agg <- merge(bugs.agg, sizes) %>% merge(., ffg)
+
+# Filter for only 2018 benthic taxa to use with Diets
 bugs18 <- filter(bugs.agg, CollDate == "2018")
 ```
+
 
 ```{r Clean Up Diet Data, echo = FALSE}
 # Fill missing family's with order
@@ -82,7 +83,7 @@ Diets <- merge(Diets, sizes, by.x = "Family", by.y = "Taxon", all.x = TRUE) %>%
   merge(., ffg, by.x = "Family", by.y = "Taxon", all.x = TRUE)
 
 # Aggregate by rep
-Diets.fish <- Diets %>% 
+Diets.by.fish <- Diets %>% 
   group_by(Family, Stream, Treatment, Origin, FFG, Size, Rep) %>%
   summarise_at("Count", funs(sum)) %>% ungroup
 
@@ -92,15 +93,16 @@ Diets.reach <- Diets %>%
   summarise_at("Count", funs(sum)) %>% ungroup
 ```
 
-
 ```{r Merge Diet and Benthic Data, echo = FALSE}
 bugs.family <- bugs %>% 
   filter(CollDate == "2018") %>%
   select(-Taxon) %>% 
-  group_by(Stream, Treatment, Family) %>%
+  group_by(Stream, Treatment, Family, CollDate) %>%
   summarise_at(vars(Density), funs(sum))
 
-bugndiet <- merge(Diets.reach, bugs.family) %>% filter(Origin == "A")
+bugndiet <- merge(Diets.reach, bugs.family, all.x = TRUE, all.y = TRUE) %>% 
+  filter(Origin == "A") %>%
+  mutate_if(is.numeric, replace_na, replace = 0)
 ```
 
 
@@ -119,7 +121,8 @@ ffgndiet <- bugndiet %>%
   group_by(Stream, Treatment, FFG) %>% 
   summarise_if(is.numeric, funs(sum)) %>% 
   mutate(frac.diet = Count / sum(Count)) %>%
-  mutate(frac.benthic = Density / sum(Density))
+  mutate(frac.benthic = Density / sum(Density)) %>%
+  mutate_if(is.character, replace_na, replace = "T")
 ```
 
 ```{r Calculate Size Proportions, include = FALSE}
@@ -128,32 +131,42 @@ sizendiet <- bugndiet %>%
   group_by(Stream, Treatment, Size) %>% 
   summarise_if(is.numeric, funs(sum)) %>% 
   mutate(frac.diet = Count / sum(Count)) %>%
-  mutate(frac.benthic = Density / sum(Density))
+  mutate(frac.benthic = Density / sum(Density)) %>%
+  mutate_if(is.character, replace_na, replace = "T")
 ```
 
+## Plots of Benthic Vs. Diet Community Composition
+### By Family
 
-```{r Plot Taxa Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+```{r Plot Taxa Proportions, echo = FALSE, fig.height = 12, fig.width = 12}
 # Plot proportion of a taxon in the benthic community versus proporion of a taxon in the diet community
 ggplot(data = familyndiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0) +
-  geom_text(aes(x = frac.benthic, y = frac.diet, label = Family), size = 2, nudge_y = .02) +
+  coord_cartesian(ylim = c(0, .8), xlim = c(0, .8)) +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = Family), size = 3, nudge_y = .02) +
   facet_wrap("Stream") +
   ggtitle("1-1 Prop. of Taxa in Benthic Comm. Vs. Prop. in Diets") +
   theme_bw() +
   theme(plot.title = element_text(size = 20, face = "bold")) +
   scale_color_viridis_d(option = "E")
-
 ```
 
-Plot of proportional abundance of an individual taxon in the benthic community versus the proportional abundance of the aggregate diets for that reach.
+Plot of proportional abundance of an individual taxon in the benthic community versus the proportional abundance of the aggregate diets for that reach. 
 
-```{r Plot FFG Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+Here we see that Chironomidae typically make up the greatest abundance of both the fish diets and the benthic community, with LOON being the exception (Brachycentridae are equally represented in the diets of control reach and over represented in the treatment). In MCTE, Juga compose a large part of the diets relative to their abundance due to one outlier fish. 
+
+There are no overarching differences in how a taxa maps out given the treatment, but the difference in Brachycentridae in LOON between treatment and control is interesting.
+
+### By FFG
+
+```{r Plot FFG Proportions, echo = FALSE, fig.height = 12, fig.width = 12}
 # Plot proportion of a FFG in the benthic community versus proporion of a FFG in the diet community
 ggplot(data = ffgndiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0) +
-  geom_text(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 2, nudge_y = .02) +
+  coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 4, nudge_y = .02) +
   facet_wrap("Stream") +
   ggtitle("1-1 Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets") +
   theme_bw() +
@@ -163,12 +176,18 @@ ggplot(data = ffgndiet, aes(x = frac.benthic, y = frac.diet, color = Treatment))
 
 Plot of proportional abundance of an individual FFG in the benthic community versus the proportional abundance of the aggregate diets for that reach.
 
-```{r Plot Size Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+We see that Collector Gatherers and Shredders are the most abundant both in diets and in the benthic community.  There aren't any over arching trends in how FFG's fall out by treatment.
+
+
+### By Size Class
+
+```{r Plot Size Proportions, echo = FALSE, fig.height = 12, fig.width = 12}
 # Plot proportion of a size class in the benthic community versus proporion of a FFG in the diet community
 ggplot(data = sizendiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
   geom_point() +
-  geom_text(aes(x = frac.benthic, y = frac.diet, label = Size), size = 2, nudge_y = .02) +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = Size), size = 4, nudge_y = .02) +
   geom_abline(slope = 1, intercept = 0) +
+  coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
   facet_wrap("Stream") +
   ggtitle("1-1 Prop. of Size Classes in Benthic Comm. Vs. Prop. in Diets") +
   theme_bw() +
@@ -177,6 +196,43 @@ ggplot(data = sizendiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)
 ```
 
 Plot of proportional abundance of an individual size class in the benthic community versus the proportional abundance of the aggregate diets for that reach.
+
+
+### Costello method plot
+
+```{r Costello Data, echo = FALSE}
+Diets.fish <- Diets.by.fish %>% 
+  group_by(Stream, Treatment, Rep) %>%
+  mutate(frac.diet = Count / sum(Count))
+
+Diets.fish <- Diets.fish %>% 
+  group_by(Stream, Treatment, Family) %>%
+  mutate(frac.fish = length(Family[Count > 0])) %>%
+  group_by(Stream, Treatment) %>%
+  mutate(frac.fish = frac.fish / max(Rep)) %>%
+  group_by(Stream, Treatment, Family)
+
+Diets.fish <- Diets.fish %>%
+  summarise_at(vars(frac.fish, frac.diet), funs(mean))
+```
+
+
+```{r Plot Costello, echo = FALSE, fig.height = 12, fig.width = 12}
+
+ggplot(data = Diets.fish) +
+  geom_point(mapping = aes(x = frac.fish, y = frac.diet, color = Treatment)) +
+  geom_text(aes(x = frac.fish, y = frac.diet, label = Family), size = 3, nudge_y = .02) +
+  geom_abline(slope = 1, intercept = 0) +
+  coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
+  facet_wrap("Stream") +
+  ggtitle("Costello Plot of Prop. Fish Occurance Vs. Prop. Diet Community") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E")
+```
+
+The Costello method plots % occurance of a taxon in fish versus % of aggregate diet. With the adjusted method the aggregate diet is only of fish that had the taxon present (ignoring zero values).  We see that in MCTE and in W-100 there seem to be just a couple fish that specifically target Juga and ELmidae respectively. In MCTE, the taxa from treatment diets seem to consistently constitute a smaller portion of the diet than would be expected given how many fish they occur in. 
+
 
 
 ## NMDS :metal:

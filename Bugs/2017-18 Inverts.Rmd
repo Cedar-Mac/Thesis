@@ -33,7 +33,7 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
 
-```{r Calculate Densities, echo = FALSE}
+```{r Calculate Densities, ech = TRUE}
 #Calculations...
 bugs$Density <- bugs$Count / bugs$PercentSub / .09
 
@@ -43,6 +43,8 @@ bugs.agg <- aggregate(Density ~ CollDate + Stream + Treatment + Taxon, sum, data
 
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
+
+Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). After these adjustments have been made and the data aggregated (remember the data is structured so that each individual bug gets its own row, i.e. multiple occurances of "*Baetis*") we divide by three because at this point the three samples per reach in 2017 have been aggregated together and 2018 samples have been adjusted to the same value when dividing by percent sub.  (There were three samples taken per reach).
 
 
 ```{r Fill Missing Taxa, echo = FALSE}
@@ -70,7 +72,7 @@ bugs18 <- filter(bugs.agg, CollDate == "2018")
 
 
 ## Taxa 
-```{r Plot1, echo = FALSE, fig.height = 25, fig.width = 25}
+```{r Plot Taxon Density Diffs, echo = FALSE, fig.height = 25, fig.width = 25}
 # Plot density differences
 ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = CollDate)) + 
   geom_col(position = "dodge") +
@@ -104,7 +106,7 @@ ffg.SC <- rbind(bugs.ffg, extradf)
 ```
 
 
-```{r Plot2, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot FFG Density Differences, fig.height = 10, fig.width = 12, echo = FALSE}
 ggplot(data = ffg.SC, aes(x = FFG, y = Diff, color = CollDate, shape = Stream)) + 
   geom_jitter(width = .2, height = .2, size = 4) +
   ggtitle("FFG Differences Between Reaches Pre and Post Gap Years") +
@@ -138,7 +140,7 @@ bugs18.ffg <- bugs18 %>%
 ```
 
 
-```{r Plot3, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot 2018 FFG Densities, fig.height = 10, fig.width = 12, echo = FALSE}
 ggplot(data = bugs18.ffg, aes(x = FFG, y = Density, color = Treatment, shape = Stream)) + 
   geom_jitter(width = .2, height = .2, size = 4) + 
   ggtitle("2018 FFG Densities (Control & Treatment)")  +
@@ -167,7 +169,7 @@ scraper.taxa18 <- filter(bugs18, FFG == "SCe" | FFG == "SCi")
 ```
 
 
-```{r Plot4, fig.height=10, fig.width=12, echo=FALSE}
+```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo=FALSE}
 ggplot(data = scraper.taxa.diff, aes(x = Taxon, y = Diff, color = CollDate, shape = Stream)) + 
   geom_jitter(width = .2, height = .2, size = 4) +
   ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
@@ -190,7 +192,7 @@ Here we see that the Scraper taxa with the greatest change are:
 - Heptageniidae taxa
 
 
-```{r Plot 5, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot 2018 Scraper Taxa, fig.height = 10, fig.width = 12, echo = FALSE}
 ggplot(data = scraper.taxa18, aes(x = Taxon, y = Density, color = Treatment, shape = Stream)) + 
   geom_jitter(width = .2, height = .2, size = 4) +
   ggtitle("Density of Scraper Taxa in 2018") +
@@ -208,7 +210,7 @@ bugs.size <- aggregate(Diff ~ Size + Stream + CollDate, sum, data = bugs.by.year
 ```
 
 
-```{r Plot5, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot Size Differences, fig.height = 10, fig.width = 12, echo = FALSE}
 ggplot(data = bugs.size, aes(x = Size, y = Diff, color = CollDate, shape = Stream)) + 
   geom_jitter( width = .2, height = .2, size = 4) +
   ggtitle("Differences in Size Classes") +
@@ -293,7 +295,7 @@ for(g in NMDS$YearTreat){
 not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
 but I do know that changing the column selected from NMDS changes which variable is used for grouping.
 
-```{r NMDS Plot6, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot Benthic NMDS, fig.height = 10, fig.width = 12, echo = FALSE}
 ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
   geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2)) +
   annotate("text", x = (NMDS$x), y = (NMDS$y) + .04, label = NMDS$Stream, size = 2) +
