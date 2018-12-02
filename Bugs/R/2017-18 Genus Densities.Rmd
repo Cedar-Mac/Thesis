@@ -1,0 +1,271 @@
+---
+title: "2017-18 Densities"
+author: "Cedar Mackaness"
+date: "12/01/2018"
+output: github_document
+---
+## Benthic Community Analysis
+Working with 2017-18 benthic invertebrate data to calculate and plot:
+
+- Ratio's and Differences of density by family
+
+- Ratio's and Differences of density by FFG
+
+- Changes in scaper taxa community
+
+- NMDS analysis
+
+```{r Load packages, include = FALSE}
+# load required packages
+x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis")
+lapply(x, library, character.only = TRUE)
+```
+
+
+```{r Import data, include = FALSE}
+# import data
+bugs.by.year <- read_csv("../Data/bugs.by.year.csv") %>% 
+  mutate_at(vars(CollDate), funs(factor))
+bugs.agg.zero <- read_csv("../Data/bugs.agg.zero.csv") %>% 
+  mutate_at(vars(CollDate), funs(factor))
+bugs18 <- bugs.agg.zero %>% filter(CollDate == "2018") %>% 
+  mutate_at(vars(CollDate), funs(factor))
+```
+
+
+## Taxa 
+```{r Plot1, echo = FALSE, fig.height = 25, fig.width = 25}
+# Plot density differences
+ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = CollDate)) + 
+  geom_col(position = "dodge") +
+  facet_wrap(c("Stream")) +
+  ggtitle("Differences in Taxa Abundances Between Reaches Pre and Post Gap Years") +
+  theme_bw() +
+     theme(plot.title = element_text(size = 40, face = "bold")) +
+  scale_fill_viridis_d(option = "E") +
+  coord_flip()
+```
+
+Plot of density differences between reaches for both 2017 and 2018. As seen, there are no ubiquitous taxa that consistently increase or decrease across streams. Can also see how shitty the plot is, too many taxa...
+
+
+## FFG's
+
+```{r Get FFGs, echo = FALSE}
+#Aggregate to get density differences of FFG's
+bugs.ffg <- bugs.by.year %>% 
+  group_by(FFG, Stream, CollDate) %>%
+  summarise_at("Diff", funs(sum)) %>% ungroup
+```
+
+
+```{r Composite SC, echo = FALSE}
+#Add total SC, this throws off counts (scrapers doubly reprented)
+extradf <- filter(bugs.ffg, FFG %in% c("SCi", "SCe"))
+extradf$FFG <- "SC"
+extradf <- aggregate(Diff ~ FFG + Stream + CollDate, sum, data = extradf)
+ffg.SC <- rbind(bugs.ffg, extradf) 
+```
+
+
+```{r Plot2, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = ffg.SC, aes(x = FFG, y = Diff, color = CollDate, shape = Stream)) + 
+  geom_jitter(width = .2, height = .2, size = 4) +
+  ggtitle("FFG Differences Between Reaches Pre and Post Gap Years") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E") +
+  coord_flip()
+
+```
+
+  Here we plot density differences of FFG's.  
+- CF = Collector Filterer 
+ 
+- CG = Collector Gatherer
+ 
+- SC = Scrapers (a composite of SCe and SCi)
+ 
+- SCe = Scrapers that are edible
+ 
+- SCi = Scrapers that are inedible
+ 
+- P = Predators
+ 
+Notice the only group with consistently elevated differences in the post gap year (2018) is Scrapers.
+
+
+```{r 2018 FFGs}
+bugs18.ffg <- bugs18 %>%
+  group_by(Stream, Treatment, FFG) %>%
+  summarise_at(vars(Density), funs(sum))
+```
+
+
+```{r Plot3, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = bugs18.ffg, aes(x = FFG, y = Density, color = Treatment, shape = Stream)) + 
+  geom_jitter(width = .2, height = .2, size = 4) + 
+  ggtitle("2018 FFG Densities (Control & Treatment)")  +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E") +
+  coord_flip()
+```
+
+Here we can see that Collector Gatherers are the most abundant taxa, but the aggregate of the two scraper categories (SCe and SCi) is also up there. 
+
+When comparing between the reaches we see elevated abundances of both scraper groups (except for SCi in CHUCK).  Collector Gatherers are also consistently elevated (except in CHUCK), which seems contradictory to the between year comparison (Control reach has always had elevated abundances of CG's?)
+
+- Will these functional feeding groups be important in diets? 
+
+- Does the relative change in abundance of a taxa group change fish selection  (i.e. now that there are more scrapers in the treatment reach are the fish going to town on Scrapers?)
+
+- TBD. (see other.md file in the Diets project)
+
+
+
+```{r Filter for Scrapers, echo = FALSE}
+# Filter out scraper taxa in 2018 data and BACI data
+scraper.taxa.diff <- filter(bugs.by.year, FFG == "SCe" | FFG == "SCi")
+scraper.taxa18 <- filter(bugs18, FFG == "SCe" | FFG == "SCi")
+```
+
+
+```{r Plot4, fig.height=10, fig.width=12, echo=FALSE}
+ggplot(data = scraper.taxa.diff, aes(x = Taxon, y = Diff, color = CollDate, shape = Stream)) + 
+  geom_jitter(width = .2, height = .2, size = 4) +
+  ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E") +
+  coord_flip()
+```
+
+Here we see that the Scraper taxa with the greatest change are: 
+
+- Micrasema
+
+- Juga
+
+- Glossosoma
+
+- Drunella
+
+- Heptageniidae taxa
+
+
+```{r Plot 5, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = scraper.taxa18, aes(x = Taxon, y = Density, color = Treatment, shape = Stream)) + 
+  geom_jitter(width = .2, height = .2, size = 4) +
+  ggtitle("Density of Scraper Taxa in 2018") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E") +
+  coord_flip()
+```
+
+
+
+```{r Sizes, echo = FALSE}
+#Aggtegate by size class (Need to do more research, use the Poff trait database, maybe add medium size)
+bugs.size <- aggregate(Diff ~ Size + Stream + CollDate, sum, data = bugs.by.year)
+```
+
+
+```{r Plot5, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = bugs.size, aes(x = Size, y = Diff, color = CollDate, shape = Stream)) + 
+  geom_jitter( width = .2, height = .2, size = 4) +
+  ggtitle("Differences in Size Classes") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E")
+```
+
+Two size classes are plotted, small (S) and large (L) based on nothing, just observation... Hopefully I will soon incorporate some information from the Poff database about final larval instar size and have three size classes: small, medium, and large.
+
+
+## NMDS :metal:
+
+Who knows what I'm actually doing, all of this ordination stuff is currently pre BOT 570.  I will definitely update all this once I know how to handle singleton taxa, loads of zero's, etc.
+
+```{r Prep NMDS Data, echo = FALSE}
+# Spread data to get a taxon matrix, create factor of CollDate and Treatment
+bugs.mds <- bugs.agg.zero %>% 
+  select(-c("FFG", "Size")) %>%
+  group_by(Stream, Treatment, CollDate, Taxon) %>%  
+  spread(key = "Taxon", value = "Density") %>%
+  mutate_if(is.numeric , replace_na, replace = 0) %>% ungroup() %>%
+  mutate(YearTreat = interaction(CollDate, Treatment))
+```
+
+
+```{r Make Grouping and Taxon Matrix, echo = FALSE}
+# Get grouping variables and taxon matrix
+Enviro <- bugs.mds %>%
+  select(Stream, Treatment, CollDate, YearTreat) 
+
+Density <- bugs.mds %>% 
+  select("Ameletus":"Zapada")
+
+grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat)
+```
+
+
+```{r NMDS sol, echo = FALSE}
+#Get MDS for invert density
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+```
+
+This is a pretty good stress value, who knows how that will change when I start doing this right...
+Can see the transfrmations applied at the top of the output, this was done automatically, I wouldn't know what to do. Used the Bray-Curtis distance metric, max tries is set to 100 with dimensions equal to 2.
+
+```{r NMDS, echo = FALSE}
+#set up NMDS with dimensions of sol and env factors from "Enviro". 
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], 
+                   Stream = select(grouping, Stream), 
+                   Treatment = select(grouping, Treatment), 
+                   CollDate = select(grouping, CollDate),
+                   YearTreat = select(grouping, YearTreat))
+```
+
+
+```{r Mean NMDS, echo = FALSE}
+#Get mean x,y values 
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+```
+
+
+```{r ELlipse, include = FALSE}
+#Load ellipse for NMDS
+plot.new()
+ord <- ordiellipse(sol, NMDS$YearTreat, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+```
+
+The "display" argument can be set to "site" or "species" depending on what you want to group. "kind" can be standard deviation or standard error, not sure which to use here.
+
+```{r Fit Ellipse, echo=TRUE}
+# Fit the ellipse function to actual data
+df_ell <- data.frame()
+for(g in NMDS$YearTreat){
+  df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$YearTreat == g,],
+                  vegan:::veganCovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale)))
+                                ,YearTreat = g))
+}
+```
+
+not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
+but I do know that changing the column selected from NMDS changes which variable is used for grouping.
+
+```{r NMDS Plot6, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
+  geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2)) +
+  annotate("text", x = (NMDS$x), y = (NMDS$y) + .04, label = NMDS$Stream, size = 2) +
+  geom_point(aes(shape = Stream)) +
+  ggtitle("NMDS of Benthic Invertebrate Community") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d()
+```
+
+Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
