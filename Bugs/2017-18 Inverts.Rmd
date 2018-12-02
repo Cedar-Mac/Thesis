@@ -24,12 +24,48 @@ lapply(x, library, character.only = TRUE)
 
 ```{r Import data, include = FALSE}
 # import data
-bugs.by.year <- read_csv("../Data/bugs.by.year.csv") %>% 
-  mutate_at(vars(CollDate), funs(factor))
-bugs.agg.zero <- read_csv("../Data/bugs.agg.zero.csv") %>% 
-  mutate_at(vars(CollDate), funs(factor))
-bugs18 <- bugs.agg.zero %>% filter(CollDate == "2018") %>% 
-  mutate_at(vars(CollDate), funs(factor))
+bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
+ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
+sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
+
+#Replace Ssp. in Taxon with Family
+bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
+```
+
+
+```{r Calculate Densities, echo = FALSE}
+#Calculations...
+bugs$Density <- bugs$Count / bugs$PercentSub / .09
+
+bugs$CollDate <- as.Date(bugs$CollDate, format = "%m/%d/%y") %>% year() %>% as.factor()
+
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Treatment + Taxon, sum, data = bugs) 
+
+bugs.agg$Density <- bugs.agg$Density / 3
+```
+
+
+```{r Fill Missing Taxa, echo = FALSE}
+# Spread and then gather to fill missing Taxons with 0's
+bugs.agg <- spread(bugs.agg, key = "Taxon", value = "Density") %>% 
+  mutate_if(is.numeric , replace_na, replace = 0) %>% 
+  gather(key = "Taxon", value = "Density", 4:ncol(.))
+```
+
+
+```{r Calculate Reach Differences, echo = FALSE}
+# Create list of CollDate, Stream and Taxon
+bugs.by.year <- bugs.agg %>% select(-c("Density", "Treatment")) %>% unique()
+
+# Calculate Differences
+bugs.by.year$Diff <- bugs.agg$Density[bugs.agg$Treatment == "Y"] -     
+  bugs.agg$Density[bugs.agg$Treatment == "N"]
+
+
+bugs.by.year <- merge(bugs.by.year, sizes) %>% merge(., ffg)
+bugs.agg <- merge(bugs.agg, sizes) %>% merge(., ffg)
+bugs18 <- filter(bugs.agg, CollDate == "2018")
+
 ```
 
 
@@ -190,7 +226,7 @@ Who knows what I'm actually doing, all of this ordination stuff is currently pre
 
 ```{r Prep NMDS Data, echo = FALSE}
 # Spread data to get a taxon matrix, create factor of CollDate and Treatment
-bugs.mds <- bugs.agg.zero %>% 
+bugs.mds <- bugs.agg %>% 
   select(-c("FFG", "Size")) %>%
   group_by(Stream, Treatment, CollDate, Taxon) %>%  
   spread(key = "Taxon", value = "Density") %>%

@@ -48,6 +48,3 @@ bugs.by.year <- merge(bugs.by.year, sizes) %>% merge(., ffg)
 bugs.agg.zero <- merge(bugs.agg.zero, sizes) %>% merge(., ffg)
 
 
-write_csv(bugs.by.year, "./Data/bugs.by.year.csv")
-
-write_csv(bugs.agg.zero, "./Data/bugs.agg.zero.csv")

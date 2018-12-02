@@ -25,17 +25,84 @@ lapply(packages, library, character.only = TRUE)
 ```
 
 
-```{r Import Data, include = FALSE}
-# Import Data
-Diets.fish <- read_csv("../Data/Diets.fish.csv")
-Diets.reach <- read_csv("../Data/Diets.reach.csv")
-bugs.agg.zero <- read_csv("../Data/bugs.agg.zero.csv") 
-bugs.family <- bugs.agg.zero %>% 
+```{r Import data, include = FALSE}
+# import data
+bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
+ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
+sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
+Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
+
+#Replace Ssp. in Taxon with Family
+bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
+```
+
+
+```{r Calculate Densities, echo = FALSE}
+#Calculations...
+bugs$Density <- bugs$Count / bugs$PercentSub / .09
+
+bugs$CollDate <- as.Date(bugs$CollDate, format = "%m/%d/%y") %>% year() %>% as.factor()
+
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Treatment + Taxon, sum, data = bugs) 
+
+bugs.agg$Density <- bugs.agg$Density / 3
+```
+
+
+```{r Fill Missing Taxa, echo = FALSE}
+# Spread and then gather to fill missing Taxons with 0's
+bugs.agg <- spread(bugs.agg, key = "Taxon", value = "Density") %>% 
+  mutate_if(is.numeric , replace_na, replace = 0) %>% 
+  gather(key = "Taxon", value = "Density", "Ameletus":"Zapada")
+```
+
+
+```{r Calculate Reach Differences, echo = FALSE}
+# Create list of CollDate, Stream and Taxon
+bugs.by.year <- bugs.agg %>% select(-c("Density", "Treatment")) %>% unique()
+
+# Calculate Differences
+bugs.by.year$Diff <- bugs.agg$Density[bugs.agg$Treatment == "Y"] -     
+  bugs.agg$Density[bugs.agg$Treatment == "N"]
+```
+
+
+```{r Add FFG and Sizes, echo = FALSE}
+bugs.by.year <- merge(bugs.by.year, sizes) %>% merge(., ffg)
+bugs.agg <- merge(bugs.agg, sizes) %>% merge(., ffg)
+bugs18 <- filter(bugs.agg, CollDate == "2018")
+```
+
+```{r Clean Up Diet Data, echo = FALSE}
+# Fill missing family's with order
+Diets$Family[is.na(Diets$Family)] <- Diets$Order[is.na(Diets$Family)]
+
+# Merge diets, sizes and FFG's
+Diets <- merge(Diets, sizes, by.x = "Family", by.y = "Taxon", all.x = TRUE) %>% 
+  merge(., ffg, by.x = "Family", by.y = "Taxon", all.x = TRUE)
+
+# Aggregate by rep
+Diets.fish <- Diets %>% 
+  group_by(Family, Stream, Treatment, Origin, FFG, Size, Rep) %>%
+  summarise_at("Count", funs(sum)) %>% ungroup
+
+# Aggregate by reach
+Diets.reach <- Diets %>% 
+  group_by(Family, Stream, Treatment, Origin, FFG, Size) %>%
+  summarise_at("Count", funs(sum)) %>% ungroup
+```
+
+
+```{r Merge Diet and Benthic Data, echo = FALSE}
+bugs.family <- bugs %>% 
+  filter(CollDate == "2018") %>%
   select(-Taxon) %>% 
   group_by(Stream, Treatment, Family) %>%
   summarise_at(vars(Density), funs(sum))
+
 bugndiet <- merge(Diets.reach, bugs.family) %>% filter(Origin == "A")
 ```
+
 
 ```{r Calculate Taxa Proportions, include = FALSE}
 # Calculate proportions of each taxa in the diet and benthic communites
