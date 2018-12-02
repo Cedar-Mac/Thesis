@@ -1,0 +1,6 @@
+[submodule "Diets"]
+	path = Diets
+	url = git@github.com:Cedar-Mac/Diets.git
+[submodule "Bugs"]
+	path = Bugs
+	url = git@github.com:Cedar-Mac/Bugs.git
