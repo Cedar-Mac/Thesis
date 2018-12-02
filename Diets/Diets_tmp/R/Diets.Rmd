@@ -1,0 +1,195 @@
+---
+title: "Diets"
+author: "Cedar Mackaness"
+date: "11/21/2018"
+output: github_document 
+---
+The goals here are to:
+
+- Calculate the percent of each taxa in each fish's diet 
+
+- Calculate the percent of fish with each specific taxa in its diet
+
+- Do some NMDS up in heya
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Load Packages, include  =FALSE}
+# Load Required Packages
+packages <- c("tidyverse", "vegan", "lubridate", "readxl")
+lapply(packages, library, character.only = TRUE)
+```
+
+
+```{r Import Data, include = FALSE}
+# Import Data
+Diets.fish <- read_csv("../Data/Diets.fish.csv")
+Diets.reach <- read_csv("../Data/Diets.reach.csv")
+bugs.agg.zero <- read_csv("../Data/bugs.agg.zero.csv") 
+bugs.family <- bugs.agg.zero %>% 
+  select(-Taxon) %>% 
+  group_by(Stream, Treatment, Family) %>%
+  summarise_at(vars(Density), funs(sum))
+bugndiet <- merge(Diets.reach, bugs.family) %>% filter(Origin == "A")
+```
+
+```{r Calculate Taxa Proportions, include = FALSE}
+# Calculate proportions of each taxa in the diet and benthic communites
+familyndiet <- bugndiet %>% 
+  group_by(Stream, Treatment, Family) %>% 
+  summarise_if(is.numeric, funs(sum)) %>% 
+  mutate(frac.diet = Count / sum(Count)) %>%
+  mutate(frac.benthic = Density / sum(Density))
+```
+
+```{r Calculate FFG Proportions, include = FALSE}
+# Calculate proportions of each FFG in diet and Benthic communities
+ffgndiet <- bugndiet %>% 
+  group_by(Stream, Treatment, FFG) %>% 
+  summarise_if(is.numeric, funs(sum)) %>% 
+  mutate(frac.diet = Count / sum(Count)) %>%
+  mutate(frac.benthic = Density / sum(Density))
+```
+
+```{r Calculate Size Proportions, include = FALSE}
+# Calculate proportions of each size class in diet and Benthic communities
+sizendiet <- bugndiet %>% 
+  group_by(Stream, Treatment, Size) %>% 
+  summarise_if(is.numeric, funs(sum)) %>% 
+  mutate(frac.diet = Count / sum(Count)) %>%
+  mutate(frac.benthic = Density / sum(Density))
+```
+
+
+```{r Plot Taxa Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+# Plot proportion of a taxon in the benthic community versus proporion of a taxon in the diet community
+ggplot(data = familyndiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = Family), size = 2, nudge_y = .02) +
+  facet_wrap("Stream") +
+  ggtitle("1-1 Prop. of Taxa in Benthic Comm. Vs. Prop. in Diets") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E")
+
+```
+
+Plot of proportional abundance of an individual taxon in the benthic community versus the proportional abundance of the aggregate diets for that reach.
+
+```{r Plot FFG Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+# Plot proportion of a FFG in the benthic community versus proporion of a FFG in the diet community
+ggplot(data = ffgndiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 2, nudge_y = .02) +
+  facet_wrap("Stream") +
+  ggtitle("1-1 Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E")
+```
+
+Plot of proportional abundance of an individual FFG in the benthic community versus the proportional abundance of the aggregate diets for that reach.
+
+```{r Plot Size Proportions, echo = FALSE, fig.height = 12, fig.width = 10}
+# Plot proportion of a size class in the benthic community versus proporion of a FFG in the diet community
+ggplot(data = sizendiet, aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
+  geom_point() +
+  geom_text(aes(x = frac.benthic, y = frac.diet, label = Size), size = 2, nudge_y = .02) +
+  geom_abline(slope = 1, intercept = 0) +
+  facet_wrap("Stream") +
+  ggtitle("1-1 Prop. of Size Classes in Benthic Comm. Vs. Prop. in Diets") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d(option = "E")
+```
+
+Plot of proportional abundance of an individual size class in the benthic community versus the proportional abundance of the aggregate diets for that reach.
+
+
+## NMDS :metal:
+
+Who knows what I'm actually doing, all of this ordination stuff is currently pre BOT 570.  I will definitely update all this once I know how to handle singleton taxa, loads of zero's, etc.
+
+```{r Prep NMDS Data, echo = FALSE}
+# Spread data to get a taxon matrix, create factor of CollDate and Treatment
+bugs.mds <- Diets.reach %>% 
+  filter(Origin %in% c("A", "T")) %>%
+  select(-c("FFG", "Size", "Origin")) %>%
+  slice(-65) %>%
+  spread(key = "Family", value = "Count") %>%
+  mutate_if(is.numeric , replace_na, replace = 0) 
+```
+
+
+```{r Make Grouping and Taxon Matrix, echo = FALSE}
+# Get grouping variables and taxon matrix
+Enviro <- bugs.mds %>%
+  select(Stream, Treatment) 
+
+Density <- bugs.mds %>% 
+  select("Amphizoidae":"Uenoidae")
+
+grouping <- select(Enviro, Stream, Treatment)
+```
+
+
+```{r NMDS sol, echo = FALSE}
+#Get MDS for invert density
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+```
+
+
+```{r NMDS, echo = FALSE}
+#set up NMDS with dimensions of sol and env factors from "Enviro". 
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], 
+                   Stream = select(grouping, Stream), 
+                   Treatment = select(grouping, Treatment))
+```
+
+
+```{r Mean NMDS, echo = FALSE}
+#Get mean x,y values 
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+```
+
+
+```{r ELlipse, include = FALSE}
+#Load ellipse for NMDS
+plot.new()
+ord <- ordiellipse(sol, NMDS$Treatment, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+```
+
+The "display" argument can be set to "site" or "species" depending on what you want to group. "kind" can be standard deviation or standard error, not sure which to use here.
+
+```{r Fit Ellipse, echo = TRUE}
+# Fit the ellipse function to actual data
+df_ell <- data.frame()
+for(g in NMDS$Treatment){
+  df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Treatment == g,],
+                  vegan:::veganCovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale)))
+                                ,Treatment = g))
+}
+```
+
+not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
+but I do know that changing the column selected from NMDS changes which variable is used for grouping.
+
+```{r NMDS Plot6, fig.height = 10, fig.width = 12, echo = FALSE}
+ggplot(data = NMDS, aes(x, y, color = Treatment)) +
+  geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2)) +
+  annotate("text", x = (NMDS$x), y = (NMDS$y) + .04, label = NMDS$Stream, size = 3) +
+  geom_point(aes(shape = Stream)) +
+  ggtitle("NMDS of Community in Fish Diets") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold")) +
+  scale_color_viridis_d()
+```
+
+There seems to be total overlap of the diet communities in the control versus treatment reaches.  This seems to be consistent with what we saw in other plots.
