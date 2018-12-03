@@ -1,10 +1,20 @@
 ---
-title: "2017-18 Densities"
+title: "2017-18 Benthic Community Analysis"
 author: "Cedar Mackaness"
 date: "12/01/2018"
-output: github_document
+output: 
+  html_document:
+    theme: sandstone
+    highlight: tango
+    keep_md: true
+    includes:
+      before_body: header.html
+      after_body: footer.html
+    css: styles.css
+    code_folding: "hide"
 ---
-## Benthic Community Analysis
+## Purpose of This Document 
+***
 Working with 2017-18 benthic invertebrate data to calculate and plot:
 
 - Ratio's and Differences of density by family
@@ -15,9 +25,13 @@ Working with 2017-18 benthic invertebrate data to calculate and plot:
 
 - NMDS analysis
 
+## Sections {.tabset .tabset-fade .tabset-pills}
+***
+<br>
+
 ```{r Load packages, include = FALSE}
 # load required packages
-x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis")
+x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis", "DT")
 lapply(x, library, character.only = TRUE)
 ```
 
@@ -32,19 +46,24 @@ sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
+### Setup
 
-```{r Calculate Densities, ech = TRUE}
+Do some basic math to calculate density of each taxon...
+
+```{r Calculate Densities, echo = TRUE}
 #Calculations...
 bugs$Density <- bugs$Count / bugs$PercentSub / .09
 
 bugs$CollDate <- as.Date(bugs$CollDate, format = "%m/%d/%y") %>% year() %>% as.factor()
 
-bugs.agg <- aggregate(Density ~ CollDate + Stream + Treatment + Taxon, sum, data = bugs) 
+bugs.agg <- bugs %>%
+  group_by(CollDate, Stream, Treatment, Taxon) %>%
+  summarise_at(vars(Density), funs(sum)) %>% ungroup
 
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
 
-Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). After these adjustments have been made and the data aggregated (remember the data is structured so that each individual bug gets its own row, i.e. multiple occurances of "*Baetis*") we divide by three because at this point the three samples per reach in 2017 have been aggregated together and 2018 samples have been adjusted to the same value when dividing by percent sub.  (There were three samples taken per reach).
+Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). We then aggregate and divide by three (There were three samples taken per reach).
 
 
 ```{r Fill Missing Taxa, echo = FALSE}
@@ -70,8 +89,16 @@ bugs18 <- filter(bugs.agg, CollDate == "2018")
 
 ```
 
+A quick taste of the finished data table product:
 
-## Taxa 
+```{r, echo = FALSE}
+datatable(bugs.agg, rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T), ) %>% formatRound("Density", digits = 2, interval = 3, 
+                                          mark = ",", dec.mark = getOption("OutDec"))
+```
+
+
+### Taxa
+***
 ```{r Plot Taxon Density Diffs, echo = FALSE, fig.height = 25, fig.width = 25}
 # Plot density differences
 ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = CollDate)) + 
@@ -87,8 +114,8 @@ ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = CollDate)) +
 Plot of density differences between reaches for both 2017 and 2018. As seen, there are no ubiquitous taxa that consistently increase or decrease across streams. Can also see how shitty the plot is, too many taxa...
 
 
-## FFG's
-
+### FFG's
+***
 ```{r Get FFGs, echo = FALSE}
 #Aggregate to get density differences of FFG's
 bugs.ffg <- bugs.by.year %>% 
@@ -99,14 +126,15 @@ bugs.ffg <- bugs.by.year %>%
 
 ```{r Composite SC, echo = FALSE}
 #Add total SC, this throws off counts (scrapers doubly reprented)
-extradf <- filter(bugs.ffg, FFG %in% c("SCi", "SCe"))
-extradf$FFG <- "SC"
-extradf <- aggregate(Diff ~ FFG + Stream + CollDate, sum, data = extradf)
-ffg.SC <- rbind(bugs.ffg, extradf) 
+ffg.SC <- filter(bugs.ffg, FFG %in% c("SCi", "SCe"))
+ffg.SC$FFG <- "SC"
+ffg.SC <- ffg.SC %>% group_by(FFG, Stream, CollDate) %>%
+  summarise_at(vars(Diff), funs(sum)) %>% ungroup
+ffg.SC <- rbind(bugs.ffg, ffg.SC) 
 ```
 
 
-```{r Plot FFG Density Differences, fig.height = 10, fig.width = 12, echo = FALSE}
+```{r Plot FFG Density Differences, fig.height = 10, fig.width = 12, echo = FALSE, fig.cap = "CF = Collector Filterer, CG = Collector Gatherer, SC = Scrapers (a composite of SCe and SCi), SCe = Scrapers that are edible, SCi = Scrapers that are inedible, P = Predators"}
 ggplot(data = ffg.SC, aes(x = FFG, y = Diff, color = CollDate, shape = Stream)) + 
   geom_jitter(width = .2, height = .2, size = 4) +
   ggtitle("FFG Differences Between Reaches Pre and Post Gap Years") +
@@ -117,37 +145,24 @@ ggplot(data = ffg.SC, aes(x = FFG, y = Diff, color = CollDate, shape = Stream)) 
 
 ```
 
-  Here we plot density differences of FFG's.  
-- CF = Collector Filterer 
- 
-- CG = Collector Gatherer
- 
-- SC = Scrapers (a composite of SCe and SCi)
- 
-- SCe = Scrapers that are edible
- 
-- SCi = Scrapers that are inedible
- 
-- P = Predators
+Here we plot density differences of FFG's.  
+
  
 Notice the only group with consistently elevated differences in the post gap year (2018) is Scrapers.
 
 
-```{r 2018 FFGs}
-bugs18.ffg <- bugs18 %>%
-  group_by(Stream, Treatment, FFG) %>%
-  summarise_at(vars(Density), funs(sum))
-```
-
-
 ```{r Plot 2018 FFG Densities, fig.height = 10, fig.width = 12, echo = FALSE}
-ggplot(data = bugs18.ffg, aes(x = FFG, y = Density, color = Treatment, shape = Stream)) + 
-  geom_jitter(width = .2, height = .2, size = 4) + 
-  ggtitle("2018 FFG Densities (Control & Treatment)")  +
-  theme_bw() +
-  theme(plot.title = element_text(size = 20, face = "bold")) +
-  scale_color_viridis_d(option = "E") +
-  coord_flip()
+bugs18 %>%
+  group_by(Stream, Treatment, FFG) %>%
+  summarise_at(vars(Density), funs(sum)) %>% 
+  ungroup() %>%
+  ggplot(aes(x = FFG, y = Density, color = Treatment, shape = Stream)) + 
+    geom_jitter(width = .2, height = .2, size = 4) + 
+    ggtitle("2018 FFG Densities (Control & Treatment)")  +
+    theme_bw() +
+    theme(plot.title = element_text(size = 20, face = "bold")) +
+    scale_color_viridis_d(option = "E") +
+    coord_flip()
 ```
 
 Here we can see that Collector Gatherers are the most abundant taxa, but the aggregate of the two scraper categories (SCe and SCi) is also up there. 
@@ -161,22 +176,15 @@ When comparing between the reaches we see elevated abundances of both scraper gr
 - TBD. (see other.md file in the Diets project)
 
 
-
-```{r Filter for Scrapers, echo = FALSE}
-# Filter out scraper taxa in 2018 data and BACI data
-scraper.taxa.diff <- filter(bugs.by.year, FFG == "SCe" | FFG == "SCi")
-scraper.taxa18 <- filter(bugs18, FFG == "SCe" | FFG == "SCi")
-```
-
-
 ```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo=FALSE}
-ggplot(data = scraper.taxa.diff, aes(x = Taxon, y = Diff, color = CollDate, shape = Stream)) + 
-  geom_jitter(width = .2, height = .2, size = 4) +
-  ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
-  theme_bw() +
-  theme(plot.title = element_text(size = 20, face = "bold")) +
-  scale_color_viridis_d(option = "E") +
-  coord_flip()
+bugs.by.year %>% filter(FFG == "SCe" | FFG == "SCi") %>% 
+  ggplot(aes(x = Taxon, y = Diff, color = CollDate, shape = Stream)) + 
+    geom_jitter(width = .2, height = .2, size = 4) +
+    ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
+    theme_bw() +
+    theme(plot.title = element_text(size = 20, face = "bold")) +
+    scale_color_viridis_d(option = "E") +
+    coord_flip()
 ```
 
 Here we see that the Scraper taxa with the greatest change are: 
@@ -193,37 +201,35 @@ Here we see that the Scraper taxa with the greatest change are:
 
 
 ```{r Plot 2018 Scraper Taxa, fig.height = 10, fig.width = 12, echo = FALSE}
-ggplot(data = scraper.taxa18, aes(x = Taxon, y = Density, color = Treatment, shape = Stream)) + 
-  geom_jitter(width = .2, height = .2, size = 4) +
-  ggtitle("Density of Scraper Taxa in 2018") +
-  theme_bw() +
-  theme(plot.title = element_text(size = 20, face = "bold")) +
-  scale_color_viridis_d(option = "E") +
-  coord_flip()
-```
-
-
-
-```{r Sizes, echo = FALSE}
-#Aggtegate by size class (Need to do more research, use the Poff trait database, maybe add medium size)
-bugs.size <- aggregate(Diff ~ Size + Stream + CollDate, sum, data = bugs.by.year)
+bugs18 %>% filter(FFG == "SCe" | FFG == "SCi") %>%
+  ggplot(aes(x = Taxon, y = Density, color = Treatment, shape = Stream)) +
+    geom_jitter(width = .2, height = .2, size = 4) +
+    ggtitle("Density of Scraper Taxa in 2018") +
+    theme_bw() +
+    theme(plot.title = element_text(size = 20, face = "bold")) +
+    scale_color_viridis_d(option = "E") +
+    coord_flip()
 ```
 
 
 ```{r Plot Size Differences, fig.height = 10, fig.width = 12, echo = FALSE}
-ggplot(data = bugs.size, aes(x = Size, y = Diff, color = CollDate, shape = Stream)) + 
-  geom_jitter( width = .2, height = .2, size = 4) +
-  ggtitle("Differences in Size Classes") +
-  theme_bw() +
-  theme(plot.title = element_text(size = 20, face = "bold")) +
-  scale_color_viridis_d(option = "E")
+bugs.by.year %>% 
+  group_by(Size, Stream, CollDate) %>%
+  summarise_at(vars(Diff), funs(sum)) %>%
+  ungroup() %>%
+    ggplot(aes(x = Size, y = Diff, color = CollDate, shape = Stream)) + 
+      geom_jitter( width = .2, height = .2, size = 4) +
+      ggtitle("Differences in Size Classes") +
+      theme_bw() +
+      theme(plot.title = element_text(size = 20, face = "bold")) +
+      scale_color_viridis_d(option = "E")
 ```
 
 Two size classes are plotted, small (S) and large (L) based on nothing, just observation... Hopefully I will soon incorporate some information from the Poff database about final larval instar size and have three size classes: small, medium, and large.
 
 
-## NMDS :metal:
-
+### NMDS 	:metal:
+***
 Who knows what I'm actually doing, all of this ordination stuff is currently pre BOT 570.  I will definitely update all this once I know how to handle singleton taxa, loads of zero's, etc.
 
 ```{r Prep NMDS Data, echo = FALSE}
@@ -307,3 +313,9 @@ ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
 ```
 
 Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
+
+
+```{r}
+sessionInfo()
+```
+
