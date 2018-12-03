@@ -36,6 +36,7 @@ The goals here are to:
 
 
 
+Do some quick math's:
 
 
 ```r
@@ -50,6 +51,8 @@ bugs.agg <- bugs %>%
 
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
+
+***
 
 Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). After these adjustments have been made and the data aggregated (remember the data is structured so that each individual bug gets its own row, i.e. multiple occurances of "*Baetis*") we divide by three because at this point the three samples per reach in 2017 have been aggregated together and 2018 samples have been adjusted to the same value when dividing by percent sub.  (There were three samples taken per reach).
 
@@ -71,7 +74,7 @@ Here we divide Count by percent subsampled (actually a fraction) to get a count 
 ### By Family
 ***
 
-![](Diets_files/figure-html/Plot Taxa Proportions-1.png)<!-- -->
+![](index_files/figure-html/Plot Taxa Proportions-1.png)<!-- -->
 
 Plot of proportional abundance of an individual taxon in the benthic community versus the proportional abundance of the aggregate diets for that reach. 
 
@@ -82,7 +85,7 @@ There are no overarching differences in how a taxa maps out given the treatment,
 ### By FFG
 ***
 
-![](Diets_files/figure-html/Plot FFG Proportions-1.png)<!-- -->
+![](index_files/figure-html/Plot FFG Proportions-1.png)<!-- -->
 
 Plot of proportional abundance of an individual FFG in the benthic community versus the proportional abundance of the aggregate diets for that reach.
 
@@ -92,7 +95,7 @@ We see that Collector Gatherers and Shredders are the most abundant both in diet
 ### By Size Class
 ***
 
-![](Diets_files/figure-html/Plot Size Proportions-1.png)<!-- -->
+![](index_files/figure-html/Plot Size Proportions-1.png)<!-- -->
 
 Plot of proportional abundance of an individual size class in the benthic community versus the proportional abundance of the aggregate diets for that reach.
 
@@ -103,7 +106,7 @@ Plot of proportional abundance of an individual size class in the benthic commun
 
 
 
-![](Diets_files/figure-html/Plot Costello-1.png)<!-- -->
+![](index_files/figure-html/Plot Costello-1.png)<!-- -->
 
 The Costello method plots % occurance of a taxon in fish versus % of aggregate diet. With the adjusted method the aggregate diet is only of fish that had the taxon present (ignoring zero values).  We see that in MCTE and in W-100 there seem to be just a couple fish that specifically target Juga and ELmidae respectively. In MCTE, the taxa from treatment diets seem to consistently constitute a smaller portion of the diet than would be expected given how many fish they occur in. 
 
@@ -125,51 +128,45 @@ Who knows what I'm actually doing, all of this ordination stuff is currently pre
 ## Wisconsin double standardization
 ## Run 0 stress 0.09340359 
 ## Run 1 stress 0.09340359 
-## ... Procrustes: rmse 3.488825e-06  max resid 7.331493e-06 
-## ... Similar to previous best
-## Run 2 stress 0.09340359 
 ## ... New best solution
-## ... Procrustes: rmse 1.165284e-06  max resid 2.430271e-06 
+## ... Procrustes: rmse 1.0879e-06  max resid 2.302168e-06 
 ## ... Similar to previous best
-## Run 3 stress 0.2523908 
+## Run 2 stress 0.1588546 
+## Run 3 stress 0.1588546 
 ## Run 4 stress 0.09340359 
-## ... Procrustes: rmse 1.708905e-05  max resid 2.591004e-05 
+## ... Procrustes: rmse 1.071512e-06  max resid 2.230171e-06 
 ## ... Similar to previous best
-## Run 5 stress 0.09340359 
-## ... Procrustes: rmse 3.974729e-07  max resid 6.55094e-07 
-## ... Similar to previous best
-## Run 6 stress 0.09340359 
-## ... Procrustes: rmse 7.439396e-07  max resid 1.260407e-06 
-## ... Similar to previous best
-## Run 7 stress 0.09340359 
-## ... Procrustes: rmse 7.572334e-07  max resid 1.609224e-06 
-## ... Similar to previous best
+## Run 5 stress 0.1588546 
+## Run 6 stress 0.1612039 
+## Run 7 stress 0.1588546 
 ## Run 8 stress 0.09340359 
-## ... New best solution
-## ... Procrustes: rmse 6.541678e-07  max resid 9.932951e-07 
+## ... Procrustes: rmse 9.635764e-07  max resid 2.105215e-06 
 ## ... Similar to previous best
-## Run 9 stress 0.2074019 
+## Run 9 stress 0.09340359 
+## ... New best solution
+## ... Procrustes: rmse 5.101336e-07  max resid 1.035493e-06 
+## ... Similar to previous best
 ## Run 10 stress 0.09340359 
-## ... Procrustes: rmse 1.285544e-06  max resid 2.525399e-06 
+## ... Procrustes: rmse 4.830752e-06  max resid 7.82326e-06 
 ## ... Similar to previous best
 ## Run 11 stress 0.09340359 
-## ... Procrustes: rmse 1.11413e-06  max resid 1.634846e-06 
+## ... Procrustes: rmse 4.299766e-07  max resid 6.06814e-07 
 ## ... Similar to previous best
-## Run 12 stress 0.09340359 
-## ... Procrustes: rmse 5.855227e-07  max resid 9.205662e-07 
+## Run 12 stress 0.1588546 
+## Run 13 stress 0.1588546 
+## Run 14 stress 0.1588546 
+## Run 15 stress 0.2538018 
+## Run 16 stress 0.09340359 
+## ... Procrustes: rmse 2.299443e-07  max resid 3.290782e-07 
 ## ... Similar to previous best
-## Run 13 stress 0.1908636 
-## Run 14 stress 0.2155995 
-## Run 15 stress 0.1588546 
-## Run 16 stress 0.1588546 
-## Run 17 stress 0.09340359 
-## ... Procrustes: rmse 1.190975e-06  max resid 2.123139e-06 
+## Run 17 stress 0.1922124 
+## Run 18 stress 0.09340359 
+## ... Procrustes: rmse 5.117632e-07  max resid 9.235309e-07 
 ## ... Similar to previous best
-## Run 18 stress 0.1588546 
-## Run 19 stress 0.1612039 
-## Run 20 stress 0.09340359 
-## ... Procrustes: rmse 5.928013e-07  max resid 9.332766e-07 
+## Run 19 stress 0.09340359 
+## ... Procrustes: rmse 5.895382e-07  max resid 1.059059e-06 
 ## ... Similar to previous best
+## Run 20 stress 0.2191534 
 ## *** Solution reached
 ```
 
@@ -198,6 +195,6 @@ for(g in NMDS$Treatment){
 not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
 but I do know that changing the column selected from NMDS changes which variable is used for grouping.
 
-![](Diets_files/figure-html/NMDS Plot6-1.png)<!-- -->
+![](index_files/figure-html/NMDS Plot6-1.png)<!-- -->
 
 There seems to be total overlap of the diet communities in the control versus treatment reaches.  This seems to be consistent with what we saw in other plots.

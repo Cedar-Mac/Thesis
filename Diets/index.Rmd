@@ -51,6 +51,7 @@ Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
+Do some quick math's:
 
 ```{r Calculate Densities, echo = TRUE}
 #Calculations...
@@ -64,6 +65,8 @@ bugs.agg <- bugs %>%
 
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
+
+***
 
 Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). After these adjustments have been made and the data aggregated (remember the data is structured so that each individual bug gets its own row, i.e. multiple occurances of "*Baetis*") we divide by three because at this point the three samples per reach in 2017 have been aggregated together and 2018 samples have been adjusted to the same value when dividing by percent sub.  (There were three samples taken per reach).
 

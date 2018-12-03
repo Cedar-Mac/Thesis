@@ -47,6 +47,7 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
 ### Setup
+***
 
 Do some basic math to calculate density of each taxon...
 
@@ -62,6 +63,8 @@ bugs.agg <- bugs %>%
 
 bugs.agg$Density <- bugs.agg$Density / 3
 ```
+
+***
 
 Here we divide Count by percent subsampled (actually a fraction) to get a count for the total sample taken.  We then divide by .09 which is the area of the surber sampler (in m$^2$). We then aggregate and divide by three (There were three samples taken per reach).
 
