@@ -36,7 +36,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r Load Packages, include  =FALSE}
 # Load Required Packages
-packages <- c("tidyverse", "vegan", "lubridate", "readxl")
+packages <- c("tidyverse", "vegan", "lubridate", "readxl", "DT")
 lapply(packages, library, character.only = TRUE)
 ```
 
@@ -101,8 +101,8 @@ bugs18 <- filter(bugs.agg, CollDate == "2018")
 Diets$Family[is.na(Diets$Family)] <- Diets$Order[is.na(Diets$Family)]
 
 # Merge diets, sizes and FFG's
-Diets <- merge(Diets, sizes, by.x = "Family", by.y = "Taxon", all.x = TRUE) %>% 
-  merge(., ffg, by.x = "Family", by.y = "Taxon", all.x = TRUE)
+Diets <- merge(Diets, sizes, by.x = "Family", by.y = "Taxon") %>% 
+  merge(., ffg, by.x = "Family", by.y = "Taxon")
 
 # Aggregate by rep
 Diets.by.fish <- Diets %>% 
@@ -255,7 +255,7 @@ The Costello method plots % occurance of a taxon in fish versus % of aggregate d
 
 
 
-## NMDS :metal:
+### NMDS :metal:
 ***
 
 Who knows what I'm actually doing, all of this ordination stuff is currently pre BOT 570.  I will definitely update all this once I know how to handle singleton taxa, loads of zero's, etc.
@@ -337,3 +337,32 @@ ggplot(data = NMDS, aes(x, y, color = Treatment)) +
 ```
 
 There seems to be total overlap of the diet communities in the control versus treatment reaches.  This seems to be consistent with what we saw in other plots.
+
+
+### Summary Info. 
+***
+
+```{r}
+group_by(bugs.agg, Stream, Treatment, CollDate) %>%
+  summarise_at(vars(Density), funs(sum)) %>% 
+  arrange(CollDate, Treatment) %>% 
+  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T), ) %>% formatRound("Density", digits = 2, interval = 3, 
+                                          mark = ",", dec.mark = getOption("OutDec"))
+```
+
+```{r}
+group_by(bugs.by.year, Stream, CollDate) %>%
+  summarise_at(vars(Diff), funs(sum)) %>% 
+  arrange(CollDate) %>% 
+  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T), ) %>% formatRound("Diff", digits = 2, interval = 3, 
+                                          mark = ",", dec.mark = getOption("OutDec"))
+```
+
+```{r}
+group_by(bugs.by.year, Stream, CollDate, FFG) %>%
+  summarise_at(vars(Diff), funs(sum)) %>% 
+  arrange(CollDate) %>% 
+  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T), ) %>% formatRound("Diff", digits = 2, interval = 3, 
+                                          mark = ",", dec.mark = getOption("OutDec"))
+```
+

@@ -43,3 +43,12 @@ html {
  .slides .col-4 {      /* Currently we have 4 columns with the last spanning the whole width of the poster at the bottom */
  	grid-column: span 12;
  }
+
+
+/*Header Color*/
+:root {
+	--header-color: #FF8C00;
+}
+:root {
+	--other-color-for-h2-gradient: #000000;
+}

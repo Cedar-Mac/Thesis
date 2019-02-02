@@ -9,21 +9,33 @@ output:
 
 # {.col-1}
 
-## R Markdown
-
-This is an R Markdown poster based on 'reveal.js' presentations. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.  Customize the poster.css file (or whatever it is renamed) to define the style and layout of the poster.  See <https://github.com/bbucior/drposter/blob/master/inst/example/poster.Rmd> for an example.
-
 ## Slide with Bullets
 
 - Bullet 1
 - Bullet 2
 - Bullet 3
 
+Question
+Hypothesis
+
+## Study Design
+
+
+
+## Study Site
+
+
+
 # {.col-2}
 
-## Slide with R Code and Output
+## Light Responses
+
+
+
+## FFG's
+
+
+## Scraper Taxa
 
 ```{r}
 summary(cars)
@@ -34,6 +46,12 @@ summary(cars)
 ```{r, echo=FALSE}
 plot(cars)
 ```
+
+# {.col-3}
+
+## SLide
+
+
 
 # {.col-4}
 

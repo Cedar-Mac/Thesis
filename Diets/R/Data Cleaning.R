@@ -10,6 +10,7 @@ lapply(x, library, character.only = TRUE)
 ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
 sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
 Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
+bugs <- readxl::read_xlsx("../Bugs/Data/2017-18 Bugs.xlsx")
 
 # Fill missing family's with order
 Diets$Family[is.na(Diets$Family)] <- Diets$Order[is.na(Diets$Family)]
@@ -27,10 +28,6 @@ Diets.fish <- Diets %>%
 Diets.reach <- Diets %>% 
   group_by(Family, Stream, Treatment, Origin, FFG, Size) %>%
   summarise_at("Count", funs(sum))
-
-
-write_csv(Diets.fish, "./Data/Diets.fish.csv")
-write_csv(Diets.reach, "./Data/Diets.reach.csv")
 
 
 

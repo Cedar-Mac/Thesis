@@ -2,8 +2,8 @@ x <- c("tidyverse", "vegan", "lubridate")
 lapply(x, library, character.only = TRUE)
 
 # Import Data
-bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
-ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
+bugs <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "Cleaned")
+ffg <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "FFG")
 str(bugs)
 
 

@@ -318,6 +318,72 @@ ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
 Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
 
 
+### Summary Info 
+***
+
+```{r Total Densities, fig.height=10, fig.width=12, echo=FALSE}
+bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
+group_by(Stream, CollDate.Treatment) %>%
+  summarise_at(vars(Density), funs(sum)) %>%
+  ggplot(aes(x = Stream, y = Density, fill = CollDate.Treatment)) + 
+  geom_col(position = "dodge") +
+  ggtitle("Total Inverebrate Density (m^2)") +
+  theme_bw() +
+     theme(plot.title = element_text(size = 40, face = "bold")) +
+  scale_fill_viridis_d(option = "E") 
+
+  #datatable(rownames = FALSE, class = "hover", filter = "top", 
+            #options = list(pageLength = 10, scrollX=T), ) %>% 
+            #formatRound("Density", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
+```
+
+```{r Density Diffs, fig.height=10, fig.width=12, echo=FALSE}
+group_by(bugs.by.year, Stream, CollDate) %>%
+  summarise_at(vars(Diff), funs(sum)) %>% 
+  arrange(CollDate) %>% 
+  ggplot(aes(x = Stream, y = Diff, fill = CollDate)) + 
+  geom_col(position = "dodge") +
+  ggtitle("Differences in Density (T-C)") +
+  theme_bw() +
+     theme(plot.title = element_text(size = 40, face = "bold")) +
+  scale_fill_viridis_d(option = "E") 
+  
+  #datatable(rownames = FALSE, class = "hover", filter = "top", 
+            #options = list(pageLength = 10, scrollX=T), ) %>% 
+            #formatRound("Diff", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
+```
+
+```{r FFG Densities, fig.height=10, fig.width=12, echo=FALSE}
+
+bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
+  group_by(Stream, CollDate.Treatment, FFG) %>%
+  summarise_at(vars(Density), funs(sum)) %>% write_csv("./Data/FFG.Densities.csv")
+  
+  
+  #ggplot(aes(x = FFG, y = Density, fill = CollDate.Treatment)) + 
+  #geom_col(position = "dodge") +
+  #facet_wrap("Stream") +
+  #ggtitle("Differences in Density By FFG (T-C)") +
+  #theme_bw() +
+     #theme(plot.title = element_text(size = 40, face = "bold")) +
+  #scale_fill_viridis_d(option = "E") 
+  
+  #arrange(CollDate) %>% write_csv("./Data/ffg.diffs.csv")
+  
+  #datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, #scrollX=T), ) %>% formatRound("Diff", digits = 2, interval = 3, 
+                                         #mark = ",", dec.mark = getOption("OutDec"))
+```
+
+
+
+
+
+
+##
+***
+
+Session Info:
+
 ```{r}
 sessionInfo()
 ```
