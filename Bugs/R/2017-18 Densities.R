@@ -92,16 +92,33 @@ ggplot(data = ffg.SC) +
 
 
 
+Diets.fish <- Diets_fish
+Diets.fish  <-Diets.fish %>% 
+  group_by(Stream, Treatment, Family) %>%
+  summarise_at(vars(Count), funs(sum)) %>% ungroup
+
+Diets.fish <- Diets.fish %>% select("Stream", "Treatment", "Family", "Count")
+Diets.fish$CollDate <- 2018 
 
 
 
 
+bugs.agg <- bugs %>%
+  group_by(CollDate, Stream, Treatment, Family) %>%
+  summarise_at(vars(Density), funs(sum)) %>% ungroup
+
+bugs.agg$Density <- bugs.agg$Density / 3
+
+combined <- merge(Diets.fish, bugs.agg)
+
+
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Density") %>% 
+  mutate_if(is.numeric , replace_na, replace = 0) 
 
 
 
 
-
-
+combined <-rbind.na(bugs.agg, Diets.fish)
 
 
 
