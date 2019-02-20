@@ -42,9 +42,9 @@ lapply(packages, library, character.only = TRUE)
 
 ```{r Import data, include = FALSE}
 # import data
-bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
-ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
-sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
+bugs <- readxl::read_xlsx("../Bugs/Data/2017-18 bugs.xlsx", sheet = "Cleaned")
+ffg <- readxl::read_xlsx("../Bugs/Data/2017-18 bugs.xlsx", sheet = "FFG")
+sizes <- readxl::read_xlsx("../Bugs/Data/2017-18 bugs.xlsx", sheet = "Size")
 Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
 
 #Replace Ssp. in Taxon with Family
