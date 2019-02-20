@@ -88,14 +88,14 @@ bugs.agg <- spread(bugs.agg, key = "Taxon", value = "Density") %>%
 
 ```{r Calculate Reach Differences, echo = FALSE}
 # Create list of CollDate, Stream and Taxon
-bugs.by.year <- bugs.agg %>% select(-c("Density", "CollDate")) %>% unique()
+bugs.reach.diff <- bugs.agg %>% select(-c("Density", "CollDate")) %>% unique()
 
 # Calculate Differences
-bugs.by.year$Diff <- bugs.agg$Density[bugs.agg$CollDate == "2018"] -     
+bugs.reach.diff$Diff <- bugs.agg$Density[bugs.agg$CollDate == "2018"] -     
   bugs.agg$Density[bugs.agg$CollDate == "2017"]
 
 
-bugs.by.year <- merge(bugs.by.year, sizes) %>% merge(., ffg)
+bugs.reach.diff <- merge(bugs.reach.diff, sizes) %>% merge(., ffg)
 bugs.agg <- merge(bugs.agg, sizes) %>% merge(., ffg)
 bugs18 <- filter(bugs.agg, CollDate == "2018")
 
@@ -113,7 +113,7 @@ datatable(bugs.agg, rownames = FALSE, class = "hover", filter = "top", options =
 ***
 ```{r Plot Taxon Density Diffs, echo = FALSE, fig.height = 25, fig.width = 25}
 # Plot density differences
-ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = Treatment)) + 
+ggplot(data = bugs.reach.diff, aes(x = Taxon, y = Diff, fill = Treatment)) + 
   geom_col(position = "dodge") +
   facet_wrap(c("Stream")) +
   ggtitle("Differences in Taxa Abundances Between Reaches Pre and Post Gap Years") +
@@ -121,14 +121,14 @@ ggplot(data = bugs.by.year, aes(x = Taxon, y = Diff, fill = Treatment)) +
   coord_flip()
 ```
 
-Plot of density differences between reaches for both 2017 and 2018. As seen, there are no ubiquitous taxa that consistently increase or decrease across streams. Can also see how shitty the plot is, too many taxa...
+Plot of density differences between 2017 and 2018 for both reaches. As seen, there are no ubiquitous taxa that consistently increase or decrease across streams. 
 
 
 ### FFG's
 ***
 ```{r Get FFGs, echo = FALSE}
 #Aggregate to get density differences of FFG's
-bugs.ffg <- bugs.by.year %>% 
+bugs.ffg <- bugs.reach.diff %>% 
   group_by(FFG, Stream, Treatment) %>%
   summarise_at("Diff", funs(sum)) %>% ungroup
 ```
@@ -183,7 +183,7 @@ When comparing between the reaches we see elevated abundances of both scraper gr
 
 
 ```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo=FALSE}
-bugs.by.year %>% filter(FFG == "SCe" | FFG == "SCi") %>% 
+bugs.reach.diff %>% filter(FFG == "SCe" | FFG == "SCi") %>% 
   ggplot(aes(x = Taxon, y = Diff, color = Treatment, shape = Stream)) + 
     geom_jitter(width = .2, height = .2, size = 4) +
     ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
@@ -215,7 +215,7 @@ bugs18 %>% filter(FFG == "SCe" | FFG == "SCi") %>%
 
 
 ```{r Plot Size Differences, fig.height = 10, fig.width = 12, echo = FALSE}
-bugs.by.year %>% 
+bugs.reach.diff %>% 
   group_by(Size, Stream, Treatment) %>%
   summarise_at(vars(Diff), funs(sum)) %>%
   ungroup() %>%
@@ -240,7 +240,6 @@ bugs.mds <- bugs.agg %>%
   spread(key = "Taxon", value = "Density") %>%
   mutate_if(is.numeric , replace_na, replace = 0) %>% ungroup() %>%
   mutate(YearTreat = interaction(CollDate, Treatment))
-write_csv(bugs.mds, "~/bugsmds.csv")
 ```
 
 
