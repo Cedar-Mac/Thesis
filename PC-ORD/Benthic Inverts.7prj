@@ -1,16 +1,16 @@
 7.07
 Description
-diff's mrpp
+benthic NMS med
 TransOption 1,2,3,4,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28,29
-8
+21
 PowerPValue 0.0, 9.0, 0.0
-0.
+0.5
 RelPValue 0.0001, 9.0, 1.0
 1.
 RowCol 1, 2, 1=Row 2=Col
 1
 NValue 1, Range, 1
-1
+2
 Operator 1, 2, 2
 2
 Constant -100000.0, 100000.0, none
@@ -26,9 +26,9 @@ RowColOption 1, 3, 1=Row 2=Col, 3=Both
 OutliersOption 4, 5, 4
 4
 Outlier 1, 4, 1
-1
-OutlierDistance 1, 11, 4
 4
+OutlierDistance 1, 11, 4
+7
 Cutoff 0.001, 100.0, 2.0
 2.0
 PCAOption 1, 3, 1
@@ -60,15 +60,15 @@ LevelCheck 1, 2, 1
 ClustrBetaValue -1.0, 0.999999, -0.25
 -.25
 ImportExportOption 1, 2, 1=Import 2=Export
-1
+2
 ImportName
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Original Data\combined2.xlsx
+
 ExportName
 
 ImportExportWorkFile
 
 FileType 1, 8
-8
+3
 DCARA 0, 3, 0=None 1=DCA 2=RA 3=TWINSPAN
 0
 SpeciesFile
@@ -151,9 +151,9 @@ NmsRandomizationRuns 1, 15999, 249
 MRPPGroupingMatrix 1, 2, 2
 2
 MRPPVarName
-Type
+Treatment
 MRPPDistance 1, 11, 4
-4
+1
 MRPPWeight 1, 2, 1
 1
 MRPPExclude 1, 2, 1
@@ -181,9 +181,9 @@ Species 1, 9999, 200
 Divisions 1, 14, 6
 6
 BcordDistance 1, 11, 1
-1
+4
 BcordEndPoint 1, 4, 2
-2
+1
 AxisProjection 1, 2, 1
 1
 ResidualDistances 1, 2, 1
@@ -207,7 +207,7 @@ DcaRescale 1, 2, 2
 DcaThreshold 0.0, 1.0, 0.0
 0.
 DcaSegments 14, 50, 26
-26
+14
 RaDownWeight 1, 2, 1
 1
 MultiplyType 1, 5, 1
@@ -302,7 +302,7 @@ BMRPPAverage 1, 2, 1
 BMRPPMedian 1, 2, 2
 2
 BMRPPVarName
-
+Stream
 BcordGraphCol 1, 2, 1
 1
 NMSGraphCol 1, 2, 2
@@ -310,7 +310,7 @@ NMSGraphCol 1, 2, 2
 PCAGraphCol 1, 3, 2
 2
 NMSRealRuns 1, 9999, 200
-100
+200
 NMSStable 0.0, 0.99, 0.000001
 0.000001
 NMSLastN 2, 999, 15
@@ -320,11 +320,11 @@ NMSStepDown 1, 2, 2
 NMSLogList 1, 2, 1
 1
 NMSStress 1, 2, 2
-2
+1
 NMSSpeed 1, 3, 2
 2
 NMSAutopilot 1, 2, 2
-1
+2
 SecondMantelDistance 1, 11, 1
 1
 WriteMantelList 1, 2, 1
@@ -360,7 +360,7 @@ ExpDbsOmitZeros 1, 2, 1
 SpeciesAreaDistance 1, 11, 1
 1
 MatrixOption 1, 5, 1=Main, 2=Second, 3=Traits, 4=Main and Second, 5=Main and Traits
-2
+1
 ClusterTwoWay 1, 2
 1
 CrudeDen 1, 2, 2
@@ -638,9 +638,9 @@ Matrix To Gph File
 Project
 C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
 Main Matrix
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\rel_comb_dif.mjm
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares.mjm
 Second Matrix
-C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2.mjm
 Traits Matrix
 
 TraitsDMeas 1, 2, 2
@@ -684,17 +684,17 @@ Replicates 2, 1000, 500
 IncludeDistanceCurves 1, 2, 2
 2
 [Main Window]
-File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\rel_comb_dif.mjm
+File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares.mjm
 [Second Window]
-File=C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\
+File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2.mjm
 [Traits Window]
 File=
 [Row Window]
-File=
+File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medRow.gph
 [Column Window]
-File=
+File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medCol.gph
 [Result Window]
-File=
+File=C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_med.txt
 [Graph Options]
 Species Frequency=0
 Variance Distance=0
@@ -704,10 +704,10 @@ Envelope Sparse Data Type=0
 Envelope Min To Plot=2.24
 Frame Type=0
 Tick Type=1
-Label Points Row=0
+Label Points Row=1
 Label Points Col=0
 Plot Points Row=1
-Plot Points Col=1
+Plot Points Col=0
 Symbols Row=35
 Symbols Col=225
 Color Symbols Row=4
@@ -916,8 +916,8 @@ Show Contour Frame=1
 Contour Legend=2
 Contour Method=2
 Contour Interval Type=0
-Contour Starting Point=0
-Contour Interval=0
+Contour Starting Point=14.54
+Contour Interval=0.04
 Contour Intervals=20
 Contour Labels=1
 Contour Lines Interval=1
@@ -1497,19 +1497,32 @@ Text Case=0
 Evaluate List=0
 Selected Col Name=CollDate
 [Main History]
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\rel_comb_dif.mjm=H0
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined_diff.mjm=H1
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_diff_genera.mjm=H2
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\diets.mjm=H3
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined_2018.mjm=H4
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera.mjm=H5
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_family.mjm=H6
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_diff_family.mjm=H7
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares.mjm=H0
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares18.mjm=H1
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares17.mjm=H2
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera.mjm=H3
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_diff_genera.mjm=H4
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\rel_comb_dif.mjm=H5
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined_diff.mjm=H6
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\diets.mjm=H7
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined_2018.mjm=H8
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_family.mjm=H9
 [Second History]
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined2.mjm=H0
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_diff2.mjm=H1
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\diets2.mjm=H2
-C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2.mjm=H3
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2.mjm=H0
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2_18.mjm=H1
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined_2018.mjm=H2
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2_17.mjm=H3
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_diff2.mjm=H4
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\combined2.mjm=H5
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\diets2.mjm=H6
+[Row History]
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medRow.gph=H0
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medCol.gph=H1
+[Column History]
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medCol.gph=H0
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_medRow.gph=H1
+[Result History]
+C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic nms_med.txt=H0
 [Dendrogram Window]
 File=C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\DENDPREP.DEN
 [Dendrogram Two Way Window]
@@ -1519,11 +1532,11 @@ File=C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\SPPAREA.SPA
 [Stress Window]
 File=C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\STRESS.STR
 [Vectors]
-Unit/Time=0
+Unit/Time=1
 Translation=0
 Translate All Axes=1
 [Graphs]
-Save Type=0
+Save Type=1
 [Envelope Curves]
 Fix FileName=
 CSV FileName=
@@ -1537,7 +1550,7 @@ SA2=0
 MA3=0
 SA3=0
 [Group Variables]
-Ordination=Treatment
+Ordination=YearTreat
 Scatterplot=
 [Batch Set]
 File Name=

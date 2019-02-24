@@ -1,0 +1,58 @@
+
+************* Blocked Multi-Response Permutation Procedures (MRBP) 
+PC-ORD, 7.07                
+23 Feb 2019, 16:35:00
+PC-ORD, 7.07                
+23 Feb 2019, 16:35:00
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares17.mjm
+Second matrix: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic2_17.mjm
+
+
+Benthic Genera MRPP                                                             
+Analysis of randomized block data with MRBP: 
+    64 variables 
+     5 blocks
+     2 groups
+
+       Groups were defined by values of: Treatment   
+       Blocks were defined by values of: Stream      
+
+       Input data has:      10 Reaches
+                     by      64 Variables   
+
+
+OPTIONS
+       Distance measure: Euclidean           
+       Median alignment performed.
+       No average distance function commensuration.
+
+     GROUP:      1
+Identifier: N                   
+      Size:      5
+Members:
+ CHUCK 1      LOON 1       MCTE 1       W-100 1      W-113 1     
+
+     GROUP:      2
+Identifier: Y                   
+      Size:      5
+Members:
+ CHUCK 2      LOON 2       MCTE 2       W-100 2      W-113 2     
+  
+        Test statistic: T =      -1.1487417    
+           Observed delta =       367.00279    
+           Expected delta =       377.12963    
+        Variance of delta =       77.714620    
+        Skewness of delta =     -0.25298998    
+
+        Chance-corrected within-group agreement, A =    0.02685240
+          A = 1 - (observed delta/expected delta)
+          Amax = 1 when all items are identical within groups (delta=0)
+          A = 0 when heterogeneity within groups equals expectation by chance
+          A < 0 with more heterogeneity within groups than expected by chance
+
+        Probability of a smaller or equal delta, p =    0.12733479
+
+****************************** MRBP finished ******************************
+23 Feb 2019, 16:35:01

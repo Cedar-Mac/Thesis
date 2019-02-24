@@ -1,0 +1,279 @@
+
+
+********************* Nonmetric Multidimensional Scaling *********************
+PC-ORD, 7.07                
+23 Feb 2019, 18:29:02
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_genera_noRares.mjm
+
+
+benthic NMS med                                                                 
+Ordination of Reaches in Variables space.         20 Reaches            64 Variables   
+
+         The following options were selected:
+ANALYSIS OPTIONS
+         1.   SORENSEN = Distance measure
+         2.          4 = Number of axes (max. = 6)
+         3.        200 = Maximum number of iterations
+         4.     RANDOM = Starting coordinates (random or from file)
+         5.          1 = Reduction in dimensionality at each cycle
+         6. NO PENALTY = Tie handling (Strategy 1 does not penalize
+                         ties with unequal ordination distance,
+                         while strategy 2 does penalize.)
+         7.       0.20 = Step length (rate of movement toward minimum stress)
+         8.   USE TIME = Random number seeds (use time vs. user-supplied)
+         9.         50 = Number of runs with real data
+        10.         50 = Number of runs with randomized data
+        11.        YES = Autopilot
+        12.   0.000010 = Stability criterion, standard deviations in stress
+                         over last  10 iterations.
+        13.     MEDIUM = Speed vs. thoroughness
+OUTPUT OPTIONS
+        14.         NO = Write distance matrix?
+        15.         NO = Write starting coordinates?
+        16.         NO = List stress, etc. for each iteration?
+        17.         NO = Plot stress vs. iteration?
+        18.         NO = Plot distance vs. dissimilarity?
+        19.         NO = Write final configuration?
+        20. PRINC.AXES = Write varimax-rotated, principal axes, or unrotated scores for graph?
+        21.         NO = Write run log?
+        22.         NO = Write weighted-average scores for Variables?
+------------------------------------------------------------------------------
+
+       280 = Seed for random number generator.
+
+             0 = Number of tie blocks in dissimilarity matrix.
+             0 = Number of elements involved in ties.
+           190 = Total number of elements in dissimilarity matrix.
+         0.000 = Percentage of elements involved in ties.
+
+
+
+STRESS IN RELATION TO DIMENSIONALITY (Number of Axes)
+---------------------------------------------------------------------------
+          Stress in real data          Stress in randomized data
+               50 run(s)               Monte Carlo test,   50 runs
+      -------------------------  ------------------------------------------
+Axes  Minimum     Mean  Maximum  Minimum     Mean  Maximum      p         n
+---------------------------------------------------------------------------
+   1   20.925   38.977   54.773   36.602   49.019   54.761    0.0196      0
+   2   12.028   12.807   17.506   20.729   24.052   28.964    0.0196      0
+   3    7.072    7.317    9.967   12.878   15.486   27.331    0.0196      0
+   4    4.492    5.116   21.357    8.824   10.430   11.928    0.0196      0
+---------------------------------------------------------------------------
+p = proportion of randomized runs with stress < or = observed stress
+i.e., p  = (1 + n)/(1 + N)
+      n = no. permutations <= observed
+      N = no. permutations
+
+
+Conclusion:  a 2-dimensional solution is recommended.
+Now rerunning the best ordination with that dimensionality.
+
+Selected file CONFIG2.GPH  for the starting configuration for
+   the final run.
+
+
+benthic NMS med                                                                 
+Ordination of Reaches in Variables space.         20 Reaches            64 Variables   
+
+         The following options were selected:
+ANALYSIS OPTIONS
+         1.   SORENSEN = Distance measure
+         2.          2 = Number of axes (max. = 6)
+         3.        200 = Maximum number of iterations
+         4.  FROM FILE = Starting coordinates (random or from file)
+         5.          2 = Reduction in dimensionality at each cycle
+         6. NO PENALTY = Tie handling (Strategy 1 does not penalize
+                         ties with unequal ordination distance,
+                         while strategy 2 does penalize.)
+         7.       0.20 = Step length (rate of movement toward minimum stress)
+         8.   USE TIME = Random number seeds (use time vs. user-supplied)
+         9.          1 = Number of runs with real data
+        10.          0 = Number of runs with randomized data
+        11.        YES = Autopilot
+        12.   0.000010 = Stability criterion, standard deviations in stress
+                         over last  10 iterations.
+        13.     MEDIUM = Speed vs. thoroughness
+OUTPUT OPTIONS
+        14.         NO = Write distance matrix?
+        15.         NO = Write starting coordinates?
+        16.         NO = List stress, etc. for each iteration?
+        17.        YES = Plot stress vs. iteration?
+        18.         NO = Plot distance vs. dissimilarity?
+        19.        YES = Write final configuration?
+        20. PRINC.AXES = Write varimax-rotated, principal axes, or unrotated scores for graph?
+        21.         NO = Write run log?
+        22.        YES = Write weighted-average scores for Variables?
+------------------------------------------------------------------------------
+
+
+File containing starting coordinates:
+CONFIG2.GPH                                                                                                                                                                                                                                     
+
+      12.03124 = final stress for 2-dimensional solution
+       0.00000 = final instability
+           101 = number of iterations
+
+MEASURES OF FIT
+R²n  (nonmetric fit) =   0.9855  Intrinsic measure for NMS. Null: all points co-located.
+R²l  (linear fit)    =   0.9306  Null: all ordination distances equal.
+R²m  (metric fit)    =   0.8934  Null: no linear relationship with observed dissimilarities.
+
+CHANCE-CORRECTED EVALUATIONS
+Improvement:       I =   0.6982
+Null model: final configuration no better than initial random configuration.
+Interpretation: 0 = random expectation, 1 = perfect fit, <0 = worse than random expectation
+Basis:                   2 dimensions
+                      50 = number of random initial configurations used
+                 39.8702 = average initial stress
+                 12.0312 = final stress
+
+Association:       A =   0.3472
+Null model: relationships among columns no stronger than expected chance, based on shuffling within columns.
+Interpretation: 0 = random expectation, 1 = perfect fit, <0 = worse than random expectation
+Basis:                   2 dimensions
+                     100 = number of randomizations used
+                 18.4295 = average final stress from randomizations
+                 12.0312 = final stress
+
+
+Final configuration (ordination scores) for this run
+    Reaches               Axis
+  Number Name                  1          2
+       1 CHUCK 1          0.5924     0.7118
+       2 CHUCK 2          0.4343     0.3730
+       3 LOON 1           0.8590     1.9727
+       4 LOON 2           0.4233     0.6159
+       5 MCTE 1           0.9695     0.0047
+       6 MCTE 2           0.7386     0.2404
+       7 W-100 1         -0.6964     0.7421
+       8 W-100 2         -0.3149    -0.0050
+       9 W-113 1         -0.2016     0.9992
+      10 W-113 2          0.1311     1.2358
+      11 CHUCK 3          0.2421    -0.4453
+      12 CHUCK 4          0.3717    -0.6103
+      13 LOON 3          -0.2642    -0.5054
+      14 LOON 4          -0.1738    -0.6693
+      15 MCTE 3           0.2807    -0.8393
+      16 MCTE 4          -0.2045    -1.3099
+      17 W-100 3         -0.7680    -0.4155
+      18 W-100 4         -0.7069    -0.5774
+      19 W-113 3         -0.9800    -0.8254
+      20 W-113 4         -0.7323    -0.6929
+
+
+
+      PLOT OF STRESS V. ITERATION NUMBER
+      (to prevent wrapping of wide plots when printing, use small font)
+
+       46.0444221......................................................................................................
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .*                                                                                                   .
+                 .  *                                                                                                 .
+                 . *                                                                                                  .
+                 .   *****                                                                                            .
+                 .        ***                                                                                         .
+                 .           *****                                                                                    .
+                 .                ****                                                                                .
+                 .                    *****                                                                           .
+                 .                         **                                                                         .
+                 .                           *                                                                        .
+                 .                                                                                                    .
+                 .                            *                                                                       .
+      STRESS     .                                                                                                    .
+                 .                             *                                                                      .
+                 .                              *                                                                     .
+                 .                               *                                                                    .
+                 .                                *******                                                             .
+                 .                                       **** *                                                       .
+                 .                                           * ****************                                       .
+                 .                                                             ***************************************.
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+                 .                                                                                                    .
+        0.0000000......................................................................................................
+                           10        20        30        40        50        60        70        80        90       100
+                      ITERATION NUMBER
+
+
+       46.0444221...
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+      STRESS     . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 .*.
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+                 . .
+        0.0000000...
+ 
+                      ITERATION NUMBER
+
+
+
+
+
+Principal axes rotation of 2-dimensional solution.
+
+Configuration after rotation is listed below.
+
+Final configuration (ordination scores) for this run
+    Reaches               Axis
+  Number Name                  1          2
+       1 CHUCK 1          0.8967     0.2312
+       2 CHUCK 2          0.5229     0.2331
+       3 LOON 1           2.1506    -0.0668
+       4 LOON 2           0.7377     0.1194
+       5 MCTE 1           0.4187     0.8744
+       6 MCTE 2           0.5331     0.5649
+       7 W-100 1          0.3731    -0.9468
+       8 W-100 2         -0.1391    -0.2826
+       9 W-113 1          0.8171    -0.6094
+      10 W-113 2          1.1733    -0.4098
+      11 CHUCK 3         -0.2990     0.4092
+      12 CHUCK 4         -0.3928     0.5969
+      13 LOON 3          -0.5698    -0.0228
+      14 LOON 4          -0.6794     0.1290
+      15 MCTE 3          -0.6387     0.6125
+      16 MCTE 4          -1.2716     0.3752
+      17 W-100 3         -0.7040    -0.5166
+      18 W-100 4         -0.8242    -0.3922
+      19 W-113 3         -1.1651    -0.5331
+      20 W-113 4         -0.9394    -0.3658
+
+Writing weighted average scores on 2 axes for      64 Variables   
+   into file for graphing.
+
+******************** NMS ordination completed ********************
+23 Feb 2019, 18:30:27
+        1.42 minutes elapsed time.
