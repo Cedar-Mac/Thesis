@@ -110,6 +110,7 @@ Both_years <- Both_years %>% filter(Stream != "W-122")
 bentho_both.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Meter + Year, mean, data = Both_years)
 bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Year, mean, data = Both_years)
 write_csv(bentho.reach, "./Data/bentho.reach")
+write_csv(bentho.reach, "./Data/bentho.reach.csv")
 
 ggplot(data = bentho_both.mean) +
   geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
