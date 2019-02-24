@@ -1,0 +1,431 @@
+"","Time.Reach.Meter","Portion.Taxon","Sum_Count","Sum_CellCount","Sum_Het"
+"1","Post_1_Reference15","Algae Homoeothrix",4347.82608695652,86956.5217391304,0
+"2","Post_1_Reference15","Algae Synechococcus",8695.65217391304,978260.869565217,0
+"3","Post_1_Reference15","Algae Undetermined Rhodophyte",8695.65217391304,34782.6086956522,0
+"4","Post_1_Reference15","Diatoms Achnanthidium minutissimum",2050.86136177194,2050.86136177194,NA
+"5","Post_1_Reference15","Diatoms Amphora pediculus",1025.43068088597,1025.43068088597,NA
+"6","Post_1_Reference15","Diatoms Aulacoseira",512.715340442986,512.715340442986,NA
+"7","Post_1_Reference15","Diatoms Cocconeis placentula sensu lato",1538.14602132896,1538.14602132896,NA
+"8","Post_1_Reference15","Diatoms Diatoma moniliformis",512.715340442986,512.715340442986,NA
+"9","Post_1_Reference15","Diatoms Epithemia",512.715340442986,512.715340442986,NA
+"10","Post_1_Reference15","Diatoms Eunotia",2050.86136177194,2050.86136177194,NA
+"11","Post_1_Reference15","Diatoms Eunotia minor",512.715340442986,512.715340442986,NA
+"12","Post_1_Reference15","Diatoms Eunotia perpusilla",1025.43068088597,1025.43068088597,NA
+"13","Post_1_Reference15","Diatoms Fragilaria amphicelaphaloides",512.715340442986,512.715340442986,NA
+"14","Post_1_Reference15","Diatoms Gomphonema pumilum v. rigidum",58962.2641509434,58962.2641509434,NA
+"15","Post_1_Reference15","Diatoms Karayevia suchlandtii",24097.6210008203,24097.6210008203,NA
+"16","Post_1_Reference15","Diatoms Mayamaea atomus",512.715340442986,512.715340442986,NA
+"17","Post_1_Reference15","Diatoms Meridion circulare",2050.86136177194,2050.86136177194,NA
+"18","Post_1_Reference15","Diatoms Navicula cryptotenella",512.715340442986,512.715340442986,NA
+"19","Post_1_Reference15","Diatoms Navicula cryptotenelloides",512.715340442986,512.715340442986,NA
+"20","Post_1_Reference15","Diatoms Navicula rostellata",512.715340442986,512.715340442986,NA
+"21","Post_1_Reference15","Diatoms Nitzschia",1025.43068088597,1025.43068088597,NA
+"22","Post_1_Reference15","Diatoms Nitzschia dissipata",512.715340442986,512.715340442986,NA
+"23","Post_1_Reference15","Diatoms Nitzschia inconspicua",512.715340442986,512.715340442986,NA
+"24","Post_1_Reference15","Diatoms Planothidium lanceolatum",7690.73010664479,7690.73010664479,NA
+"25","Post_1_Reference15","Diatoms Reimeria sinuata",512.715340442986,512.715340442986,NA
+"26","Post_1_Reference15","Diatoms Rossithidium nodosum",512.715340442986,512.715340442986,NA
+"27","Post_1_Reference15","Diatoms Sellaphora",512.715340442986,512.715340442986,NA
+"28","Post_1_Reference45","Algae Calothrix",16053.5117056856,176588.628762542,3210.70234113713
+"29","Post_1_Reference45","Algae Synechococcus",35317.7257525084,1846153.84615385,0
+"30","Post_1_Reference45","Algae Undetermined Rhodophyte",12842.8093645485,195852.842809365,0
+"31","Post_1_Reference45","Diatoms Achnanthidium minutissimum",754.754654819549,754.754654819549,NA
+"32","Post_1_Reference45","Diatoms Adlafia langebertalotii",754.754654819549,754.754654819549,NA
+"33","Post_1_Reference45","Diatoms Cocconeis placentula sensu lato",251.58488493985,251.58488493985,NA
+"34","Post_1_Reference45","Diatoms Diatoma",251.58488493985,251.58488493985,NA
+"35","Post_1_Reference45","Diatoms Eunotia",503.169769879699,503.169769879699,NA
+"36","Post_1_Reference45","Diatoms Eunotia minor",251.58488493985,251.58488493985,NA
+"37","Post_1_Reference45","Diatoms Eunotia perpusilla",503.169769879699,503.169769879699,NA
+"38","Post_1_Reference45","Diatoms Gomphonema pumilum v. rigidum",93841.1620825639,93841.1620825639,NA
+"39","Post_1_Reference45","Diatoms Gomphosphenia",1006.3395397594,1006.3395397594,NA
+"40","Post_1_Reference45","Diatoms Karayevia suchlandtii",24152.1489542256,24152.1489542256,NA
+"41","Post_1_Reference45","Diatoms Meridion circulare",4780.11281385714,4780.11281385714,NA
+"42","Post_1_Reference45","Diatoms Navicula",251.58488493985,251.58488493985,NA
+"43","Post_1_Reference45","Diatoms Navicula cryptotenella",503.169769879699,503.169769879699,NA
+"44","Post_1_Reference45","Diatoms Navicula reichardtiana",503.169769879699,503.169769879699,NA
+"45","Post_1_Reference45","Diatoms Planothidium frequentissimum",251.58488493985,251.58488493985,NA
+"46","Post_1_Reference45","Diatoms Planothidium lanceolatum",2264.26396445865,2264.26396445865,NA
+"47","Post_1_Reference45","Diatoms Psammothidium daonense",503.169769879699,503.169769879699,NA
+"48","Post_1_Reference45","Diatoms Rossithidium nodosum",1509.5093096391,1509.5093096391,NA
+"49","Post_1_Reference45","Diatoms Rossithidium petersenii",2012.6790795188,2012.6790795188,NA
+"50","Post_1_Reference75","Algae Homoeothrix",7625.41806020067,152508.361204013,0
+"51","Post_1_Reference75","Algae Undetermined Rhodophyte",11438.127090301,53377.9264214047,0
+"52","Post_1_Reference75","Diatoms Achnanthidium minutissimum",3912.51816701396,3912.51816701396,NA
+"53","Post_1_Reference75","Diatoms Eunotia",4890.64770876744,4890.64770876744,NA
+"54","Post_1_Reference75","Diatoms Eunotia minor",978.129541753489,978.129541753489,NA
+"55","Post_1_Reference75","Diatoms Gomphonema pumilum v. rigidum",136938.135845488,136938.135845488,NA
+"56","Post_1_Reference75","Diatoms Karayevia suchlandtii",11737.5545010419,11737.5545010419,NA
+"57","Post_1_Reference75","Diatoms Planothidium lanceolatum",20540.7203768233,20540.7203768233,NA
+"58","Post_1_Reference75","Diatoms Psammothidium daonense",3912.51816701396,3912.51816701396,NA
+"59","Post_1_Reference75","Diatoms Rossithidium nodosum",978.129541753489,978.129541753489,NA
+"60","Post_1_Reference75","Diatoms Rossithidium petersenii",2934.38862526047,2934.38862526047,NA
+"61","Post_1_Treatment15","Algae Sheathia",3973.24414715719,15892.9765886287,0
+"62","Post_1_Treatment15","Algae Undetermined Rhodophyte",23839.4648829431,111250.836120401,0
+"63","Post_1_Treatment15","Diatoms Achnanthidium minutissimum",1227.50632188596,1227.50632188596,NA
+"64","Post_1_Treatment15","Diatoms Cocconeis placentula sensu lato",920.62974141447,920.62974141447,NA
+"65","Post_1_Treatment15","Diatoms Diatoma mesodon",460.314870707235,460.314870707235,NA
+"66","Post_1_Treatment15","Diatoms Encyonema ventricosum",153.438290235745,153.438290235745,NA
+"67","Post_1_Treatment15","Diatoms Eunotia",1841.25948282894,1841.25948282894,NA
+"68","Post_1_Treatment15","Diatoms Eunotia minor",1994.69777306468,1994.69777306468,NA
+"69","Post_1_Treatment15","Diatoms Gomphonema pumilum v. rigidum",28999.8368545558,28999.8368545558,NA
+"70","Post_1_Treatment15","Diatoms Karayevia suchlandtii",19946.9777306468,19946.9777306468,NA
+"71","Post_1_Treatment15","Diatoms Meridion circulare",613.75316094298,613.75316094298,NA
+"72","Post_1_Treatment15","Diatoms Navicula cryptotenella",306.87658047149,306.87658047149,NA
+"73","Post_1_Treatment15","Diatoms Planothidium haynaldii",153.438290235745,153.438290235745,NA
+"74","Post_1_Treatment15","Diatoms Planothidium lanceolatum",7365.03793131576,7365.03793131576,NA
+"75","Post_1_Treatment15","Diatoms Rossithidium nodosum",613.75316094298,613.75316094298,NA
+"76","Post_1_Treatment15","Diatoms Rossithidium petersenii",10894.1186067379,10894.1186067379,NA
+"77","Post_1_Treatment45","Algae Synechococcus",162943.143812709,1629431.43812709,0
+"78","Post_1_Treatment45","Algae Undetermined Rhodophyte",11237.4581939799,39331.1036789298,0
+"79","Post_1_Treatment45","Diatoms Achnanthidium minutissimum",2481.60535117057,2481.60535117057,NA
+"80","Post_1_Treatment45","Diatoms Adlafia langebertalotii",2481.60535117057,2481.60535117057,NA
+"81","Post_1_Treatment45","Diatoms Cocconeis placentula sensu lato",1240.80267558528,1240.80267558528,NA
+"82","Post_1_Treatment45","Diatoms Diatoma mesodon",2481.60535117057,2481.60535117057,NA
+"83","Post_1_Treatment45","Diatoms Eunotia",2481.60535117057,2481.60535117057,NA
+"84","Post_1_Treatment45","Diatoms Eunotia minor",2481.60535117057,2481.60535117057,NA
+"85","Post_1_Treatment45","Diatoms Fragilaria perminuta",3722.40802675585,3722.40802675585,NA
+"86","Post_1_Treatment45","Diatoms Gomphonema pumilum v. rigidum",300274.247491639,300274.247491639,NA
+"87","Post_1_Treatment45","Diatoms Gomphosphenia",1240.80267558528,1240.80267558528,NA
+"88","Post_1_Treatment45","Diatoms Karayevia suchlandtii",105468.227424749,105468.227424749,NA
+"89","Post_1_Treatment45","Diatoms Meridion circulare",53354.5150501672,53354.5150501672,NA
+"90","Post_1_Treatment45","Diatoms Navicula reichardtiana",1240.80267558528,1240.80267558528,NA
+"91","Post_1_Treatment45","Diatoms Planothidium haynaldii",7444.8160535117,7444.8160535117,NA
+"92","Post_1_Treatment45","Diatoms Planothidium lanceolatum",239474.91638796,239474.91638796,NA
+"93","Post_1_Treatment45","Diatoms Psammothidium daonense",11167.2240802676,11167.2240802676,NA
+"94","Post_1_Treatment45","Diatoms Rossithidium nodosum",1240.80267558528,1240.80267558528,NA
+"95","Post_1_Treatment45","Diatoms Rossithidium petersenii",6204.01337792642,6204.01337792642,NA
+"96","Post_1_Treatment75","Algae Homoeothrix",12040.1337792642,200668.89632107,0
+"97","Post_1_Treatment75","Algae Undetermined Rhodophyte",28093.6454849498,136454.849498328,0
+"98","Post_1_Treatment75","Diatoms Achnanthidium minutissimum",541.806020066889,541.806020066889,NA
+"99","Post_1_Treatment75","Diatoms Cocconeis placentula sensu lato",4334.44816053511,4334.44816053511,NA
+"100","Post_1_Treatment75","Diatoms Diatoma mesodon",3250.83612040133,3250.83612040133,NA
+"101","Post_1_Treatment75","Diatoms Eunotia",3792.64214046822,3792.64214046822,NA
+"102","Post_1_Treatment75","Diatoms Eunotia bidens",2167.22408026756,2167.22408026756,NA
+"103","Post_1_Treatment75","Diatoms Eunotia minor",1625.41806020067,1625.41806020067,NA
+"104","Post_1_Treatment75","Diatoms Eunotia perpusilla",1625.41806020067,1625.41806020067,NA
+"105","Post_1_Treatment75","Diatoms Gomphonema pumilum v. rigidum",108361.204013378,108361.204013378,NA
+"106","Post_1_Treatment75","Diatoms Gomphonema stoermeri",3250.83612040133,3250.83612040133,NA
+"107","Post_1_Treatment75","Diatoms Karayevia suchlandtii",81270.9030100333,81270.9030100333,NA
+"108","Post_1_Treatment75","Diatoms Meridion circulare",4876.254180602,4876.254180602,NA
+"109","Post_1_Treatment75","Diatoms Navicula cryptotenelloides",541.806020066889,541.806020066889,NA
+"110","Post_1_Treatment75","Diatoms Navicula reichardtiana",1083.61204013378,1083.61204013378,NA
+"111","Post_1_Treatment75","Diatoms Nitzschia dissipata",1625.41806020067,1625.41806020067,NA
+"112","Post_1_Treatment75","Diatoms Planothidium haynaldii",1625.41806020067,1625.41806020067,NA
+"113","Post_1_Treatment75","Diatoms Planothidium lanceolatum",94816.0535117056,94816.0535117056,NA
+"114","Post_1_Treatment75","Diatoms Psammothidium daonense",6501.67224080267,6501.67224080267,NA
+"115","Post_1_Treatment75","Diatoms Rossithidium petersenii",2709.03010033444,2709.03010033444,NA
+"116","Post_1_Treatment75","Diatoms Sellaphora atomoides",541.806020066889,541.806020066889,NA
+"117","Post_1_Treatment75","Diatoms Sellaphora nigri",541.806020066889,541.806020066889,NA
+"118","Post_2_Reference15","Algae Calothrix",4013.3779264214,80267.558528428,8026.7558528428
+"119","Post_2_Reference15","Algae Homoeothrix",4013.3779264214,80267.558528428,0
+"120","Post_2_Reference15","Algae Nostoc",4013.3779264214,100334.448160535,0
+"121","Post_2_Reference15","Algae Sheathia",260869.565217391,1785953.17725752,0
+"122","Post_2_Reference15","Diatoms Achnanthidium minutissimum",2809.36454849498,2809.36454849498,NA
+"123","Post_2_Reference15","Diatoms Adlafia langebertalotii",2408.02675585284,2408.02675585284,NA
+"124","Post_2_Reference15","Diatoms Diatoma mesodon",17257.525083612,17257.525083612,NA
+"125","Post_2_Reference15","Diatoms Encyonema",401.33779264214,401.33779264214,NA
+"126","Post_2_Reference15","Diatoms Epithemia argus",1204.01337792642,1204.01337792642,NA
+"127","Post_2_Reference15","Diatoms Eunotia",11237.4581939799,11237.4581939799,NA
+"128","Post_2_Reference15","Diatoms Eunotia bidens",2408.02675585284,2408.02675585284,NA
+"129","Post_2_Reference15","Diatoms Eunotia canicula",6822.74247491638,6822.74247491638,NA
+"130","Post_2_Reference15","Diatoms Eunotia incisa",802.67558528428,802.67558528428,NA
+"131","Post_2_Reference15","Diatoms Eunotia minor",2006.6889632107,2006.6889632107,NA
+"132","Post_2_Reference15","Diatoms Eunotia perpusilla",18060.2006688963,18060.2006688963,NA
+"133","Post_2_Reference15","Diatoms Fragilaria tenera",4013.3779264214,4013.3779264214,NA
+"134","Post_2_Reference15","Diatoms Frustulia krammeri",802.67558528428,802.67558528428,NA
+"135","Post_2_Reference15","Diatoms Gomphonema",802.67558528428,802.67558528428,NA
+"136","Post_2_Reference15","Diatoms Gomphonema pumilum v. rigidum",39732.4414715719,39732.4414715719,NA
+"137","Post_2_Reference15","Diatoms Gomphosphenia americana",4013.3779264214,4013.3779264214,NA
+"138","Post_2_Reference15","Diatoms Humidophila perpusilla",1204.01337792642,1204.01337792642,NA
+"139","Post_2_Reference15","Diatoms Karayevia suchlandtii",49364.5484949832,49364.5484949832,NA
+"140","Post_2_Reference15","Diatoms Mayamaea atomus",1204.01337792642,1204.01337792642,NA
+"141","Post_2_Reference15","Diatoms Meridion circulare",11237.4581939799,11237.4581939799,NA
+"142","Post_2_Reference15","Diatoms Navicula cryptocephala",401.33779264214,401.33779264214,NA
+"143","Post_2_Reference15","Diatoms Navicula cryptotenella",12040.1337792642,12040.1337792642,NA
+"144","Post_2_Reference15","Diatoms Navicula reichardtiana",4414.71571906354,4414.71571906354,NA
+"145","Post_2_Reference15","Diatoms Navicula rostellata",401.33779264214,401.33779264214,NA
+"146","Post_2_Reference15","Diatoms Nitzschia archibaldii",401.33779264214,401.33779264214,NA
+"147","Post_2_Reference15","Diatoms Nitzschia frustulum",802.67558528428,802.67558528428,NA
+"148","Post_2_Reference15","Diatoms Nitzschia palea",401.33779264214,401.33779264214,NA
+"149","Post_2_Reference15","Diatoms Planothidium lanceolatum",10434.7826086956,10434.7826086956,NA
+"150","Post_2_Reference15","Diatoms Psammothidium daonense",2809.36454849498,2809.36454849498,NA
+"151","Post_2_Reference15","Diatoms Pseudostaurosira pseudoconstruens",401.33779264214,401.33779264214,NA
+"152","Post_2_Reference15","Diatoms Rhopalodia",802.67558528428,802.67558528428,NA
+"153","Post_2_Reference15","Diatoms Rossithidium nodosum",6822.74247491638,6822.74247491638,NA
+"154","Post_2_Reference15","Diatoms Rossithidium petersenii",2006.6889632107,2006.6889632107,NA
+"155","Post_2_Reference15","Diatoms Sellaphora atomoides",802.67558528428,802.67558528428,NA
+"156","Post_2_Reference15","Diatoms Sellaphora difficillima",18862.8762541806,18862.8762541806,NA
+"157","Post_2_Reference15","Diatoms Staurosira",401.33779264214,401.33779264214,NA
+"158","Post_2_Reference15","Diatoms Ulnaria contracta",802.67558528428,802.67558528428,NA
+"159","Post_2_Reference45","Algae Calothrix",54260.8695652175,1235478.26086957,37565.2173913044
+"160","Post_2_Reference45","Algae Leptolyngbya",58434.7826086957,2892521.73913044,0
+"161","Post_2_Reference45","Algae Sheathia",262956.521739131,2717217.39130435,0
+"162","Post_2_Reference45","Algae Undetermined Rhodophyte",4173.91304347827,62608.695652174,0
+"163","Post_2_Reference45","Diatoms Adlafia langebertalotii",18768.6956521739,18768.6956521739,NA
+"164","Post_2_Reference45","Diatoms Caloneis bacillum",528.695652173914,528.695652173914,NA
+"165","Post_2_Reference45","Diatoms Cocconeis placentula sensu lato",1057.39130434783,1057.39130434783,NA
+"166","Post_2_Reference45","Diatoms Cymbella affinis",264.347826086957,264.347826086957,NA
+"167","Post_2_Reference45","Diatoms Diatoma mesodon",2114.78260869566,2114.78260869566,NA
+"168","Post_2_Reference45","Diatoms Epithemia",1586.08695652174,1586.08695652174,NA
+"169","Post_2_Reference45","Diatoms Epithemia turgida",793.043478260871,793.043478260871,NA
+"170","Post_2_Reference45","Diatoms Eunotia",1586.08695652174,1586.08695652174,NA
+"171","Post_2_Reference45","Diatoms Eunotia canicula",264.347826086957,264.347826086957,NA
+"172","Post_2_Reference45","Diatoms Eunotia minor",264.347826086957,264.347826086957,NA
+"173","Post_2_Reference45","Diatoms Eunotia perpusilla",2643.47826086957,2643.47826086957,NA
+"174","Post_2_Reference45","Diatoms Fragilaria tenera",793.043478260871,793.043478260871,NA
+"175","Post_2_Reference45","Diatoms Gomphonema pumilum v. rigidum",41238.2608695653,41238.2608695653,NA
+"176","Post_2_Reference45","Diatoms Gomphosphenia americana",1850.4347826087,1850.4347826087,NA
+"177","Post_2_Reference45","Diatoms Karayevia suchlandtii",57099.1304347827,57099.1304347827,NA
+"178","Post_2_Reference45","Diatoms Meridion circulare",4229.56521739131,4229.56521739131,NA
+"179","Post_2_Reference45","Diatoms Navicula notha",264.347826086957,264.347826086957,NA
+"180","Post_2_Reference45","Diatoms Navicula reichardtiana",2907.82608695653,2907.82608695653,NA
+"181","Post_2_Reference45","Diatoms Planothidium",1586.08695652174,1586.08695652174,NA
+"182","Post_2_Reference45","Diatoms Planothidium frequentissimum",1057.39130434783,1057.39130434783,NA
+"183","Post_2_Reference45","Diatoms Planothidium lanceolatum",8459.13043478262,8459.13043478262,NA
+"184","Post_2_Reference45","Diatoms Psammothidium daonense",1057.39130434783,1057.39130434783,NA
+"185","Post_2_Reference45","Diatoms Rossithidium nodosum",6080.00000000001,6080.00000000001,NA
+"186","Post_2_Reference45","Diatoms Rossithidium petersenii",2114.78260869566,2114.78260869566,NA
+"187","Post_2_Reference75","Algae Calothrix",27157.1906354515,810836.120401338,38795.9866220736
+"188","Post_2_Reference75","Algae Homoeothrix",23277.5919732442,477190.635451505,0
+"189","Post_2_Reference75","Algae Leptolyngbya",15518.3946488294,1202675.58528428,0
+"190","Post_2_Reference75","Algae Nostoc",15518.3946488294,267692.307692308,0
+"191","Post_2_Reference75","Algae Sheathia",58193.9799331104,492709.030100335,0
+"192","Post_2_Reference75","Algae Undetermined Rhodophyte",11638.7959866221,81471.5719063546,0
+"193","Post_2_Reference75","Diatoms Adlafia langebertalotii",10591.3043478261,10591.3043478261,NA
+"194","Post_2_Reference75","Diatoms Cocconeis placentula sensu lato",7332.44147157191,7332.44147157191,NA
+"195","Post_2_Reference75","Diatoms Diatoma mesodon",30144.4816053512,30144.4816053512,NA
+"196","Post_2_Reference75","Diatoms Epithemia turgida",2444.14715719064,2444.14715719064,NA
+"197","Post_2_Reference75","Diatoms Eunotia",61918.3946488295,61918.3946488295,NA
+"198","Post_2_Reference75","Diatoms Eunotia bidens",5703.01003344482,5703.01003344482,NA
+"199","Post_2_Reference75","Diatoms Eunotia canicula",8147.15719063546,8147.15719063546,NA
+"200","Post_2_Reference75","Diatoms Eunotia incisa",11406.0200668896,11406.0200668896,NA
+"201","Post_2_Reference75","Diatoms Eunotia minor",6517.72575250837,6517.72575250837,NA
+"202","Post_2_Reference75","Diatoms Eunotia perpusilla",30144.4816053512,30144.4816053512,NA
+"203","Post_2_Reference75","Diatoms Fragilaria",2444.14715719064,2444.14715719064,NA
+"204","Post_2_Reference75","Diatoms Fragilaria tenera",15479.5986622074,15479.5986622074,NA
+"205","Post_2_Reference75","Diatoms Frustulia krammeri",814.715719063546,814.715719063546,NA
+"206","Post_2_Reference75","Diatoms Gomphonema pumilum v. rigidum",65991.9732441472,65991.9732441472,NA
+"207","Post_2_Reference75","Diatoms Gomphosphenia americana",7332.44147157191,7332.44147157191,NA
+"208","Post_2_Reference75","Diatoms Karayevia suchlandtii",79842.1404682275,79842.1404682275,NA
+"209","Post_2_Reference75","Diatoms Meridion circulare",33403.3444816054,33403.3444816054,NA
+"210","Post_2_Reference75","Diatoms Navicula cryptocephala",2444.14715719064,2444.14715719064,NA
+"211","Post_2_Reference75","Diatoms Navicula cryptotenella",33403.3444816054,33403.3444816054,NA
+"212","Post_2_Reference75","Diatoms Navicula reichardtiana",3258.86287625418,3258.86287625418,NA
+"213","Post_2_Reference75","Diatoms Nitzschia inconspicua",814.715719063546,814.715719063546,NA
+"214","Post_2_Reference75","Diatoms Nitzschia linearis",814.715719063546,814.715719063546,NA
+"215","Post_2_Reference75","Diatoms Planothidium",3258.86287625418,3258.86287625418,NA
+"216","Post_2_Reference75","Diatoms Planothidium frequentissimum",2444.14715719064,2444.14715719064,NA
+"217","Post_2_Reference75","Diatoms Planothidium lanceolatum",27700.3344481605,27700.3344481605,NA
+"218","Post_2_Reference75","Diatoms Psammothidium daonense",4073.57859531773,4073.57859531773,NA
+"219","Post_2_Reference75","Diatoms Rossithidium nodosum",9776.58862876255,9776.58862876255,NA
+"220","Post_2_Reference75","Diatoms Rossithidium petersenii",14664.8829431438,14664.8829431438,NA
+"221","Post_2_Reference75","Diatoms Sellaphora atomoides",3258.86287625418,3258.86287625418,NA
+"222","Post_2_Reference75","Diatoms Sellaphora difficillima",2444.14715719064,2444.14715719064,NA
+"223","Post_2_Reference75","Diatoms Ulnaria contracta",814.715719063546,814.715719063546,NA
+"224","Post_2_Treatment15","Diatoms Adlafia langebertalotii",170.603521610945,170.603521610945,NA
+"225","Post_2_Treatment15","Diatoms Cocconeis placentula sensu lato",170.603521610945,170.603521610945,NA
+"226","Post_2_Treatment15","Diatoms Diatoma mesodon",341.207043221889,341.207043221889,NA
+"227","Post_2_Treatment15","Diatoms Eunotia",3753.27747544078,3753.27747544078,NA
+"228","Post_2_Treatment15","Diatoms Eunotia canicula",341.207043221889,341.207043221889,NA
+"229","Post_2_Treatment15","Diatoms Eunotia incisa",1364.82817288756,1364.82817288756,NA
+"230","Post_2_Treatment15","Diatoms Eunotia minor",341.207043221889,341.207043221889,NA
+"231","Post_2_Treatment15","Diatoms Eunotia perpusilla",3753.27747544078,3753.27747544078,NA
+"232","Post_2_Treatment15","Diatoms Gomphonema pumilum v. rigidum",4435.69156188456,4435.69156188456,NA
+"233","Post_2_Treatment15","Diatoms Karayevia suchlandtii",9724.40073182384,9724.40073182384,NA
+"234","Post_2_Treatment15","Diatoms Meridion circulare",511.810564832834,511.810564832834,NA
+"235","Post_2_Treatment15","Diatoms Navicula cryptotenella",1364.82817288756,1364.82817288756,NA
+"236","Post_2_Treatment15","Diatoms Nitzschia",170.603521610945,170.603521610945,NA
+"237","Post_2_Treatment15","Diatoms Planothidium lanceolatum",20301.8190717024,20301.8190717024,NA
+"238","Post_2_Treatment15","Diatoms Psammothidium daonense",1023.62112966567,1023.62112966567,NA
+"239","Post_2_Treatment15","Diatoms Rossithidium nodosum",341.207043221889,341.207043221889,NA
+"240","Post_2_Treatment15","Diatoms Rossithidium petersenii",682.414086443778,682.414086443778,NA
+"241","Post_2_Treatment15","Diatoms Sellaphora difficillima",170.603521610945,170.603521610945,NA
+"242","Post_2_Treatment45","Algae Calothrix",3812.70903010033,49565.2173913043,0
+"243","Post_2_Treatment45","Algae Leptolyngbya",3812.70903010033,285953.177257525,0
+"244","Post_2_Treatment45","Algae Sheathia",7625.41806020067,95317.7257525084,0
+"245","Post_2_Treatment45","Algae Undetermined Rhodophyte",3812.70903010033,15250.8361204013,0
+"246","Post_2_Treatment45","Diatoms Achnanthidium pyrenaicum",725.602064551967,725.602064551967,NA
+"247","Post_2_Treatment45","Diatoms Adlafia langebertalotii",5079.21445186377,5079.21445186377,NA
+"248","Post_2_Treatment45","Diatoms Cocconeis placentula sensu lato",2902.40825820787,2902.40825820787,NA
+"249","Post_2_Treatment45","Diatoms Diatoma mesodon",14512.0412910393,14512.0412910393,NA
+"250","Post_2_Treatment45","Diatoms Eunotia",14512.0412910393,14512.0412910393,NA
+"251","Post_2_Treatment45","Diatoms Eunotia perpusilla",7981.62271007163,7981.62271007163,NA
+"252","Post_2_Treatment45","Diatoms Fragilaria amphicelaphaloides",3628.01032275983,3628.01032275983,NA
+"253","Post_2_Treatment45","Diatoms Gomphonema pumilum v. rigidum",24670.4701947669,24670.4701947669,NA
+"254","Post_2_Treatment45","Diatoms Gomphosphenia americana",11609.6330328315,11609.6330328315,NA
+"255","Post_2_Treatment45","Diatoms Karayevia suchlandtii",43536.123873118,43536.123873118,NA
+"256","Post_2_Treatment45","Diatoms Meridion circulare",2176.8061936559,2176.8061936559,NA
+"257","Post_2_Treatment45","Diatoms Navicula cryptocephala",725.602064551967,725.602064551967,NA
+"258","Post_2_Treatment45","Diatoms Navicula cryptotenella",10158.4289037275,10158.4289037275,NA
+"259","Post_2_Treatment45","Diatoms Nitzschia dissipata",2176.8061936559,2176.8061936559,NA
+"260","Post_2_Treatment45","Diatoms Nitzschia linearis",725.602064551967,725.602064551967,NA
+"261","Post_2_Treatment45","Diatoms Planothidium",4353.6123873118,4353.6123873118,NA
+"262","Post_2_Treatment45","Diatoms Planothidium frequentissimum",1451.20412910393,1451.20412910393,NA
+"263","Post_2_Treatment45","Diatoms Planothidium lanceolatum",50792.1445186377,50792.1445186377,NA
+"264","Post_2_Treatment45","Diatoms Psammothidium daonense",2176.8061936559,2176.8061936559,NA
+"265","Post_2_Treatment45","Diatoms Rossithidium nodosum",725.602064551967,725.602064551967,NA
+"266","Post_2_Treatment45","Diatoms Rossithidium petersenii",1451.20412910393,1451.20412910393,NA
+"267","Post_2_Treatment45","Diatoms Ulnaria contracta",3628.01032275983,3628.01032275983,NA
+"268","Post_2_Treatment75","Algae Calothrix",10447.1004869411,130588.756086764,0
+"269","Post_2_Treatment75","Algae Draparnaldia",1227534.30721558,138711376.715361,0
+"270","Post_2_Treatment75","Algae Pseudanabaena",5223.55024347055,47011.952191235,0
+"271","Post_2_Treatment75","Diatoms Amphora pediculus",15374.0046672022,15374.0046672022,NA
+"272","Post_2_Treatment75","Diatoms Cocconeis placentula sensu lato",26904.5081676039,26904.5081676039,NA
+"273","Post_2_Treatment75","Diatoms Diatoma mesodon",80713.5245028117,80713.5245028117,NA
+"274","Post_2_Treatment75","Diatoms Eunotia",76870.0233360111,76870.0233360111,NA
+"275","Post_2_Treatment75","Diatoms Eunotia bidens",19217.5058340028,19217.5058340028,NA
+"276","Post_2_Treatment75","Diatoms Eunotia incisa",3843.50116680056,3843.50116680056,NA
+"277","Post_2_Treatment75","Diatoms Eunotia minor",3843.50116680056,3843.50116680056,NA
+"278","Post_2_Treatment75","Diatoms Eunotia perpusilla",76870.0233360111,76870.0233360111,NA
+"279","Post_2_Treatment75","Diatoms Fragilaria tenera",19217.5058340028,19217.5058340028,NA
+"280","Post_2_Treatment75","Diatoms Frustulia krammeri",7687.00233360111,7687.00233360111,NA
+"281","Post_2_Treatment75","Diatoms Gomphonema pumilum v. rigidum",184488.056006427,184488.056006427,NA
+"282","Post_2_Treatment75","Diatoms Gomphosphenia americana",19217.5058340028,19217.5058340028,NA
+"283","Post_2_Treatment75","Diatoms Humidophila perpusilla",3843.50116680056,3843.50116680056,NA
+"284","Post_2_Treatment75","Diatoms Karayevia suchlandtii",280575.585176441,280575.585176441,NA
+"285","Post_2_Treatment75","Diatoms Meridion circulare",76870.0233360111,76870.0233360111,NA
+"286","Post_2_Treatment75","Diatoms Navicula capitatoradiata",3843.50116680056,3843.50116680056,NA
+"287","Post_2_Treatment75","Diatoms Navicula cryptotenella",42278.5128348061,42278.5128348061,NA
+"288","Post_2_Treatment75","Diatoms Nitzschia dissipata",38435.0116680056,38435.0116680056,NA
+"289","Post_2_Treatment75","Diatoms Nitzschia linearis",7687.00233360111,7687.00233360111,NA
+"290","Post_2_Treatment75","Diatoms Planothidium frequentissimum",19217.5058340028,19217.5058340028,NA
+"291","Post_2_Treatment75","Diatoms Planothidium lanceolatum",472750.643516468,472750.643516468,NA
+"292","Post_2_Treatment75","Diatoms Psammothidium daonense",7687.00233360111,7687.00233360111,NA
+"293","Post_2_Treatment75","Diatoms Rossithidium nodosum",11530.5035004017,11530.5035004017,NA
+"294","Post_2_Treatment75","Diatoms Rossithidium petersenii",7687.00233360111,7687.00233360111,NA
+"295","Post_2_Treatment75","Diatoms Sellaphora atomoides",19217.5058340028,19217.5058340028,NA
+"296","Post_2_Treatment75","Diatoms Ulnaria contracta",30748.0093344044,30748.0093344044,NA
+"297","Pre_Reference15","Algae Calothrix",29944.9541284404,521541.28440367,12477.0642201835
+"298","Pre_Reference15","Algae Homoeothrix",12477.0642201835,237064.220183486,0
+"299","Pre_Reference15","Algae Leptolyngbya",2495.4128440367,94825.6880733945,0
+"300","Pre_Reference15","Algae Sheathia",144733.944954128,3089321.10091743,0
+"301","Pre_Reference15","Algae Undetermined Rhodophyte",34935.7798165138,219596.330275229,0
+"302","Pre_Reference15","Diatoms Achnanthidium minutissimum",3418.71559633028,3418.71559633028,NA
+"303","Pre_Reference15","Diatoms Adlafia langebertalotii",63816.0244648318,63816.0244648318,NA
+"304","Pre_Reference15","Diatoms Cocconeis placentula sensu lato",1139.57186544343,1139.57186544343,NA
+"305","Pre_Reference15","Diatoms Epithemia",9116.5749235474,9116.5749235474,NA
+"306","Pre_Reference15","Diatoms Epithemia smithii",3418.71559633028,3418.71559633028,NA
+"307","Pre_Reference15","Diatoms Gomphonema",5697.85932721713,5697.85932721713,NA
+"308","Pre_Reference15","Diatoms Gomphonema minusculum",2279.14373088685,2279.14373088685,NA
+"309","Pre_Reference15","Diatoms Gomphonema pumilum v. rigidum",300846.972477064,300846.972477064,NA
+"310","Pre_Reference15","Diatoms Karayevia suchlandtii",177773.211009174,177773.211009174,NA
+"311","Pre_Reference15","Diatoms Mayamaea atomus",4558.2874617737,4558.2874617737,NA
+"312","Pre_Reference15","Diatoms Meridion circulare",30768.4403669725,30768.4403669725,NA
+"313","Pre_Reference15","Diatoms Navicula reichardtiana",1139.57186544343,1139.57186544343,NA
+"314","Pre_Reference15","Diatoms Navicula tripunctata",1139.57186544343,1139.57186544343,NA
+"315","Pre_Reference15","Diatoms Planothidium lanceolatum",42164.1590214067,42164.1590214067,NA
+"316","Pre_Reference15","Diatoms Psammothidium daonense",7977.00305810398,7977.00305810398,NA
+"317","Pre_Reference15","Diatoms Rossithidium nodosum",25070.5810397554,25070.5810397554,NA
+"318","Pre_Reference15","Diatoms Sellaphora nigri",1139.57186544343,1139.57186544343,NA
+"319","Pre_Reference15","Diatoms Staurosira",2279.14373088685,2279.14373088685,NA
+"320","Pre_Reference45","Algae Calothrix",18193.9799331104,2490755.85284282,12735.7859531773
+"321","Pre_Reference45","Algae Chamaesiphon",4548.4949832776,236521.739130435,0
+"322","Pre_Reference45","Algae Homoeothrix",8187.29096989969,245618.729096991,0
+"323","Pre_Reference45","Algae Leptolyngbya",1819.39799331104,54581.9397993313,0
+"324","Pre_Reference45","Algae Nostoc",909.698996655521,272909.698996656,0
+"325","Pre_Reference45","Algae Sheathia",1819.39799331104,8187.29096989969,0
+"326","Pre_Reference45","Algae Undetermined Rhodophyte",43665.551839465,200133.779264215,0
+"327","Pre_Reference45","Diatoms Achnanthidium minutissimum",3038.32273586528,3038.32273586528,NA
+"328","Pre_Reference45","Diatoms Cocconeis pediculus",607.664547173055,607.664547173055,NA
+"329","Pre_Reference45","Diatoms Cocconeis placentula sensu lato",1822.99364151917,1822.99364151917,NA
+"330","Pre_Reference45","Diatoms Diatoma mesodon",1215.32909434611,1215.32909434611,NA
+"331","Pre_Reference45","Diatoms Eunotia bilunaris",607.664547173055,607.664547173055,NA
+"332","Pre_Reference45","Diatoms Fragilaria",607.664547173055,607.664547173055,NA
+"333","Pre_Reference45","Diatoms Gomphonema",6076.64547173056,6076.64547173056,NA
+"334","Pre_Reference45","Diatoms Gomphonema pumilum v. rigidum",103910.637566592,103910.637566592,NA
+"335","Pre_Reference45","Diatoms Gomphonema stoermeri",1215.32909434611,1215.32909434611,NA
+"336","Pre_Reference45","Diatoms Karayevia suchlandtii",27952.5691699606,27952.5691699606,NA
+"337","Pre_Reference45","Diatoms Meridion circulare",607.664547173055,607.664547173055,NA
+"338","Pre_Reference45","Diatoms Navicula cryptotenelloides",1215.32909434611,1215.32909434611,NA
+"339","Pre_Reference45","Diatoms Navicula tripunctata",607.664547173055,607.664547173055,NA
+"340","Pre_Reference45","Diatoms Planothidium lanceolatum",3645.98728303833,3645.98728303833,NA
+"341","Pre_Reference45","Diatoms Ulnaria",607.664547173055,607.664547173055,NA
+"342","Pre_Reference75","Algae Calothrix",7684.21052631578,38421.0526315789,0
+"343","Pre_Reference75","Algae Chamaesiphon",7684.21052631578,30736.8421052631,0
+"344","Pre_Reference75","Algae Sheathia",69157.894736842,729999.999999999,0
+"345","Pre_Reference75","Algae Synechococcus",2020947.36842105,40418947.368421,0
+"346","Pre_Reference75","Algae Undetermined Rhodophyte",15368.4210526316,61473.6842105263,0
+"347","Pre_Reference75","Diatoms Achnanthidium minutissimum",1485.61403508772,1485.61403508772,NA
+"348","Pre_Reference75","Diatoms Adlafia langebertalotii",10770.701754386,10770.701754386,NA
+"349","Pre_Reference75","Diatoms Cyclotella",371.403508771929,371.403508771929,NA
+"350","Pre_Reference75","Diatoms Diatoma mesodon",371.403508771929,371.403508771929,NA
+"351","Pre_Reference75","Diatoms Encyonema silesiacum",371.403508771929,371.403508771929,NA
+"352","Pre_Reference75","Diatoms Epithemia",742.807017543859,742.807017543859,NA
+"353","Pre_Reference75","Diatoms Eunotia",1114.21052631579,1114.21052631579,NA
+"354","Pre_Reference75","Diatoms Eunotia bidens",742.807017543859,742.807017543859,NA
+"355","Pre_Reference75","Diatoms Eunotia canicula",371.403508771929,371.403508771929,NA
+"356","Pre_Reference75","Diatoms Eunotia perpusilla",742.807017543859,742.807017543859,NA
+"357","Pre_Reference75","Diatoms Gomphonema",1485.61403508772,1485.61403508772,NA
+"358","Pre_Reference75","Diatoms Gomphonema duplipunctatum",371.403508771929,371.403508771929,NA
+"359","Pre_Reference75","Diatoms Gomphonema pumilum v. rigidum",132962.456140351,132962.456140351,NA
+"360","Pre_Reference75","Diatoms Gomphonema stoermeri",371.403508771929,371.403508771929,NA
+"361","Pre_Reference75","Diatoms Gomphosphenia",371.403508771929,371.403508771929,NA
+"362","Pre_Reference75","Diatoms Karayevia suchlandtii",52367.894736842,52367.894736842,NA
+"363","Pre_Reference75","Diatoms Meridion circulare",2599.82456140351,2599.82456140351,NA
+"364","Pre_Reference75","Diatoms Navicula cryptotenella",371.403508771929,371.403508771929,NA
+"365","Pre_Reference75","Diatoms Navicula cryptotenelloides",371.403508771929,371.403508771929,NA
+"366","Pre_Reference75","Diatoms Planothidium lanceolatum",5199.64912280701,5199.64912280701,NA
+"367","Pre_Reference75","Diatoms Psammothidium daonense",1485.61403508772,1485.61403508772,NA
+"368","Pre_Reference75","Diatoms Rossithidium nodosum",4456.84210526315,4456.84210526315,NA
+"369","Pre_Reference75","Diatoms Rossithidium petersenii",1857.01754385965,1857.01754385965,NA
+"370","Pre_Reference75","Diatoms Sellaphora nigri",742.807017543859,742.807017543859,NA
+"371","Pre_Reference75","Diatoms Ulnaria contracta",742.807017543859,742.807017543859,NA
+"372","Pre_Treatment15","Algae Chamaesiphon",882.943143812707,4414.71571906354,0
+"373","Pre_Treatment15","Algae Homoeothrix",3531.77257525083,70635.4515050166,0
+"374","Pre_Treatment15","Algae Sheathia",1765.88628762541,15010.033444816,0
+"375","Pre_Treatment15","Algae Undetermined Rhodophyte",88294.3143812707,731076.923076921,0
+"376","Pre_Treatment15","Diatoms Cocconeis placentula sensu lato",2538.86581645778,2538.86581645778,NA
+"377","Pre_Treatment15","Diatoms Gomphonema pumilum v. rigidum",33005.2556139512,33005.2556139512,NA
+"378","Pre_Treatment15","Diatoms Karayevia suchlandtii",60425.0064316953,60425.0064316953,NA
+"379","Pre_Treatment15","Diatoms Planothidium lanceolatum",42145.1725531992,42145.1725531992,NA
+"380","Pre_Treatment15","Diatoms Psammothidium daonense",507.773163291557,507.773163291557,NA
+"381","Pre_Treatment45","Algae Homoeothrix",40026.7558528429,780521.739130437,0
+"382","Pre_Treatment45","Algae Leptolyngbya",2729.09698996656,54581.9397993313,0
+"383","Pre_Treatment45","Algae Phormidium",909.698996655521,13645.4849498328,0
+"384","Pre_Treatment45","Algae Sheathia",6367.89297658865,32749.1638795988,0
+"385","Pre_Treatment45","Algae Undetermined Rhodophyte",59130.4347826089,400267.558528429,0
+"386","Pre_Treatment45","Diatoms Achnanthidium minutissimum",2656.32107023412,2656.32107023412,NA
+"387","Pre_Treatment45","Diatoms Adlafia langebertalotii",664.08026755853,664.08026755853,NA
+"388","Pre_Treatment45","Diatoms Cocconeis pediculus",1328.16053511706,1328.16053511706,NA
+"389","Pre_Treatment45","Diatoms Cocconeis placentula sensu lato",9629.16387959869,9629.16387959869,NA
+"390","Pre_Treatment45","Diatoms Diatoma mesodon",1992.24080267559,1992.24080267559,NA
+"391","Pre_Treatment45","Diatoms Eunotia",9297.12374581942,9297.12374581942,NA
+"392","Pre_Treatment45","Diatoms Eunotia incisa",996.120401337795,996.120401337795,NA
+"393","Pre_Treatment45","Diatoms Eunotia minor",1660.20066889633,1660.20066889633,NA
+"394","Pre_Treatment45","Diatoms Eunotia perpusilla",3652.44147157192,3652.44147157192,NA
+"395","Pre_Treatment45","Diatoms Frustulia krammeri",332.040133779265,332.040133779265,NA
+"396","Pre_Treatment45","Diatoms Gomphonema",1992.24080267559,1992.24080267559,NA
+"397","Pre_Treatment45","Diatoms Gomphonema pumilum v. rigidum",63751.7056856189,63751.7056856189,NA
+"398","Pre_Treatment45","Diatoms Gomphosphenia americana",2988.36120401339,2988.36120401339,NA
+"399","Pre_Treatment45","Diatoms Karayevia suchlandtii",27891.3712374583,27891.3712374583,NA
+"400","Pre_Treatment45","Diatoms Meridion circulare",8301.00334448163,8301.00334448163,NA
+"401","Pre_Treatment45","Diatoms Navicula cryptotenelloides",332.040133779265,332.040133779265,NA
+"402","Pre_Treatment45","Diatoms Navicula reichardtiana",332.040133779265,332.040133779265,NA
+"403","Pre_Treatment45","Diatoms Planothidium frequentissimum",996.120401337795,996.120401337795,NA
+"404","Pre_Treatment45","Diatoms Planothidium haynaldii",4316.52173913045,4316.52173913045,NA
+"405","Pre_Treatment45","Diatoms Planothidium lanceolatum",47149.6989966556,47149.6989966556,NA
+"406","Pre_Treatment45","Diatoms Psammothidium daonense",1328.16053511706,1328.16053511706,NA
+"407","Pre_Treatment45","Diatoms Rossithidium nodosum",332.040133779265,332.040133779265,NA
+"408","Pre_Treatment45","Diatoms Rossithidium petersenii",6308.76254180604,6308.76254180604,NA
+"409","Pre_Treatment45","Diatoms Sellaphora atomoides",664.08026755853,664.08026755853,NA
+"410","Pre_Treatment45","Diatoms Stauroneis kriegeri",332.040133779265,332.040133779265,NA
+"411","Pre_Treatment75","Algae Calothrix",1262.60412099956,10100.8329679965,0
+"412","Pre_Treatment75","Algae Homoeothrix",1262.60412099956,12626.0412099956,0
+"413","Pre_Treatment75","Algae Sheathia",1262.60412099956,8838.22884699693,0
+"414","Pre_Treatment75","Algae Synechococcus",161613.327487944,16161332.7487944,0
+"415","Pre_Treatment75","Algae Undetermined Rhodophyte",25252.0824199912,448224.462954844,0
+"416","Pre_Treatment75","Diatoms Achnanthidium minutissimum",782.814555019728,782.814555019728,NA
+"417","Pre_Treatment75","Diatoms Cocconeis placentula sensu lato",391.407277509864,391.407277509864,NA
+"418","Pre_Treatment75","Diatoms Diatoma mesodon",391.407277509864,391.407277509864,NA
+"419","Pre_Treatment75","Diatoms Eunotia",1565.62911003946,1565.62911003946,NA
+"420","Pre_Treatment75","Diatoms Eunotia minor",391.407277509864,391.407277509864,NA
+"421","Pre_Treatment75","Diatoms Eunotia perpusilla",1565.62911003946,1565.62911003946,NA
+"422","Pre_Treatment75","Diatoms Fragilaria",391.407277509864,391.407277509864,NA
+"423","Pre_Treatment75","Diatoms Gomphonema exilissimum",391.407277509864,391.407277509864,NA
+"424","Pre_Treatment75","Diatoms Gomphonema pumilum v. rigidum",128381.587023235,128381.587023235,NA
+"425","Pre_Treatment75","Diatoms Karayevia suchlandtii",13699.2547128452,13699.2547128452,NA
+"426","Pre_Treatment75","Diatoms Meridion circulare",4305.4800526085,4305.4800526085,NA
+"427","Pre_Treatment75","Diatoms Navicula cryptotenella",391.407277509864,391.407277509864,NA
+"428","Pre_Treatment75","Diatoms Planothidium haynaldii",391.407277509864,391.407277509864,NA
+"429","Pre_Treatment75","Diatoms Planothidium lanceolatum",81021.3064445419,81021.3064445419,NA
+"430","Pre_Treatment75","Diatoms Psammothidium daonense",782.814555019728,782.814555019728,NA

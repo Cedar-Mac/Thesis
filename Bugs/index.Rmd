@@ -472,6 +472,22 @@ bugndiet <- merge(Diets.reach, bugs.family, all.x = TRUE, all.y = TRUE) %>%
 ```
 
 
+```{r Terrestrial Vs. Aquatic, echo =TRUE}
+Diets.reach %>%
+  group_by(Stream, Treatment, Origin) %>%
+  summarise_at(vars(Count), funs(sum)) %>% 
+
+  
+ggplot(aes(x = Origin, y = Count, fill = Treatment)) +
+  geom_col() +
+  labs(title = "Total Aquatics and Terrestricals by Reach") +
+    theme(legend.position = c(.8, .8), legend.key.width = unit(5, "cm")) +
+    scale_color_viridis_d(option = "E")
+
+
+```
+
+
 ### By Family
 ***
 
@@ -482,7 +498,7 @@ bugndiet %>%
   group_by(Stream, Treatment, Family) %>% 
   summarise_if(is.numeric, funs(sum)) %>% 
   mutate(frac.diet = Count / sum(Count)) %>%
-  mutate(frac.benthic = Density / sum(Density)) %>%
+  mutate(frac.benthic = Density / sum(Density)) %>% ungroup() %>%
   
   ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
     geom_point() +
