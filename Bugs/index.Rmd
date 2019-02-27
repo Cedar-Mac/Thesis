@@ -38,7 +38,7 @@ Working with 2017-18 benthic invertebrate and fish diet data to calculate and pl
 
 ```{r Load packages, include = FALSE}
 # load required packages
-x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis", "DT")
+x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis", "DT", "ggrepel")
 lapply(x, library, character.only = TRUE)
 ```
 
@@ -51,6 +51,7 @@ sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
 Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
 Bentho <- read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
 Both_years<- read_excel("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
+FL <- read_excel("~/Google Drive/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx", sheet = "Compiled")
 
 #Replace Ssp. in Taxon with Family
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
@@ -59,70 +60,17 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 
 ```{r ggplot theme, echo = TRUE}
 #Setup ggplot theme
-my_theme <- theme_bw(base_size = 18, base_family = "Microsoft Sans Serif") +
+my_theme <- theme_bw(base_size = 28, base_family = "Microsoft Sans Serif") +
           theme(plot.title = element_text(hjust = 0.5),
                 plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
                 legend.title = element_text(colour = "black", size = 18, face = "bold"),
                 legend.text = element_text(colour = "black", size = 12))
                 
-                
 theme_set(my_theme)
 ```
 
 
-### Chlorophyll *a*
-***
-
-```{r Bentho torch 2018, fig.height = 10, fig.width = 12, echo = TRUE}
-# Change variables to factors.  Re-order with CHUCK at the end
-Bentho$Stream <- factor(Bentho$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
-Bentho$Treatment <- as.factor(Bentho$Treatment)
-Bentho$Meter <- as.factor(Bentho$Meter)
-Bentho$BenthoTotal <- as.numeric(Bentho$BenthoTotal)
-
-# Drop W-122
-Bentho <- Bentho %>% filter(Stream != "W-122")
-
-# Calculate mean of the three tiles for each meter
-bentho.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Meter, mean, data = Bentho)
-
-ggplot(data = bentho.mean) +
-  geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, group = Treatment), size = 3) +
-  ylab("Chlorophyll a (ug/cm^2)")+ scale_x_discrete(breaks = seq(0, 90, by = 15)) +
-  scale_color_viridis_d(option = "E") +
-  facet_wrap("Stream")
-```
-
-
-```{r Bentho torch Both Years, fig.height = 8, fig.width = 12, echo = TRUE}
-# Change variables to factors.  Re-order with CHUCK at the end
-Both_years$Stream <- factor(Both_years$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
-Both_years$Year <- factor(Both_years$Year, levels = c("2018", "2017"))
-Both_years$Year.Treatment <- as.factor(Both_years$Year.Treatment)
-Both_years$Treatment <- as.factor(Both_years$Treatment)
-Both_years$Meter <- as.factor(Both_years$Meter)
-Both_years$BenthoTotal <- as.numeric(Both_years$BenthoTotal)
-
-# Drop W-122.
-Both_years <- Both_years %>% filter(Stream != "W-122")
-
-# Calculate mean of the three tiles for each meter
-bentho_both.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Meter + Year, mean, data = Both_years)
-bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Year, mean, data = Both_years)
-write_csv(bentho.reach, "./Data/bentho.reach.csv")
-
-ggplot(data = bentho_both.mean) +
-  geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
-  linetype = Year, group = Year.Treatment), size = 3) +
-  ylab("Chlorophyll a (ug/cm^2)") + 
-  scale_x_discrete(breaks = seq(0, 90, by = 15)) +
-  scale_color_viridis_d(option = "E") +
-  facet_wrap("Stream") +
-  theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"))
-```
-
-
-### Setup
+### Benthic Setup
 ***
 
 In order to calculate density we must take into account that our count values are from a subsample of three pooled samples.
@@ -176,10 +124,93 @@ datatable(bugs.agg, rownames = FALSE, class = "hover", filter = "top", options =
                                           mark = ",", dec.mark = getOption("OutDec"))
 ```
 
+### PAR 
+***
+
+```{r PAR Post-treatment, fig.height = 10, fig.width = 12, echo = TRUE}
+FL$Stream<- as.factor(FL$Stream)
+FL$Reach<-as.factor(FL$Reach)
+FL$Meter<-as.factor(FL$Meter)
+FL$PAR<- as.numeric(FL$PAR)
+
+PAR.mean <- aggregate(PAR ~ Stream + Reach + Meter, mean, data = FL)
+
+PAR.mean %>% filter(Stream != "W-122") %>%
+  
+  ggplot(aes(x = Meter, y = PAR, color = Reach, group = Reach)) +
+    geom_line(size = 3) +
+    ylab("PAR (mol/m^2 day)")+ scale_x_discrete(breaks = seq(0, 90, by = 15)) +
+    labs(title = "Post Treatment",
+         y = "PAR (mol/m^2 day)",
+         x = "Meter",
+         color = "Reach") + 
+    ylim(0,18) +
+    facet_wrap("Stream") +
+    scale_color_viridis_d(option = "E") +
+    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+          aspect.ratio = 1)
+```
+
+
+### Chlorophyll *a*
+***
+
+```{r Chla Post, eval=FALSE, fig.height=10, fig.width=12, include=FALSE}
+# Change variables to factors.  Re-order with CHUCK at the end
+Bentho$Stream <- factor(Bentho$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
+Bentho$Treatment <- as.factor(Bentho$Treatment)
+Bentho$Meter <- as.factor(Bentho$Meter)
+Bentho$BenthoTotal <- as.numeric(Bentho$BenthoTotal)
+
+# Drop W-122
+Bentho <- Bentho %>% filter(Stream != "W-122")
+
+# Calculate mean of the three tiles for each meter
+bentho.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Meter, mean, data = Bentho)
+
+ggplot(data = bentho.mean) +
+  geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, group = Treatment), size = 3) +
+  ylab("Chlorophyll a (ug/cm^2)")+ scale_x_discrete(breaks = seq(0, 90, by = 15)) +
+  scale_color_viridis_d(option = "E") +
+  facet_wrap("Stream")
+```
+
+
+```{r Chla Both Years, fig.height = 8, fig.width = 12, echo = TRUE}
+# Change variables to factors.  Re-order with CHUCK at the end
+Both_years$Stream <- factor(Both_years$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
+Both_years$Year <- factor(Both_years$Year, levels = c("2018", "2017"))
+Both_years$Year.Treatment <- as.factor(Both_years$Year.Treatment)
+Both_years$Treatment <- as.factor(Both_years$Treatment)
+Both_years$Meter <- as.factor(Both_years$Meter)
+Both_years$BenthoTotal <- as.numeric(Both_years$BenthoTotal)
+
+# Drop W-122.
+Both_years <- Both_years %>% filter(Stream != "W-122")
+
+# Calculate mean of the three tiles for each meter
+bentho_both.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Meter + Year, mean, data = Both_years)
+bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Year, mean, data = Both_years)
+write_csv(bentho.reach, "./Data/bentho.reach.csv")
+
+ggplot(data = bentho_both.mean) +
+  geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
+  linetype = Year, group = Year.Treatment), size = 3) +
+  labs(title = "Chlorophyll a by Meter Pre and Post Treatment", 
+       y = "Chlorophyll a (ug/cm^2)",
+       x = "Meter",
+       color = "Reach") + 
+  scale_x_discrete(breaks = seq(0, 90, by = 15)) +
+  scale_color_viridis_d(option = "E") +
+  facet_wrap("Stream") +
+  theme(legend.position = c(.86, .2), legend.key.width = unit(5, "cm"),
+        aspect.ratio = 1)
+```
+
 
 ### Taxa
 ***
-```{r Plot Taxon Density Diffs, echo = TRUE, fig.height = 25, fig.width = 25}
+```{r Taxon Density Diffs, echo = TRUE, fig.height = 25, fig.width = 25}
 # Plot density differences
 ggplot(data = bugs.reach.diff, aes(x = Taxon, y = Diff, fill = Treatment)) + 
   geom_col(position = "dodge") +
@@ -212,12 +243,17 @@ ffg.SC <- rbind(bugs.ffg, ffg.SC)
 ```
 
 
-```{r Plot FFG Density Differences, fig.height = 10, fig.width = 12, echo = TRUE}
-ggplot(data = ffg.SC, aes(x = FFG, y = Diff, color = Treatment, shape = Stream)) + 
-  geom_jitter(width = .2, height = .2, size = 4) +
-  labs(title = "FFG Differences Between Years (Treatment and Control Reaches)", 
-       caption = "CF = Collector Filterer, CG = Collector Gatherer,  SC = Scrapers (a composite of SCe and SCi), \n         SCe = Scrapers that are edible, SCi = Scrapers that are inedible, P = Predators") +
-  scale_color_viridis_d(option = "E") +
+```{r FFG Density Differences By Treatment, fig.height = 10, fig.width = 12, echo = TRUE}
+ffg.SC %>% group_by(Treatment, FFG) %>%
+  summarise_if(is.numeric, funs(sum)) %>%
+  
+ggplot(aes(x = FFG, y = Diff, fill = Treatment)) + 
+  geom_col(position = "dodge") +
+  labs(title = "FFG Differences Between Years", 
+       x = "Difference in Density (2018 - 2017)",
+       y = "Functional Feeding Group (FFG)") +
+  scale_fill_viridis_d(option = "E") +
+  theme(legend.position = c(.84, .8), legend.key.size = unit(2, "cm")) +
   coord_flip()
 ```
 
@@ -227,7 +263,7 @@ Here we plot density differences of FFG's.
 Notice the only group with consistently elevated differences in the post gap year (2018) is Scrapers.
 
 
-```{r Plot 2018 FFG Densities, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r FFG Densities 2018, fig.height = 10, fig.width = 12, echo = TRUE}
 bugs18 %>%
   group_by(Stream, Treatment, FFG) %>%
   summarise_at(vars(Density), funs(sum)) %>% 
@@ -254,8 +290,8 @@ When comparing between the reaches we see elevated abundances of both scraper gr
 ```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo = TRUE}
 bugs.reach.diff %>% filter(FFG == "SCe" | FFG == "SCi") %>% 
   ggplot(aes(x = Taxon, y = Diff, color = Treatment, shape = Stream)) + 
-    geom_jitter(width = .2, height = .2, size = 4) +
-    ggtitle("Diff. Between Reaches of Scraper Taxa (2017 & 2018") +
+    geom_jitter(width = .2, height = .2, size = 8) +
+    ggtitle("Diff. Between Reaches of Scraper Taxa (2018-2017)") +
     scale_color_viridis_d(option = "E") +
     coord_flip()
 ```
@@ -273,7 +309,7 @@ Here we see that the Scraper taxa with the greatest change are:
 - Heptageniidae taxa
 
 
-```{r Plot 2018 Scraper Taxa, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r Scraper Taxa 2018, fig.height = 10, fig.width = 12, echo = TRUE}
 bugs18 %>% filter(FFG == "SCe" | FFG == "SCi") %>%
   ggplot(aes(x = Taxon, y = Density, color = Treatment, shape = Stream)) +
     geom_jitter(width = .2, height = .2, size = 4) +
@@ -283,7 +319,7 @@ bugs18 %>% filter(FFG == "SCe" | FFG == "SCi") %>%
 ```
 
 
-```{r Plot Size Differences, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r Size Differences, fig.height = 10, fig.width = 12, echo = TRUE}
 bugs.reach.diff %>% 
   group_by(Size, Stream, Treatment) %>%
   summarise_at(vars(Diff), funs(sum)) %>%
@@ -312,7 +348,7 @@ bugs.mds <- bugs.agg %>%
 ```
 
 
-```{r Make Grouping and Taxon Matrix, echo = TRUE}
+```{r NMS Grouping and Taxon Matrix, echo = TRUE}
 # Get grouping variables and taxon matrix
 Enviro <- bugs.mds %>%
   select(Stream, Treatment, CollDate, YearTreat) 
@@ -324,15 +360,13 @@ grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat)
 ```
 
 
-```{r NMS sol, echo = TRUE}
+```{r NMS sol, echo = FALSE}
 #Get MDS for invert density
-sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100, autotransform = FALSE)
 ```
 
-This is a pretty good stress value, who knows how that will change when I start doing this right...
-Can see the transfrmations applied at the top of the output, this was done automatically, I wouldn't know what to do. Used the Bray-Curtis distance metric, max tries is set to 100 with dimensions equal to 2.
 
-```{r NMDS, echo = TRUE}
+```{r NMS, echo = TRUE}
 #set up NMDS with dimensions of sol and env factors from "Enviro". 
 NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], 
                    Stream = select(grouping, Stream), 
@@ -341,23 +375,36 @@ NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2],
                    YearTreat = select(grouping, YearTreat))
 ```
 
+```{r NMS Hull, echo = TRUE}
+Reach17N <- NMDS[NMDS$YearTreat == "2017.N", ][chull(NMDS[NMDS$YearTreat == 
+    "2017.N", c("x", "y")]), ] 
 
-```{r Mean NMS, echo = TRUE}
+Reach17Y <- NMDS[NMDS$YearTreat == "2017.Y", ][chull(NMDS[NMDS$YearTreat == 
+    "2017.Y", c("x", "y")]), ] 
+
+Reach18N <- NMDS[NMDS$YearTreat == "2018.N", ][chull(NMDS[NMDS$YearTreat == 
+    "2018.N", c("x", "y")]), ] 
+
+Reach18Y <- NMDS[NMDS$YearTreat == "2018.Y", ][chull(NMDS[NMDS$YearTreat == 
+    "2018.Y", c("x", "y")]), ] 
+
+hull.data <- rbind(Reach17N, Reach17Y, Reach18Y, Reach18N) 
+```
+
+
+```{r Mean NMS, eval=FALSE, include=FALSE}
 #Get mean x,y values 
 NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
 ```
 
-
-```{r ELlipse, echo = TRUE}
+```{r ELlipse, eval=FALSE, include=FALSE}
 #Load ellipse for NMDS
 plot.new()
 ord <- ordiellipse(sol, NMDS$YearTreat, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
 dev.off()
 ```
 
-The "display" argument can be set to "site" or "species" depending on what you want to group. "kind" can be standard deviation or standard error, not sure which to use here.
-
-```{r Fit Ellipse, echo=TRUE}
+```{r Fit Ellipse, eval=FALSE, include=FALSE}
 # Fit the ellipse function to actual data
 df_ell <- data.frame()
 for(g in NMDS$YearTreat){
@@ -367,16 +414,23 @@ for(g in NMDS$YearTreat){
 }
 ```
 
-not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
-but I do know that changing the column selected from NMDS changes which variable is used for grouping.
 
-```{r Plot Benthic NMS, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r NMS Benthic, fig.height = 10, fig.width = 12, echo = TRUE}
 ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
-  geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2)) +
-  annotate("text", x = (NMDS$x), y = (NMDS$y) + .04, label = NMDS$Stream, size = 2) +
-  geom_point(aes(shape = Stream)) +
-  ggtitle("NMDS of Benthic Invertebrate Community") +
-  scale_color_viridis_d()
+  annotate("text", x = (NMDS$x), y = (NMDS$y) + .02, label = NMDS$Stream, size = 8) +
+  geom_polygon(hull.data, mapping = aes(x = x, y = y, fill = YearTreat, group = YearTreat), alpha = 0) +
+  geom_point(aes(x = x, y = y, shape = Stream), size = 5) +
+  labs(title = "NMS of Benthic Invertebrate Community",
+       x = "Axis 1",
+       y = "Axis 2") +
+  scale_color_viridis_d() +
+  theme(axis.text.x = element_blank(),  # remove x-axis text
+        axis.text.y = element_blank(), # remove y-axis text
+        axis.ticks = element_blank(),  # remove axis ticks
+        panel.background = element_blank(), 
+        panel.grid.major = element_blank(),  #remove major-grid labels
+        panel.grid.minor = element_blank(),  #remove minor-grid labels
+        plot.background = element_blank())
 ```
 
 Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
@@ -385,60 +439,37 @@ Actually maybe cool result, all of the treatment reaches now plot closer post-ga
 ### Summary Info 
 ***
 
-```{r Total Densities, fig.height=10, fig.width=12, echo = TRUE}
+```{r Density By Stream, fig.height=10, fig.width=12, echo = TRUE}
 bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
 group_by(Stream, CollDate.Treatment) %>%
   summarise_at(vars(Density), funs(sum)) %>%
+  
   ggplot(aes(x = Stream, y = Density, fill = CollDate.Treatment)) + 
   geom_col(position = "dodge") +
   ggtitle("Total Inverebrate Density (m^2)") +
   scale_fill_viridis_d(option = "E") 
-
-  #datatable(rownames = FALSE, class = "hover", filter = "top", 
-            #options = list(pageLength = 10, scrollX=T), ) %>% 
-            #formatRound("Density", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
 ```
 
-```{r Density Diffs, fig.height=10, fig.width=12, echo = TRUE}
+```{r Density Diff By Stream, fig.height=10, fig.width=12, echo = TRUE}
 group_by(bugs.reach.diff, Stream, Treatment) %>%
   summarise_at(vars(Diff), funs(sum)) %>% 
   arrange(Treatment) %>% 
+  
   ggplot(aes(x = Stream, y = Diff, fill = Treatment)) + 
   geom_col(position = "dodge") +
-  ggtitle("Differences in Density (T-C)") +
-  scale_fill_viridis_d(option = "E") 
-  
-  #datatable(rownames = FALSE, class = "hover", filter = "top", 
-            #options = list(pageLength = 10, scrollX=T), ) %>% 
-            #formatRound("Diff", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
+  labs(title = "Differences in Density (2018-2017)",
+       x = "Stream",
+       y = "Difference in Density (2018-2017)") +
+  scale_fill_viridis_d(option = "E") +
+  theme(legend.position = c(.1, .85), legend.key.size = unit(2, "cm"))
 ```
-
-```{r FFG Densities, fig.height=10, fig.width=12, echo = TRUE}
-
-bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
-  group_by(Stream, CollDate.Treatment, FFG) %>%
-  summarise_at(vars(Density), funs(sum)) %>% write_csv("./Data/FFG.Densities.csv")
-  
-  
-  #ggplot(aes(x = FFG, y = Density, fill = CollDate.Treatment)) + 
-  #geom_col(position = "dodge") +
-  #facet_wrap("Stream") +
-  #ggtitle("Differences in Density By FFG (T-C)") +
-  #theme_bw() +
-     #theme(plot.title = element_text(size = 40, face = "bold")) +
-  #scale_fill_viridis_d(option = "E") 
-  
-  #arrange(CollDate) %>% write_csv("./Data/ffg.diffs.csv")
-  
-  #datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, #scrollX=T), ) %>% formatRound("Diff", digits = 2, interval = 3, 
-                                         #mark = ",", dec.mark = getOption("OutDec"))
-```
-
 
 
 ## Diets {.tabset .tabset-fade .tabset-pills}
 ***
-<br>
+
+### Diet Setup
+***
 
 ```{r Clean Up Diet Data, echo = TRUE}
 # Fill missing family's with order
@@ -472,7 +503,7 @@ bugndiet <- merge(Diets.reach, bugs.family, all.x = TRUE, all.y = TRUE) %>%
 ```
 
 
-```{r Terrestrial Vs. Aquatic, fig.height=8, fig.width=12, echo = TRUE}
+```{r Aquatic & Terrestrial, fig.height=8, fig.width=12, echo = TRUE}
 Diets.reach$Stream.Treat <- interaction(Diets.reach$Treatment, Diets.reach$Stream)
 
 Diets.reach %>%
@@ -480,35 +511,47 @@ Diets.reach %>%
   summarise_at(vars(Count), funs(sum)) %>% ungroup() %>%
 
 ggplot(aes(x = Stream.Treat, y = Count, fill = Origin)) +
-  geom_col() +
-  labs(title = "Total Aquatics and Terrestricals by Reach") +
-    theme(legend.position = c(.84, .8), legend.key.width = unit(5, "cm")) +
+  geom_col(position = "stack") +
+  labs(title = "Mean Aquatics and Terrestricals in Diets by Reach",
+       y = "Mean # in Diet",
+       x = "Stream and Reach") +
+    theme(legend.position = c(.2, .85), 
+          legend.key.width = unit(5, "cm"),
+          axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
     scale_fill_viridis_d(option = "E", end = .8)
-?scale_fill_viridis_d
 ```
 
 
 ### By Family
 ***
 
-```{r Plot Taxa Proportions, echo = TRUE, fig.height = 12, fig.width = 12}
+```{r Taxa 1:1, echo = TRUE, fig.height = 12, fig.width = 12}
 # Plot proportion of a taxon in the benthic community versus proporion of a taxon in the diet community
-
-bugndiet %>% 
-  group_by(Stream, Treatment, Family) %>% 
-  summarise_if(is.numeric, funs(sum)) %>% 
-  mutate(frac.diet = Count / sum(Count)) %>%
-  mutate(frac.benthic = Density / sum(Density)) %>% ungroup() %>%
+bugndiet$StreamTreat <- interaction(bugndiet$Stream, bugndiet$Treatment)
   
+bugndiet.fam <- bugndiet %>% 
+  transform(frac.diet = Count / ave(Count, StreamTreat, FUN = sum)) %>%
+  transform(frac.benthic = Density / ave(Density, StreamTreat, FUN = sum)) 
+
+ix_label <- c("Brachycentridae", "Chironomidae", "Juga", "Baetidae", "Micrasema", "Ephemerellidae")
+
+bugndiet.fam <- bugndiet.fam %>% mutate(Family = replace(Family != ix_label, values = ""))
+
   ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
-    geom_point() +
+    geom_point(size = 8) +
     geom_abline(slope = 1, intercept = 0) +
     coord_cartesian(ylim = c(0, .8), xlim = c(0, .8)) +
-    geom_text(aes(x = frac.benthic, y = frac.diet, label = Family), size = 3, nudge_y = .02) +
-    ggtitle("1-1 Prop. of Taxa in Benthic Comm. Vs. Prop. in Diets") +
+    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = Family), size = 12, force = ) +
+    labs(title = "Prop. of Taxa in Benthic Comm. Vs. Prop. in Diets",
+         x = "Fraction of Benthic",
+         y = "Fraction of Diet") +
     facet_wrap("Stream") +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"))
+    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+          aspect.ratio = 1)
+
+c("Brachycentridae", "Chironomidae", "Juga", "Baetidae", "Micrasema", "Ephemerellidae")
+
 ```
 
 Plot of proportional abundance of an individual taxon in the benthic community versus the proportional abundance of the aggregate diets for that reach. 
@@ -520,24 +563,26 @@ There are no overarching differences in how a taxa maps out given the treatment,
 ### By FFG
 ***
 
-```{r Plot FFG Proportions, echo = TRUE, fig.height = 12, fig.width = 12}
+```{r FFG 1:1, echo = TRUE, fig.height = 12, fig.width = 12}
 # Plot proportion of a FFG in the benthic community versus proporion of a FFG in the diet community
 bugndiet %>% 
-  group_by(Stream, Treatment, FFG) %>% 
+  group_by(StreamTreat, Stream, Treatment, FFG) %>% 
   summarise_if(is.numeric, funs(sum)) %>% 
-  mutate(frac.diet = Count / sum(Count)) %>%
-  mutate(frac.benthic = Density / sum(Density)) %>%
-  mutate_if(is.character, replace_na, replace = "T") %>%
+  transform(frac.diet = Count / ave(Count, StreamTreat, FUN = sum)) %>%
+  transform(frac.benthic = Density / ave(Density, StreamTreat, FUN = sum)) %>% ungroup() %>%
 
   ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
-    geom_point() +
+    geom_point(size = 8) +
     geom_abline(slope = 1, intercept = 0) +
     coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
-    geom_text(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 4, nudge_y = .02) +
+    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 4, nudge_y = .02) +
     facet_wrap("Stream") +
-    ggtitle("1-1 Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets") +
+    labs(title = "Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets", 
+         x = "Fraction of Benthic",
+         y = "Fraction of Diet") +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"))
+    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+          aspect.ratio = 1)
 ```
 
 Plot of proportional abundance of an individual FFG in the benthic community versus the proportional abundance of the aggregate diets for that reach.
@@ -548,7 +593,7 @@ We see that Collector Gatherers and Shredders are the most abundant both in diet
 ### By Size Class
 ***
 
-```{r Plot Size Proportions, echo = TRUE, fig.height = 12, fig.width = 12}
+```{r Size 1:1, echo = TRUE, fig.height = 12, fig.width = 12}
 # Plot proportion of a size class in the benthic community versus proporion of a FFG in the diet community
 bugndiet %>% 
   group_by(Stream, Treatment, Size) %>% 
@@ -591,7 +636,7 @@ Diets.fish <- Diets.fish %>%
 ```
 
 
-```{r Plot Costello, echo = TRUE, fig.height = 12, fig.width = 12}
+```{r Costello, echo = TRUE, fig.height = 12, fig.width = 12}
 
 ggplot(data = Diets.fish) +
   geom_point(mapping = aes(x = frac.fish, y = frac.diet, color = Treatment)) +
@@ -624,7 +669,7 @@ bugs.mds <- Diets.reach %>%
 ```
 
 
-```{r Make Diet Grouping and Taxon Matrix, echo = TRUE}
+```{r Diet MDS Grouping and Taxon Matrix, echo = TRUE}
 # Get grouping variables and taxon matrix
 Enviro <- bugs.mds %>%
   select(Stream, Treatment) 
@@ -636,7 +681,7 @@ grouping <- select(Enviro, Stream, Treatment)
 ```
 
 
-```{r Diet NMS sol, echo = TRUE}
+```{r Diet NMS sol, echo = FALSE}
 #Get MDS for invert density
 sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
 ```
@@ -650,22 +695,21 @@ NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2],
 ```
 
 
-```{r Diet Mean NMS, echo = TRUE}
+```{r Diet Mean NMS, eval=FALSE, include=FALSE}
 #Get mean x,y values 
 NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
 ```
 
 
-```{r Diet ELlipse, echo = TRUE}
+```{r Diet ELlipse, eval=FALSE, include=FALSE}
 #Load ellipse for NMDS
 plot.new()
 ord <- ordiellipse(sol, NMDS$Treatment, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
 dev.off()
 ```
 
-The "display" argument can be set to "site" or "species" depending on what you want to group. "kind" can be standard deviation or standard error, not sure which to use here.
 
-```{r Diet Fit Ellipse, echo = TRUE}
+```{r Diet Fit Ellipse, eval=FALSE, include=FALSE}
 # Fit the ellipse function to actual data
 df_ell <- data.frame()
 for(g in NMDS$Treatment){
@@ -675,49 +719,36 @@ for(g in NMDS$Treatment){
 }
 ```
 
-not going to pretend like I know how this works, got it from https://stackoverflow.com/questions/13794419/plotting-ordiellipse-function-from-vegan-package-onto-nmds-plot-created-in-ggplo 
-but I do know that changing the column selected from NMDS changes which variable is used for grouping.
+```{r}
+Reach18N <- NMDS[NMDS$Treatment == "2018.N", ][chull(NMDS[NMDS$Treatment == 
+    "2018.N", c("x", "y")]), ] 
 
-```{r NMDS Plot6, fig.height = 10, fig.width = 12, echo = TRUE}
+Reach18Y <- NMDS[NMDS$Treatment == "2018.Y", ][chull(NMDS[NMDS$Treatment == 
+    "2018.Y", c("x", "y")]), ] 
+
+hull.data <- rbind(Reach18Y, Reach18N) 
+```
+
+
+```{r NMS Diet, fig.height = 10, fig.width = 12, echo = TRUE}
 ggplot(data = NMDS, aes(x, y, color = Treatment)) +
-  geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2)) +
+  geom_polygon(hull.data, mapping = aes(x = x, y = y, fill = Treatment, group = Treatment), alpha = 0) +
   annotate("text", x = (NMDS$x), y = (NMDS$y) + .04, label = NMDS$Stream, size = 3) +
   geom_point(aes(shape = Stream)) +
-  ggtitle("NMDS of Community in Fish Diets") +
+  ggtitle("MDS of Community in Fish Diets") +
   scale_color_viridis_d() +
-  theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"))
+  theme(axis.text.x = element_blank(),  # remove x-axis text
+        axis.text.y = element_blank(), # remove y-axis text
+        axis.ticks = element_blank(),  # remove axis ticks
+        panel.background = element_blank(), 
+        panel.grid.major = element_blank(),  #remove major-grid labels
+        panel.grid.minor = element_blank(),  #remove minor-grid labels
+        plot.background = element_blank())
+
+  #theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"))
 ```
 
 There seems to be total overlap of the diet communities in the control versus treatment reaches.  This seems to be consistent with what we saw in other plots.
-
-
-### Summary Info. 
-***
-
-```{r}
-group_by(bugs.agg, Stream, Treatment, CollDate) %>%
-  summarise_at(vars(Density), funs(sum)) %>% 
-  arrange(CollDate, Treatment) %>% 
-  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T)) %>% formatRound("Density", digits = 2, interval = 3, 
-                                          mark = ",", dec.mark = getOption("OutDec"))
-```
-
-```{r}
-group_by(bugs.reach.diff, Stream, Treatment) %>%
-  summarise_at(vars(Diff), funs(sum)) %>% 
-  arrange(Treatment) %>% 
-  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T)) %>% formatRound("Diff", digits = 2, interval = 3, 
-                                          mark = ",", dec.mark = getOption("OutDec"))
-```
-
-```{r}
-group_by(bugs.reach.diff, Stream, Treatment, FFG) %>%
-  summarise_at(vars(Diff), funs(sum)) %>% 
-  arrange(Treatment) %>% 
-  datatable(rownames = FALSE, class = "hover", filter = "top", options = list(pageLength = 10, scrollX=T)) %>% formatRound("Diff", digits = 2, interval = 3, 
-                                          mark = ",", dec.mark = getOption("OutDec"))
-```
-
 
 
 ##
