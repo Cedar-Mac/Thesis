@@ -76,15 +76,15 @@ theme_set(my_theme)
 ```{r Bentho torch 2018, fig.height = 10, fig.width = 12, echo = TRUE}
 # Change variables to factors.  Re-order with CHUCK at the end
 Bentho$Stream <- factor(Bentho$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
-Bentho$Treatment<-as.factor(Bentho$Treatment)
-Bentho$Meter<-as.factor(Bentho$Meter)
-Bentho$BenthoTotal<- as.numeric(Bentho$BenthoTotal)
+Bentho$Treatment <- as.factor(Bentho$Treatment)
+Bentho$Meter <- as.factor(Bentho$Meter)
+Bentho$BenthoTotal <- as.numeric(Bentho$BenthoTotal)
 
 # Drop W-122
 Bentho <- Bentho %>% filter(Stream != "W-122")
 
 # Calculate mean of the three tiles for each meter
-bentho.mean <- aggregate(BenthoTotal ~ Stream + Treatment Year.treat+ Meter, mean, data = Bentho)
+bentho.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Meter, mean, data = Bentho)
 
 ggplot(data = bentho.mean) +
   geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, group = Treatment), size = 3) +
@@ -94,7 +94,7 @@ ggplot(data = bentho.mean) +
 ```
 
 
-```{r Bentho torch Both Years, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r Bentho torch Both Years, fig.height = 8, fig.width = 12, echo = TRUE}
 # Change variables to factors.  Re-order with CHUCK at the end
 Both_years$Stream <- factor(Both_years$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
 Both_years$Year <- factor(Both_years$Year, levels = c("2018", "2017"))
@@ -251,7 +251,7 @@ When comparing between the reaches we see elevated abundances of both scraper gr
 - TBD. (see other.md file in the Diets project)
 
 
-```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo=FALSE}
+```{r Scraper Taxa Density Differences, fig.height=10, fig.width=12, echo = TRUE}
 bugs.reach.diff %>% filter(FFG == "SCe" | FFG == "SCi") %>% 
   ggplot(aes(x = Taxon, y = Diff, color = Treatment, shape = Stream)) + 
     geom_jitter(width = .2, height = .2, size = 4) +
@@ -385,7 +385,7 @@ Actually maybe cool result, all of the treatment reaches now plot closer post-ga
 ### Summary Info 
 ***
 
-```{r Total Densities, fig.height=10, fig.width=12, echo=FALSE}
+```{r Total Densities, fig.height=10, fig.width=12, echo = TRUE}
 bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
 group_by(Stream, CollDate.Treatment) %>%
   summarise_at(vars(Density), funs(sum)) %>%
@@ -399,7 +399,7 @@ group_by(Stream, CollDate.Treatment) %>%
             #formatRound("Density", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
 ```
 
-```{r Density Diffs, fig.height=10, fig.width=12, echo=FALSE}
+```{r Density Diffs, fig.height=10, fig.width=12, echo = TRUE}
 group_by(bugs.reach.diff, Stream, Treatment) %>%
   summarise_at(vars(Diff), funs(sum)) %>% 
   arrange(Treatment) %>% 
@@ -413,7 +413,7 @@ group_by(bugs.reach.diff, Stream, Treatment) %>%
             #formatRound("Diff", digits = 2, interval = 3, mark = ",", dec.mark = getOption("OutDec"))
 ```
 
-```{r FFG Densities, fig.height=10, fig.width=12, echo=FALSE}
+```{r FFG Densities, fig.height=10, fig.width=12, echo = TRUE}
 
 bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
   group_by(Stream, CollDate.Treatment, FFG) %>%
@@ -472,19 +472,19 @@ bugndiet <- merge(Diets.reach, bugs.family, all.x = TRUE, all.y = TRUE) %>%
 ```
 
 
-```{r Terrestrial Vs. Aquatic, echo =TRUE}
-Diets.reach %>%
-  group_by(Stream, Treatment, Origin) %>%
-  summarise_at(vars(Count), funs(sum)) %>% 
+```{r Terrestrial Vs. Aquatic, fig.height=8, fig.width=12, echo = TRUE}
+Diets.reach$Stream.Treat <- interaction(Diets.reach$Treatment, Diets.reach$Stream)
 
-  
-ggplot(aes(x = Origin, y = Count, fill = Treatment)) +
+Diets.reach %>%
+  group_by(Stream.Treat, Origin) %>%
+  summarise_at(vars(Count), funs(sum)) %>% ungroup() %>%
+
+ggplot(aes(x = Stream.Treat, y = Count, fill = Origin)) +
   geom_col() +
   labs(title = "Total Aquatics and Terrestricals by Reach") +
-    theme(legend.position = c(.8, .8), legend.key.width = unit(5, "cm")) +
-    scale_color_viridis_d(option = "E")
-
-
+    theme(legend.position = c(.84, .8), legend.key.width = unit(5, "cm")) +
+    scale_fill_viridis_d(option = "E", end = .8)
+?scale_fill_viridis_d
 ```
 
 
