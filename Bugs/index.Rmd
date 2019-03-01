@@ -52,7 +52,7 @@ Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
 Bentho <- read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
 Both_years<- read_excel("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
 FL <- read_excel("~/Google Drive/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx", sheet = "Compiled")
-
+Enviro <- read_excel("./Data/benthic2.xlsx")
 #Replace Ssp. in Taxon with Family
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
@@ -63,8 +63,8 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 my_theme <- theme_bw(base_size = 28, base_family = "Microsoft Sans Serif") +
           theme(plot.title = element_text(hjust = 0.5),
                 plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
-                legend.title = element_text(colour = "black", size = 18, face = "bold"),
-                legend.text = element_text(colour = "black", size = 12))
+                legend.title = element_text(colour = "black", size = 20, face = "bold"),
+                legend.text = element_text(colour = "black", size = 18))
                 
 theme_set(my_theme)
 ```
@@ -128,7 +128,8 @@ datatable(bugs.agg, rownames = FALSE, class = "hover", filter = "top", options =
 ***
 
 ```{r PAR Post-treatment, fig.height = 10, fig.width = 12, echo = TRUE}
-FL$Stream<- as.factor(FL$Stream)
+FL$Stream <- recode(FL$Stream, Loon = "LOON", MCTE = "MCTE", `W-100` = "W-100", `W-113` = "W-113", Chucksney = "CHUCK")
+FL$Stream <- factor(FL$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
 FL$Reach<-as.factor(FL$Reach)
 FL$Meter<-as.factor(FL$Meter)
 FL$PAR<- as.numeric(FL$PAR)
@@ -147,7 +148,7 @@ PAR.mean %>% filter(Stream != "W-122") %>%
     ylim(0,18) +
     facet_wrap("Stream") +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+    theme(legend.position = c(.84, .27), legend.key.width = unit(3, "cm"),
           aspect.ratio = 1)
 ```
 
@@ -176,7 +177,7 @@ ggplot(data = bentho.mean) +
 ```
 
 
-```{r Chla Both Years, fig.height = 8, fig.width = 12, echo = TRUE}
+```{r Chla Both Years, fig.height = 10, fig.width = 12, echo = TRUE}
 # Change variables to factors.  Re-order with CHUCK at the end
 Both_years$Stream <- factor(Both_years$Stream, levels = c("LOON", "MCTE", "W-113", "W-100", "CHUCK", "W-122"))
 Both_years$Year <- factor(Both_years$Year, levels = c("2018", "2017"))
@@ -203,7 +204,7 @@ ggplot(data = bentho_both.mean) +
   scale_x_discrete(breaks = seq(0, 90, by = 15)) +
   scale_color_viridis_d(option = "E") +
   facet_wrap("Stream") +
-  theme(legend.position = c(.86, .2), legend.key.width = unit(5, "cm"),
+  theme(legend.position = c(.86, .2), legend.key.width = unit(3, "cm"),
         aspect.ratio = 1)
 ```
 
@@ -253,7 +254,7 @@ ggplot(aes(x = FFG, y = Diff, fill = Treatment)) +
        x = "Difference in Density (2018 - 2017)",
        y = "Functional Feeding Group (FFG)") +
   scale_fill_viridis_d(option = "E") +
-  theme(legend.position = c(.84, .8), legend.key.size = unit(2, "cm")) +
+  theme(legend.position = c(.84, .8), legend.key.size = unit(3, "cm")) +
   coord_flip()
 ```
 
@@ -344,19 +345,16 @@ bugs.mds <- bugs.agg %>%
   group_by(Stream, Treatment, CollDate, Taxon) %>%  
   spread(key = "Taxon", value = "Density") %>%
   mutate_if(is.numeric , replace_na, replace = 0) %>% ungroup() %>%
-  mutate(YearTreat = interaction(CollDate, Treatment))
+  mutate(YearTreat = interaction(CollDate, Treatment) %>% factor(levels = c("2017.N", "2017.Y", "2018.N", "2018.Y"))) 
 ```
 
 
 ```{r NMS Grouping and Taxon Matrix, echo = TRUE}
 # Get grouping variables and taxon matrix
-Enviro <- bugs.mds %>%
-  select(Stream, Treatment, CollDate, YearTreat) 
-
 Density <- bugs.mds %>% 
   select("Ameletus":"Zapada")
 
-grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat)
+grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat, YearTreatQ, BenthoTotal)
 ```
 
 
@@ -372,8 +370,11 @@ NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2],
                    Stream = select(grouping, Stream), 
                    Treatment = select(grouping, Treatment), 
                    CollDate = select(grouping, CollDate),
-                   YearTreat = select(grouping, YearTreat))
+                   YearTreat = select(grouping, YearTreat),
+                   Chla = select(grouping, BenthoTotal),
+                   YearTreatQ = select(grouping, YearTreatQ))
 ```
+
 
 ```{r NMS Hull, echo = TRUE}
 Reach17N <- NMDS[NMDS$YearTreat == "2017.N", ][chull(NMDS[NMDS$YearTreat == 
@@ -389,6 +390,14 @@ Reach18Y <- NMDS[NMDS$YearTreat == "2018.Y", ][chull(NMDS[NMDS$YearTreat ==
     "2018.Y", c("x", "y")]), ] 
 
 hull.data <- rbind(Reach17N, Reach17Y, Reach18Y, Reach18N) 
+```
+
+```{r env vectors}
+vec.env <- envfit(sol, grouping, perm = 1000, na.rm = TRUE)
+vec.env.df <- scores(vec.env, display = "vectors") %>% as.tibble() %>% slice(2:n())
+vec.env.df$names <- c("Chla", "YearTreatQ") 
+
+
 ```
 
 
@@ -416,21 +425,26 @@ for(g in NMDS$YearTreat){
 
 
 ```{r NMS Benthic, fig.height = 10, fig.width = 12, echo = TRUE}
-ggplot(data = NMDS, aes(x, y, color = YearTreat)) +
+ggplot(data = NMDS, aes(x, y)) +
   annotate("text", x = (NMDS$x), y = (NMDS$y) + .02, label = NMDS$Stream, size = 8) +
-  geom_polygon(hull.data, mapping = aes(x = x, y = y, fill = YearTreat, group = YearTreat), alpha = 0) +
+  geom_polygon(hull.data, mapping = aes(x = x, y = y, fill = YearTreat, group = YearTreat), alpha = .2) +
   geom_point(aes(x = x, y = y, shape = Stream), size = 5) +
+  geom_segment(data = vec.env.df, aes(x = 0, xend = NMDS1, y = 0, yend = NMDS2),
+      arrow = arrow(length = unit(0.1, "cm")), colour = "red", inherit_aes = FALSE, size = 4) +
+  geom_text(data = vec.env.df, aes(x = NMDS1, y = NMDS2, label = names), size = 18, color = "red") +
   labs(title = "NMS of Benthic Invertebrate Community",
        x = "Axis 1",
        y = "Axis 2") +
-  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
   theme(axis.text.x = element_blank(),  # remove x-axis text
         axis.text.y = element_blank(), # remove y-axis text
         axis.ticks = element_blank(),  # remove axis ticks
         panel.background = element_blank(), 
         panel.grid.major = element_blank(),  #remove major-grid labels
         panel.grid.minor = element_blank(),  #remove minor-grid labels
-        plot.background = element_blank())
+        plot.background = element_blank(),
+        legend.position = c(.08, .76)) 
+
 ```
 
 Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
@@ -512,13 +526,15 @@ Diets.reach %>%
 
 ggplot(aes(x = Stream.Treat, y = Count, fill = Origin)) +
   geom_col(position = "stack") +
-  labs(title = "Mean Aquatics and Terrestricals in Diets by Reach",
+  labs(title = "Mean Aquatics and Terrestricals \n in Diets by Reach",
        y = "Mean # in Diet",
        x = "Stream and Reach") +
-    theme(legend.position = c(.2, .85), 
+    theme(legend.position = c(.78, .9), 
           legend.key.width = unit(5, "cm"),
-          axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-    scale_fill_viridis_d(option = "E", end = .8)
+          axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), aspect.ratio = 1.5) +
+    scale_fill_viridis_d(option = "E", end = .8) +
+  coord_flip() 
+  
 ```
 
 
@@ -533,21 +549,21 @@ bugndiet.fam <- bugndiet %>%
   transform(frac.diet = Count / ave(Count, StreamTreat, FUN = sum)) %>%
   transform(frac.benthic = Density / ave(Density, StreamTreat, FUN = sum)) 
 
-ix_label <- c("Brachycentridae", "Chironomidae", "Juga", "Baetidae", "Micrasema", "Ephemerellidae")
 
-bugndiet.fam <- bugndiet.fam %>% mutate(Family = replace(Family != ix_label, values = ""))
+bugndiet.fam <- bugndiet.fam %>% mutate(Family = recode(Family, "Brachycentridae" = "Brachycentridae", "Chironomidae" = "Chironomidae", "Juga" = "Juga", "Baetidae" = "Baetidae", "Micrasema" = "Micrasema", "Ephemerellidae" = "Ephemerellidae", "Heptageniidae" = "Heptageniidae", "Elmidae" = "Elmidae", .default = ""))
 
-  ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
+
+ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment), data = bugndiet.fam) +
     geom_point(size = 8) +
     geom_abline(slope = 1, intercept = 0) +
     coord_cartesian(ylim = c(0, .8), xlim = c(0, .8)) +
-    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = Family), size = 12, force = ) +
-    labs(title = "Prop. of Taxa in Benthic Comm. Vs. Prop. in Diets",
-         x = "Fraction of Benthic",
-         y = "Fraction of Diet") +
-    facet_wrap("Stream") +
+    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = Family), size = 8, point.padding = 1, box.padding = .5) +
+    labs(title = "Prop. of Taxa in Benthic Comm. \n Vs. Prop. in Diets",
+         x = "Proportion of Benthic",
+         y = "Proportion of Diet") +
+    facet_wrap("Stream", ncol = 3) +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+    theme(legend.position = c(.84, .27), legend.key.width = unit(3, "cm"),
           aspect.ratio = 1)
 
 c("Brachycentridae", "Chironomidae", "Juga", "Baetidae", "Micrasema", "Ephemerellidae")
@@ -575,13 +591,13 @@ bugndiet %>%
     geom_point(size = 8) +
     geom_abline(slope = 1, intercept = 0) +
     coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
-    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 4, nudge_y = .02) +
-    facet_wrap("Stream") +
-    labs(title = "Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets", 
-         x = "Fraction of Benthic",
-         y = "Fraction of Diet") +
+    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 10, face = "bold", point.padding = 1, box.padding = .5) +
+    facet_wrap("Stream", ncol = 2) +
+    labs(title = "Prop. of FFG's in Benthic Comm. \n Vs. Prop. in Diets", 
+         x = "Proportion of Benthic",
+         y = "Proportion of Diet") +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.84, .27), legend.key.width = unit(5, "cm"),
+    theme(legend.position = c(.75, .15),
           aspect.ratio = 1)
 ```
 
