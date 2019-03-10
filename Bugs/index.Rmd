@@ -529,11 +529,10 @@ ggplot(aes(x = Stream.Treat, y = Count, fill = Origin)) +
   labs(title = "Mean Aquatics and Terrestricals \n in Diets by Reach",
        y = "Mean # in Diet",
        x = "Stream and Reach") +
-    theme(legend.position = c(.78, .9), 
+    theme(legend.position = c(.1, .9), 
           legend.key.width = unit(5, "cm"),
-          axis.text.x = element_text(angle = 45, vjust = 1, hjust=1), aspect.ratio = 1.5) +
-    scale_fill_viridis_d(option = "E", end = .8) +
-  coord_flip() 
+          axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+    scale_fill_viridis_d(option = "E", end = .8)
   
 ```
 
@@ -588,17 +587,19 @@ bugndiet %>%
   transform(frac.benthic = Density / ave(Density, StreamTreat, FUN = sum)) %>% ungroup() %>%
 
   ggplot(aes(x = frac.benthic, y = frac.diet, color = Treatment)) +
-    geom_point(size = 8) +
+    geom_point(size = 6) +
     geom_abline(slope = 1, intercept = 0) +
     coord_cartesian(ylim = c(0, 1), xlim = c(0, 1)) +
-    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 9, face = "bold", point.padding = 1, box.padding = .5) +
-    facet_wrap("Stream", ncol = 2) +
-    labs(title = "Prop. of FFG's in Benthic Comm. \n Vs. Prop. in Diets", 
+    geom_text_repel(aes(x = frac.benthic, y = frac.diet, label = FFG), size = 8, point.padding = .5, box.padding = .5) +
+    facet_wrap("Stream", ncol = 4) +
+    labs(title = "Prop. of FFG's in Benthic Comm. Vs. Prop. in Diets", 
          x = "Proportion of Benthic",
          y = "Proportion of Diet") +
     scale_color_viridis_d(option = "E") +
-    theme(legend.position = c(.75, .15),
-          aspect.ratio = 1)
+    theme(legend.position = c(.4, .15),
+          axis.title.x = element_text(hjust = -.1),
+          aspect.ratio = 1,
+          axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
 Plot of proportional abundance of an individual FFG in the benthic community versus the proportional abundance of the aggregate diets for that reach.
