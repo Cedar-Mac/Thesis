@@ -1,0 +1,32 @@
+
+Batch Set:
+C:\Users\cedar\Documents\PCORD\Batch\randomsample.7bch
+
+
+****************************** Data Modification ******************************
+PC-ORD, 7.07                
+15 Mar 2019,  1:21:48
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\benthic_family_noRares.mjm
+
+SAMPLING REQUEST:
+             Simple random sampling
+        NO = sampling with replacement
+
+
+Sampling rows.
+        19 = sample size from
+        20 rows of Reaches     
+
+         1 rows chosen for deletion
+
+List of deleted items:
+CHUCK 4     
+
+Saving:    19 items in main matrix.
+
+Saving:    19 items in second matrix.
+
+***************************** Operation completed *****************************
+15 Mar 2019,  1:21:48

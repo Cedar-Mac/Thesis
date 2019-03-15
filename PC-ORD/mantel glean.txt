@@ -1,0 +1,61 @@
+
+
+******************* Glean statistics from PC-ORD result file *******************
+PC-ORD, 7.07                
+15 Mar 2019, 15:11:10
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+ Source file:C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\mantelTaxon.txt
+
+mantel glean                                                                    
+
+Reached end of source file. Line:           1204
+
+               r               p    
+       1   0.9803190       0.1001000E-02
+       2   0.9852800       0.1001000E-02
+       3   0.9816820       0.1001000E-02
+       4   0.9778820       0.1001000E-02
+       5   0.9934270       0.1001000E-02
+       6   0.9812570       0.1001000E-02
+       7   0.9837920       0.1001000E-02
+       8   0.9828330       0.1001000E-02
+       9   0.9881430       0.1001000E-02
+      10   0.9880760       0.1001000E-02
+      11   0.9893030       0.1001000E-02
+      12   0.9894480       0.1001000E-02
+      13   0.9875110       0.1001000E-02
+      14   0.9898770       0.1001000E-02
+      15   0.9905860       0.1001000E-02
+      16   0.9716290       0.1001000E-02
+      17   0.9664880       0.1001000E-02
+      18   0.9897390       0.1001000E-02
+      19   0.9899490       0.1001000E-02
+      20   0.9742070       0.1001000E-02
+
+SUMMARY STATISTICS
+               r               p    
+N                 20              20
+Mean       0.9840714       0.1001000E-02
+St.dev.    0.7113547E-02    0.000000    
+Skewness   -1.056196        0.000000    
+Kurtosis    1.115251        0.000000    
+
+EXTREMES
+Minimum    0.9664880       0.1001000E-02
+Maximum    0.9934270       0.1001000E-02
+
+QUANTILES
+ 5th%ile   0.9690585       0.1001000E-02
+25th%ile   0.9807880       0.1001000E-02
+  median   0.9863955       0.1001000E-02
+75th%ile   0.9895935       0.1001000E-02
+95th%ile   0.9920065       0.1001000E-02
+
+Ho REJECTION RATES
+     Column 2    p        Proportion of values < 0.10 is    1.0000000
+                          Proportion of values < 0.05 is    1.0000000
+                          Proportion of values < 0.01 is    1.0000000
+
+******************************* Gleaning completed *******************************
+15 Mar 2019, 15:11:10
