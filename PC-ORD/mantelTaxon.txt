@@ -1,0 +1,1263 @@
+
+Batch Set:
+C:\Users\cedar\Documents\PCORD\Batch\mantelTaxon.7bch
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:08:53
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          5383
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.980319 = r = Standardized Mantel statistic
+   0.151841E+02 = Observed Z (sum of cross products)
+   0.144218E+02 = Average Z from randomized runs
+   0.186470E-01 = Variance of Z from randomized runs
+   0.141094E+02 = Minimum Z from randomized runs
+   0.149474E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:08:54
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:08:57
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          5754
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.985280 = r = Standardized Mantel statistic
+   0.141368E+02 = Observed Z (sum of cross products)
+   0.133328E+02 = Average Z from randomized runs
+   0.966459E-02 = Variance of Z from randomized runs
+   0.131060E+02 = Minimum Z from randomized runs
+   0.138625E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:08:58
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:00
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:            89
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.981682 = r = Standardized Mantel statistic
+   0.149540E+02 = Observed Z (sum of cross products)
+   0.141304E+02 = Average Z from randomized runs
+   0.158427E-01 = Variance of Z from randomized runs
+   0.138580E+02 = Minimum Z from randomized runs
+   0.145792E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:01
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:04
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:           439
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.977882 = r = Standardized Mantel statistic
+   0.129307E+02 = Observed Z (sum of cross products)
+   0.124350E+02 = Average Z from randomized runs
+   0.483369E-02 = Variance of Z from randomized runs
+   0.122431E+02 = Minimum Z from randomized runs
+   0.126824E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:05
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:07
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:           783
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.993427 = r = Standardized Mantel statistic
+   0.145418E+02 = Observed Z (sum of cross products)
+   0.136200E+02 = Average Z from randomized runs
+   0.258712E-01 = Variance of Z from randomized runs
+   0.132812E+02 = Minimum Z from randomized runs
+   0.142558E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:08
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:11
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          1134
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.981257 = r = Standardized Mantel statistic
+   0.125863E+02 = Observed Z (sum of cross products)
+   0.119209E+02 = Average Z from randomized runs
+   0.681012E-02 = Variance of Z from randomized runs
+   0.117367E+02 = Minimum Z from randomized runs
+   0.123796E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:12
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:14
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          1492
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.983792 = r = Standardized Mantel statistic
+   0.138118E+02 = Observed Z (sum of cross products)
+   0.131048E+02 = Average Z from randomized runs
+   0.795157E-02 = Variance of Z from randomized runs
+   0.128940E+02 = Minimum Z from randomized runs
+   0.135772E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:15
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:24
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          2492
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.982833 = r = Standardized Mantel statistic
+   0.134576E+02 = Observed Z (sum of cross products)
+   0.127978E+02 = Average Z from randomized runs
+   0.675792E-02 = Variance of Z from randomized runs
+   0.126233E+02 = Minimum Z from randomized runs
+   0.132278E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:25
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:31
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          3181
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.988143 = r = Standardized Mantel statistic
+   0.157642E+02 = Observed Z (sum of cross products)
+   0.148465E+02 = Average Z from randomized runs
+   0.169776E-01 = Variance of Z from randomized runs
+   0.145856E+02 = Minimum Z from randomized runs
+   0.153533E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:32
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:35
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          3524
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.988076 = r = Standardized Mantel statistic
+   0.158325E+02 = Observed Z (sum of cross products)
+   0.149051E+02 = Average Z from randomized runs
+   0.212775E-01 = Variance of Z from randomized runs
+   0.145943E+02 = Minimum Z from randomized runs
+   0.155376E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:36
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:38
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          3891
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.989303 = r = Standardized Mantel statistic
+   0.154696E+02 = Observed Z (sum of cross products)
+   0.143494E+02 = Average Z from randomized runs
+   0.373005E-01 = Variance of Z from randomized runs
+   0.140168E+02 = Minimum Z from randomized runs
+   0.152105E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:39
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:42
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          4258
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.989448 = r = Standardized Mantel statistic
+   0.157883E+02 = Observed Z (sum of cross products)
+   0.147685E+02 = Average Z from randomized runs
+   0.222997E-01 = Variance of Z from randomized runs
+   0.144458E+02 = Minimum Z from randomized runs
+   0.154863E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:43
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:46
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          4599
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.987511 = r = Standardized Mantel statistic
+   0.134859E+02 = Observed Z (sum of cross products)
+   0.129037E+02 = Average Z from randomized runs
+   0.791949E-02 = Variance of Z from randomized runs
+   0.127001E+02 = Minimum Z from randomized runs
+   0.132734E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:46
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:49
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          4951
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.989877 = r = Standardized Mantel statistic
+   0.126236E+02 = Observed Z (sum of cross products)
+   0.120666E+02 = Average Z from randomized runs
+   0.504278E-02 = Variance of Z from randomized runs
+   0.118949E+02 = Minimum Z from randomized runs
+   0.123192E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:50
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:53
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          5305
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.990586 = r = Standardized Mantel statistic
+   0.155686E+02 = Observed Z (sum of cross products)
+   0.145558E+02 = Average Z from randomized runs
+   0.269418E-01 = Variance of Z from randomized runs
+   0.142261E+02 = Minimum Z from randomized runs
+   0.151251E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:53
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:09:56
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          5671
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.971629 = r = Standardized Mantel statistic
+   0.145021E+02 = Observed Z (sum of cross products)
+   0.140387E+02 = Average Z from randomized runs
+   0.373769E-02 = Variance of Z from randomized runs
+   0.138977E+02 = Minimum Z from randomized runs
+   0.142758E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:09:57
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:10:00
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:            33
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.966488 = r = Standardized Mantel statistic
+   0.145027E+02 = Observed Z (sum of cross products)
+   0.140306E+02 = Average Z from randomized runs
+   0.401420E-02 = Variance of Z from randomized runs
+   0.138669E+02 = Minimum Z from randomized runs
+   0.142606E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:10:01
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:10:03
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:           398
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.989739 = r = Standardized Mantel statistic
+   0.137135E+02 = Observed Z (sum of cross products)
+   0.128269E+02 = Average Z from randomized runs
+   0.228611E-01 = Variance of Z from randomized runs
+   0.125826E+02 = Minimum Z from randomized runs
+   0.134250E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:10:04
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:10:08
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:           798
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.989949 = r = Standardized Mantel statistic
+   0.149593E+02 = Observed Z (sum of cross products)
+   0.140011E+02 = Average Z from randomized runs
+   0.200492E-01 = Variance of Z from randomized runs
+   0.137088E+02 = Minimum Z from randomized runs
+   0.145851E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:10:08
+
+
+********* Mantel test for association between two distance matrices *********
+PC-ORD, 7.07                
+15 Mar 2019, 15:10:11
+
+ Project file: C:\Users\cedar\Documents\GitHub\Thesis\PC-ORD\Benthic Inverts.7prj
+  Main matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK.MJM
+Second matrix: C:\Users\cedar\AppData\Roaming\MjM Software Design\PCORD 7\WORK2.MJM
+
+NMS of Benthic Families                                                         
+
+
+DATA MATRICES
+------------------------------------------------------------------
+     Main matrix: 
+                12 Reaches      (rows)
+                38 Variables    (columns)
+                   Distance matrix calculated from main matrix.
+
+     Second matrix: 
+                12 Reaches      (rows)
+                64 Variables    (columns)
+                   Distance matrix calculated from second matrix.
+------------------------------------------------------------------
+
+Method chosen is a randomization (Monte Carlo) test.
+     Monte Carlo test: null hypothesis is no relationship between matrices
+     No. of randomized runs:       999
+     Random number seed:          1166
+
+
+
+Distance measure for first matrix = Sorensen (Bray-Curtis)        
+
+
+Distance measure for second matrix = Sorensen (Bray-Curtis)        
+
+
+MANTEL TEST RESULTS: Randomization (Monte Carlo test) method
+------------------------------------------------------------
+       0.974207 = r = Standardized Mantel statistic
+   0.132721E+02 = Observed Z (sum of cross products)
+   0.127333E+02 = Average Z from randomized runs
+   0.478172E-02 = Variance of Z from randomized runs
+   0.125713E+02 = Minimum Z from randomized runs
+   0.130270E+02 = Maximum Z from randomized runs
+            999 = Number of randomized runs
+              0 = Number of runs with Z > observed Z
+              0 = Number of runs with Z = observed Z
+            999 = Number of runs with Z < observed Z
+                  Ho: no relationship between matrices
+       0.001001 = p (type I error)
+------------------------------------------------------------
+p = proportion of randomized runs with Z more extreme
+    or equal to the observed Z; for positive association,
+    p = (1 + number of runs >= observed)/(1 + number of randomized runs)
+
+Positive association between matrices is indicated by observed
+     Z greater than average Z from randomized runs.
+
+***************************** Mantel test completed *****************************
+15 Mar 2019, 15:10:12
