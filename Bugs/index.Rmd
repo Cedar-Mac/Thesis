@@ -45,14 +45,14 @@ lapply(x, library, character.only = TRUE)
 
 ```{r Import data, echo = TRUE}
 # import data
-bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
+bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned", col_types = c("date", "guess", "guess", "guess","guess", "guess", "guess","guess", "guess", "guess","guess", "guess"))
 ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
 sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
 Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
-Bentho <- read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
-Both_years<- read_excel("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
-FL <- read_excel("~/Google Drive/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx", sheet = "Compiled")
-Enviro <- read_excel("./Data/benthic2.xlsx")
+Bentho <- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
+Both_years<- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
+FL <- readxl::read_xlsx("~/Google Drive/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx", sheet = "Compiled")
+Enviro <- readxl::read_xlsx("./Data/benthic2.xlsx")
 #Replace Ssp. in Taxon with Family
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
@@ -86,6 +86,7 @@ bugs.agg <- bugs %>%
   summarise_at(vars(Density), funs(sum)) %>% ungroup
 
 bugs.agg$Density <- bugs.agg$Density / 3    #Divide by number of samples pooled
+?as.Date
 ```
 
 ***
@@ -526,10 +527,10 @@ Diets.reach %>%
 
 ggplot(aes(x = Stream.Treat, y = Count, fill = Origin)) +
   geom_col(position = "stack") +
-  labs(title = "Mean Aquatics and Terrestricals \n in Diets by Reach",
+  labs(title = "Mean Aquatics and Terrestrials \n in Diets by Reach",
        y = "Mean # in Diet",
        x = "Stream and Reach") +
-    theme(legend.position = c(.1, .9), 
+    theme(legend.position = c(.15, .9), 
           legend.key.width = unit(5, "cm"),
           axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
     scale_fill_viridis_d(option = "E", end = .8)
