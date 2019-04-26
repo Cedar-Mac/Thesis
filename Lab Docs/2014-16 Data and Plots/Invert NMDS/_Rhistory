@@ -1,0 +1,512 @@
+RES_TOT <- rbind(RES_TOT, RES[order.rho[1:output.best],])
+} else {
+RES_TOT <- rbind(RES_TOT, RES)
+}
+}
+rownames(RES_TOT)<-NULL
+if(dim(RES_TOT)[1] > output.best){
+order.by.best <- order(RES_TOT$rho, decreasing=TRUE)[1:output.best]
+} else {
+order.by.best <- order(RES_TOT$rho, decreasing=TRUE)
+}
+OBB <- RES_TOT[order.by.best,]
+rownames(OBB) <- NULL
+order.by.i.comb <- match(best.i.comb, RES_TOT$var.incl)
+OBC <- RES_TOT[order.by.i.comb,]
+rownames(OBC) <- NULL
+out <- list(
+order.by.best=OBB,
+order.by.i.comb=OBC,
+best.model.vars=paste(colnames(var.mat)[as.numeric(unlist(strsplit(OBB$var.incl[1], ",")))], collapse=",") ,
+best.model.rho=OBB$rho[1]
+)
+out
+}
+res <- bio.env(wisconsin(Density), meta_data, fix.dist.method = fmethod, var.dist.method = vmethod,
+correlation.method = cmethod, scale.fix = FALSE, scale.var = TRUE)
+taxaNames <- colnames(Density)
+bestTaxaFit <- ""
+for(i in (1:length(res.bv.step.bio$order.by.best$var.incl))){
+bestTaxaFit[i] <- paste(paste(taxaNames[as.numeric(unlist(strsplit(res.bv.step.bio$order.by.best$var.incl[i], split=",")))], collapse = ' + '), " = ", res.bv.step.bio$order.by.best$rho[i], sep = "")
+}
+res.bv.step.bio <- bv.step(wisconsin(Density), wisconsin(Density),
+fix.dist.method = fmethod, var.dist.method = vmethod,correlation.method=cmethod,
+scale.fix = FALSE, scale.var = FALSE,
+max.rho = 0.95, min.delta.rho = 0.001,
+random.selection = TRUE,
+prop.selected.var = 0.3,
+num.restarts = 10,
+output.best = 10,
+var.always.include = NULL)
+taxaNames <- colnames(Density)
+bestTaxaFit <- ""
+for(i in (1:length(res.bv.step.bio$order.by.best$var.incl))){
+bestTaxaFit[i] <- paste(paste(taxaNames[as.numeric(unlist(strsplit(res.bv.step.bio$order.by.best$var.incl[i], split=",")))], collapse = ' + '), " = ", res.bv.step.bio$order.by.best$rho[i], sep = "")
+}
+bestTaxaFit <- data.frame(bestTaxaFit)
+colnames(bestTaxaFit) <- "Best combination of taxa with similarity score"
+MDS_res = metaMDS(Density, distance = nmethod, k = 2, trymax = 50)
+bio.keep <- as.numeric(unlist(strsplit(res.bv.step.bio$order.by.best$var.incl[5], ",")))
+bio.fit <- envfit(MDS_res, Density[,bio.keep,drop = F], perm = 999)
+eval(parse(text = paste("env.keep <- c(", res$order.by.best$var.incl[5], ")", sep="")))
+bugs <- readxl::read_xlsx("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+Enviro <- bugs.agg[, c(1:4)]
+Density <- bugs.agg[, c(5:50)]
+grouping <- select(Enviro, Stream, Reach, Meter, CollDate)
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], Stream = select(grouping, Stream),
+Reach = select(grouping, Reach), Meter = select(grouping, Meter),
+CollDate = select(grouping, CollDate))
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+plot.new()
+ord <- ordiellipse(sol, NMDS$Reach, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+CovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100) {
+theta <- (0:npoints) * 2 * pi/npoints
+Circle <- cbind(cos(theta), sin(theta))
+t(center + scale * t(Circle %*% chol(cov, pivot = TRUE)))
+}
+df_ell <- data.frame()
+for(g in NMDS$Reach){
+df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Reach == g,],
+CovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale))),
+Reach = g))
+}
+p <- ggplot(data = NMDS, aes(x, y, color = Reach))
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y) + .03, label = NMDS$Stream, size = 2)
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + geom_point(aes(shape = CollDate))
+p <- p + scale_color_brewer(type = "qual", palette = "Set2")
+print(p)
+p <- ggplot(data = NMDS, aes(x, y, color = Reach))
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y) + .03, label = NMDS$Stream, size = 2)
+p <- p + geom_point(aes(shape = CollDate))
+p <- p + scale_color_brewer(type = "qual", palette = "Set2")
+print(p)
+View(NMDS)
+library(tidyverse)
+library(vegan)
+Density <- read_csv("2014_density.csv")
+Enviro <- (read_csv("2014_enviro.csv")) %>% mutate_if(is.character, as.factor)
+dattach(Enviro)
+grouping <- select(Enviro, Stream, Reach, Watershed)
+meta_data <- Enviro[,4:16]
+meta_data[19,12] <- 100
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], Stream = select(grouping, Stream),
+Reach = select(grouping, Reach), Watershed = select(grouping, Watershed))
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+plot.new()
+ord <- ordiellipse(sol, NMDS$Reach, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+CovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100) {
+theta <- (0:npoints) * 2 * pi/npoints
+Circle <- cbind(cos(theta), sin(theta))
+t(center + scale * t(Circle %*% chol(cov, pivot = TRUE)))
+}
+df_ell <- data.frame()
+for(g in NMDS$Reach){
+df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Reach == g,],
+CovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale))),
+Reach = g))
+}
+p <- ggplot(data = NMDS, aes(x, y, colour = Reach))
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y), label = NMDS$Stream, size = 2)
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + geom_point(aes(shape = Reach))
+print(p)
+x <- c("tidyverse", "vegan", "lubridate")
+lapply(x, library, character.only = TRUE)
+bugs <- readxl::read_xlsx("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+Enviro <- bugs.agg[, c(1:4)]
+Density <- bugs.agg[, c(5:50)]
+grouping <- select(Enviro, Stream, Reach, Meter, CollDate)
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], Stream = select(grouping, Stream),
+Reach = select(grouping, Reach), Meter = select(grouping, Meter),
+CollDate = select(grouping, CollDate))
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+plot.new()
+ord <- ordiellipse(sol, NMDS$Reach, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+CovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100) {
+theta <- (0:npoints) * 2 * pi/npoints
+Circle <- cbind(cos(theta), sin(theta))
+t(center + scale * t(Circle %*% chol(cov, pivot = TRUE)))
+}
+df_ell <- data.frame()
+for(g in NMDS$Reach){
+df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Reach == g,],
+CovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale))),
+Reach = g))
+}
+p <- ggplot(data = NMDS, aes(x, y, color = Reach))
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y) + .03, label = NMDS$Stream, size = 2)
+p <- p + geom_point(aes(shape = CollDate))
+p <- p + scale_color_brewer(type = "qual", palette = "Set2")
+print(p)
+bugs <- readxl::read_xlsx("~/Desktop/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+Enviro <- bugs.agg[, c(1:4)]
+Density <- bugs.agg[, c(5:50)]
+grouping <- select(Enviro, Stream, Reach, Meter, CollDate)
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], Stream = select(grouping, Stream),
+Reach = select(grouping, Reach), Meter = select(grouping, Meter),
+CollDate = select(grouping, CollDate))
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+plot.new()
+ord <- ordiellipse(sol, NMDS$Reach, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+CovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100) {
+theta <- (0:npoints) * 2 * pi/npoints
+Circle <- cbind(cos(theta), sin(theta))
+t(center + scale * t(Circle %*% chol(cov, pivot = TRUE)))
+}
+df_ell <- data.frame()
+for(g in NMDS$Reach){
+df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Reach == g,],
+CovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale))),
+Reach = g))
+}
+p <- ggplot(data = NMDS, aes(x, y, color = Reach))
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y) + .03, label = NMDS$Stream, size = 2)
+p <- p + geom_point(aes(shape = CollDate))
+p <- p + scale_color_brewer(type = "qual", palette = "Set2")
+print(p)
+View(bugs)
+View(bugs.agg)
+bugs.agg <- bugs.agg[,1:29]
+View(bugs.agg)
+bugs <- readxl::read_xlsx("~/Desktop/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg <- bugs.agg[1:29,]
+bugs <- readxl::read_xlsx("~/Desktop/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+bugs.agg <- bugs.agg[1:29,]
+Enviro <- bugs.agg[, c(1:4)]
+Density <- bugs.agg[, c(5:50)]
+grouping <- select(Enviro, Stream, Reach, Meter, CollDate)
+sol <- metaMDS(Density, distance = "bray", k = 2, trymax = 100)
+NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2], Stream = select(grouping, Stream),
+Reach = select(grouping, Reach), Meter = select(grouping, Meter),
+CollDate = select(grouping, CollDate))
+NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
+plot.new()
+ord <- ordiellipse(sol, NMDS$Reach, display = "sites", kind = "sd", conf = 0.95, label = TRUE)
+dev.off()
+CovEllipse <- function (cov, center = c(0, 0), scale = 1, npoints = 100) {
+theta <- (0:npoints) * 2 * pi/npoints
+Circle <- cbind(cos(theta), sin(theta))
+t(center + scale * t(Circle %*% chol(cov, pivot = TRUE)))
+}
+df_ell <- data.frame()
+for(g in NMDS$Reach){
+df_ell <- rbind(df_ell, cbind(as.data.frame(with(NMDS[NMDS$Reach == g,],
+CovEllipse(ord[[g]]$cov, ord[[g]]$center, ord[[g]]$scale))),
+Reach = g))
+}
+p <- ggplot(data = NMDS, aes(x, y, color = Reach))
+p <- p + geom_path(data = df_ell, aes(x = NMDS1, y = NMDS2), size = 1, linetype = 2)
+p <- p + annotate("text", x = (NMDS$x), y = (NMDS$y) + .03, label = NMDS$Stream, size = 2)
+p <- p + geom_point(aes(shape = CollDate))
+p <- p + scale_color_brewer(type = "qual", palette = "Set2")
+print(p)
+x <- c("tidyverse", "vegan", "lubridate")
+lapply(x, library, character.only = TRUE)
+install.packages(x)
+x <- c("tidyverse", "vegan", "lubridate")
+lapply(x, library, character.only = TRUE)
+bugs <- readxl::read_xlsx("~/Desktop/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs <- readxl::read_xlsx("~Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("~C:\Users\cedar\Google Drive\Stream Ecology\2017-18 Bugs\2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("~Google Drive\Stream Ecology\2017-18 Bugs\2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("~Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("C:/Users/cedar/Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("/Users/cedar/Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("C:/Users/cedar/Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Google Drive/Stream Ecology/2017-18 Bugs/2017-18 bugs.xlsx")
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx")
+library(readxl)
+X2017_18_bugs <- read_excel("C:/Users/cedar/Desktop/2017-18 bugs.xlsx")
+View(X2017_18_bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+x <- c("tidyverse", "vegan", "lubridate")
+lapply(x, library, character.only = TRUE)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+View(bugs.agg)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+View(bugs.agg)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family PercentSub, sum, data = bugs)
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+View(bugs.agg)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+warningsbugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+Warnings()
+Warnings()
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+Warnings()
+warnings()
+View(bugs)
+?read_xlsx
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master", col_types = c("date", "guess", "guess",
+"guess", "factor", "numeric", "guess", "guess",
+"guess", "numeric"))
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master", col_types = c("date", "guess", "guess",
+"guess", "logical", "numeric", "guess", "guess",
+"guess", "numeric"))
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master", col_types = c("date", "guess", "guess",
+"guess", "logical", "numeric", "guess", "guess",
+"guess", "numeric", "date", "guess"))
+warnings()
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+View(bugs.agg)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+bugs[Density] <- mutate(Count *(1 / PercentSub) * .09 / 3, data = bugs)
+?mutate
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+bugs[Density] <- mutate(bugs, Count *(1 / PercentSub) * .09 / 3)
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+bugs <- mutate(bugs, Density = Count *(1 / PercentSub) * .09 / 3)
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if bugs$Meter < 15 {
+bugs <- mutate(bugs, Density = Count *(1 / PercentSub) * .09 / 3)
+}
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter < 15) {
+bugs <- mutate(bugs, Density = Count *(1 / PercentSub) * .09 / 3)
+}
+View(bugs)
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs <- mutate(bugs, Density = Count *(1 / PercentSub) * .09 / 3)
+}
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs <- mutate(bugs, Density = Count *(1 / PercentSub) * .09 / 3)
+}
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs[Density] <- bugs$Count * (1 / bugs$PercentSub) * .09 / 3)
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs[Density] <- bugs$Count * (1 / bugs$PercentSub) * .09 / 3
+} else {
+bugs[Density] <- bugs$Count * .09 / 3
+}
+bugs$Density <- bugs$Count * .09 / 3
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) * .09 / 3
+} else {
+bugs$Density <- bugs$Count * .09 / 3
+}
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+} else {
+bugs$Density <- bugs$Count / .09 / 3
+}
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+} else if(bugs$Meter == 15)
+bugs$Density <- bugs$Count / .09 / 3
+}
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+}
+else if(bugs$Meter == 15) {
+bugs$Density <- bugs$Count / .09 / 3
+}
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+}
+else if(bugs$Meter == 15) {
+bugs$Density <- bugs$Count / .09 / 3
+}
+bugs$Meter==15
+x <- c("tidyverse", "vegan", "lubridate")
+lapply(x, library, character.only = TRUE)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs.agg <- aggregate(Count ~ CollDate + Stream + Reach + Meter + Family + PercentSub, sum, data = bugs)
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg[is.na(bugs.agg)] <- 0
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+}
+else if(bugs$Meter == 15) {
+bugs$Density <- bugs$Count / .09 / 3
+}
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled, times area of surber of sample
+# and divided by the numer of replicate samples
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+}
+else if(bugs$Meter == 15) {
+bugs$Density <- bugs$Count / .09 / 3
+}
+if(bugs$Meter == 1 || 2) {
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+} else if(bugs$Meter == 15) {
+bugs$Density <- bugs$Count / .09 / 3
+}
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+View(bugs)
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09 / 3
+View(bugs)
+# Import data from excel Win version
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled and multiplided by area of surber sampler
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Reach + Family + PercentSub, sum, data = bugs)
+View(bugs.agg)
+bugs.agg$Density <- bugs.agg$Density / 3
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Count")
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Density")
+# Import data from excel Win version
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled and multiplided by area of surber sampler
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Reach + Family + PercentSub, sum, data = bugs)
+bugs.agg$Density <- bugs.agg$Density / 3
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Density")
+# Import data from excel Win version
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled and multiplided by area of surber sampler
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Reach + Family + PercentSub, sum, data = bugs)
+bugs.agg$Density <- bugs.agg$Density / 3
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+bugs.agg <- spread(bugs.agg, key = "Family", value = "Density")
+bugs.agg[is.na(bugs.agg)] <- 0
+View(bugs.agg)
+# Import data from excel Win version
+bugs <- readxl::read_xlsx("C:/Users/cedar/Desktop/2017-18 bugs.xlsx", sheet = "Master")
+# Multiply count by inverse of fraction subsampled and multiplided by area of surber sampler
+bugs$Density <- bugs$Count * (1 / bugs$PercentSub) / .09
+bugs.agg <- aggregate(Density ~ CollDate + Stream + Reach + Family, sum, data = bugs)
+bugs.agg$Density <- bugs.agg$Density / 3
+bugs.agg$CollDate <- as.factor(year(bugs.agg$CollDate))
+W-100.bugs <- bugs.agg[bugs.agg$Stream == "W-100"]
+W-100bugs <- bugs.agg[bugs.agg$Stream == "W-100"]
+W100bugs <- bugs.agg[bugs.agg$Stream == "W-100"]
+W100bugs <- bugs.agg[bugs.agg$Stream == "W-100"]
+W100bugs <- bugs.agg[ ,bugs.agg$Stream == "W-100"]
+W100bugs <- bugs.agg(bugs.agg$Stream == "W-100")
+W100bugs <- bugs.agg$Stream == "W-100"
+W100bugs <- bugs.agg[bugs.agg$Stream == "W-100",]
+View(W100bugs)
+W100bugs <- spread(W100bugs, key = "Family", value = "Density")
+W100bugs[is.na(W100bugs)] <- 0
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = "Reach") +
+facet_wrap("Year") +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = "Reach") +
+facet_wrap(year) +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = "Reach") +
+facet_wrap(Year) +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = "Reach") +
+facet_wrap(CollDate) +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = Reach) +
+facet_wrap(CollDate) +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = `Family`, y = Density), color = "Reach") +
+facet_wrap("CollDate") +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = Family, y = Density), color = "Reach") +
+facet_wrap("CollDate") +
+coord_flip()
+W100bugs <- bugs.agg[bugs.agg$Stream == "W-100", ]
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = Family, y = Density), color = "Reach") +
+facet_wrap("CollDate") +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = Family, y = Density, color = Reach)) +
+facet_wrap("CollDate") +
+coord_flip()
+ggplot(data = W100bugs) +
+geom_col(mapping = aes(x = Family, y = Density, fill = Reach)) +
+facet_wrap("CollDate") +
+coord_flip()
+View(W100bugs)

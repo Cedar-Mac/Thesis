@@ -1,0 +1,99 @@
+x <- c("tidyverse", "mosaic", "readxl", "xlsx", "plyr")
+lapply(x, library, character.only = TRUE)
+fl.value <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018_Fluorescein.xlsx",
+col_types = c("numeric", "guess", "numeric"), sheet = "Fluorescein Value")
+fl.meter <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018_Fluorescein.xlsx",
+sheet = "Meter")
+batch.1.control <- 394.035
+batch.3.control <- 390.866
+batch.4.control <- 411.96
+fl <- full_join(fl.meter, fl.value)
+fl.test <- ddply(fl, as.quoted(c("Stream", "Reach", "Meter")), function(z) {
+idx <- abs(z$Fl - mean(z$Fl)) < sd(z$Fl)
+z[idx, ]})
+fl.value <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018_Fluorescein.xlsx",
+col_types = c("numeric", "guess", "numeric"), sheet = "Fluorescein Value")
+fl.value <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+col_types = c("numeric", "guess", "numeric"), sheet = "Fluorescein Value")
+fl.meter <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+sheet = "Meter")
+batch.1.control <- 394.035
+batch.3.control <- 390.866
+batch.4.control <- 411.96
+fl <- full_join(fl.meter, fl.value)
+fl.test <- ddply(fl, as.quoted(c("Stream", "Reach", "Meter")), function(z) {
+idx <- abs(z$Fl - mean(z$Fl)) < sd(z$Fl)
+z[idx, ]})
+fl.mean <- aggregate(Fl ~ Stream + Reach + Meter, mean, data = fl)
+fl.mean$fl_adj <- ifelse(fl.mean$Fl[fl.mean$Stream == "LOON" || fl.mean$Stream == "CHUCK"],
+batch.1.control - fl.mean$Fl[fl.mean$Stream == "LOON" || fl.mean$Stream == "CHUCK"],
+ifelse(fl.mean$Fl[fl.mean$Stream == "W-122" || fl.mean$Stream == "W-100"],
+batch.3.control - fl.mean$Fl[fl.mean$Stream == "W-122" || fl.mean$Stream == "W-100"],
+batch.4.control - fl.mean$Fl[fl.mean$Stream == "MCTE"]))
+ggplot(data = fl.mean) +
+geom_point(mapping = aes(x = Meter, y = fl_adj, color = Reach)) +
+facet_wrap("Stream")
+xlsx::write.xlsx(fl, file = paste0(path.expand("~/Desktop/"),"2018 Fluorescein.xlsx"))
+fl.mean$sd <- aggregate(Fl ~ Stream + Reach + Meter, sd, data = fl)
+fl.value <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+col_types = c("numeric", "guess", "numeric"), sheet = "Fluorescein Value")
+fl.meter <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+sheet = "Meter")
+x <- c("tidyverse", "mosaic", "readxl", "xlsx", "plyr")
+lapply(x, library, character.only = TRUE)
+fl.value <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+col_types = c("numeric", "guess", "numeric"), sheet = "Fluorescein Value")
+fl.meter <- read_excel("~/Desktop/OneDrive - Oregon State University/Stream Ecology/2018 Field Data/2018_Fluorescein.xlsx",
+sheet = "Meter")
+batch.1.control <- 394.035
+batch.3.control <- 390.866
+batch.4.control <- 411.96
+fl <- full_join(fl.meter, fl.value)
+fl.test <- ddply(fl, as.quoted(c("Stream", "Reach", "Meter")), function(z) {
+idx <- abs(z$Fl - mean(z$Fl)) < sd(z$Fl)
+z[idx, ]})
+fl.mean <- aggregate(Fl ~ Stream + Reach + Meter, mean, data = fl)
+fl.mean$sd <- aggregate(Fl ~ Stream + Reach + Meter, sd, data = fl)
+full_join(Fl, fl.mean)
+full_join(fl, fl.mean)
+(full_join(fl, fl.mean))
+fl.sd <- full_join(fl, fl.mean)
+View(fl.sd)
+View(fl.mean)
+View(fl.mean)
+colnames(fl.mean[4]) <- "Fl.mean"
+colnames <- (fl.mean, fl.mean)
+colnames <- (fl.mean, "fl.mean")
+colnames <- (fl.mean "fl.mean")
+colnames <- (fl.mean)
+View(colnames)
+rename(fl.mean, Fl = fl.mean)
+rename(fl.mean, Fl=fl.mean)
+?rename
+rename(fl.mean, Fl = fl.mean)
+rename(fl.mean, "FL" = "fl.mean")
+rename(fl.mean, "Fl" = "fl.mean")
+dplyr::rename(fl.mean, Fl = fl.mean)
+plyr::rename(fl.mean, Fl = fl.mean)
+dplyr::rename(fl.mean, Fl = fl.mean)
+dplyr:rename(fl.mean, Fl = fl.mean)
+dplyr::rename(fl.mean, Fl = fl.mean)
+dplyr::rename(fl.mean, fl.mean$Fl = fl.mean)
+dplyr::rename(fl.mean$Fl = fl.mean)
+colnames(fl.mean[,4]) <- fl.mean
+colnames(fl.mean[,4]) <- "fl.mean"
+rename(fl.mean, Fl = Fl.mean)
+rename(Fl = Fl.mean)
+rename(fl.mean, Fl = Fl.mean)
+colnames(fl.mean)[4] <- "fl.mean"
+View(fl.meter)
+View(fl.mean)
+colnames(fl.mean)[4] <- "mean.fl"
+fl.sd <- full_join(fl, fl.mean)
+View(fl.sd)
+View(fl.sd)
+fl.filtered <- abs(fl.sd$Fl - fl.sd$mean.fl) < fl.sd$sd.Fl
+fl.filtered <- abs(fl.sd$Fl - fl.sd$mean.fl) < fl.sd$`sd.Fl`
+fl.filtered <- abs(fl.sd$Fl - fl.sd$mean.fl) < fl.sd$sd
+View(fl.filtered)
+View(fl)
