@@ -53,7 +53,7 @@ Macroinvertebrate community data has historically been used to evaluate stream h
 
 The benthic invertebrate community represents the primary food source for fish in headwater streams (@ citation). Trout are the dominant fish species in many headwater systems across North America, and can influence both invertebrate behavior and community structure (@ McIntosh and Peckarsky papers – and maybe something from PNW). In headwater streams trout are oportunistic foragers, eating whatever is available in their habitat. Cutthroat trout feed from the water column using visual cues to capture prey. Because salmonids are visual predators, their feeding efficiency can be influenced by light conditions and visibility (@Wilzbach1986), therefore gaps have the potential to affect fish feeding not only though potential increases in scraper invertebrate food resources, but also by increasing foraging efficiency. 
 
-Clear cutting and the resultant reach-level increase in stream light can increase stream primary and secondary productivity, but increases in light also lead to increases in temperature, and cutting to the stream edge can increase sediment loads. Given these negative impacts, clear cutting along streams is no longer a common practice in the Pacific Northwest--even in managed landscapes riparian buffers are left. In unmanaged forests, and in these riparian forest buffers, stands are in the early to mid-seral stages with dense homogenous canopy cover and low stream light (@Kaylor2017). Canopy gaps will begin developing naturally along streams as stands mature, and restoration efforts focused on emulating natural disturbance may expedite forest shifts toward late-succession and old-growth structural conditions (@Kreutzweiser2012). While studies on reach-scale forest clearing demonstrate a clear response in benthic primary producers, invertebrates, and trout to release from light limitation, this does not reflect future stream conditions in most forested landscapes. As stands progress toward late succesional forest structure, localized light patches (rather than large openings) will become increasingly prevelant, and have not been widely evaluated. 
+Clear cutting and the resultant reach-level increase in stream light can increase stream primary and secondary productivity, but increases in light also lead to increases in temperature, and cutting to the stream edge can increase sediment loads. Given these negative impacts, clear cutting along streams is no longer a common practice in the Pacific Northwest--even in managed landscapes riparian buffers are left. In unmanaged forests, and in these riparian forest buffers, stands are in the early to mid-seral stages with dense homogenous canopy cover and low stream light (@Kaylor2017FS). Canopy gaps will begin developing naturally along streams as stands mature, and restoration efforts focused on emulating natural disturbance may expedite forest shifts toward late-succession and old-growth structural conditions (@Kreutzweiser2012). While studies on reach-scale forest clearing demonstrate a clear response in benthic primary producers, invertebrates, and trout to release from light limitation, this does not reflect future stream conditions in most forested landscapes. As stands progress toward late succesional forest structure, localized light patches (rather than large openings) will become increasingly prevelant, and have not been widely evaluated. 
 
 We hypothesize that canopy gaps will produce a dampened response in comparison to clear cutting but, should increase primary production, causing the macroinvertebrate community to shift in response to resource availability, and resultant changes in the invertebrate community will be reflected in the opportunistic foraging of trout.
 
@@ -64,6 +64,19 @@ We hypothesize that canopy gaps will produce a dampened response in comparison t
 The study consists of five reach pairs on five replicate streams in the western Cascade Mountains of Oregon. Each reach pair consisted of one treatment reach and one reference reach. Two of the reach pairs (W-100, W-113) are located on private Weyerhaeuser Co. land, and three (LOON, CHUCK, MCTE) are located on U.S. Forest Service land, one of which (MCTE) is situated in the HJ Andrews Experimental Forest. Stream reaches were 90 meters in length and treatment gaps were 20 to 40 meters in diameter and situated approximately in the middle of treatment reaches. Sites had a buffer between stream reach pairs to limit any effects of the upstream reach on downstream conditions.
 
 All of the streams are wadeable, fish-bearing streams with bankfull widths of 1-8 meters. Fish-bearing streams were purposefully selected to provide management-relevant results for key species such as salmonids. The streams run through 40-60-year-old riparian forests regenerating from previous harvest. These forests have a homogenous canopy structure with heavy understory shading, as defined by their early seral stage. Small streams were chosen for ease of sampling and to maximize the effect of a canopy opening manipulation since small streams may be completely shaded by overhead vegetation due to their high edge to area ratio. 
+
+```{r load packages, include=FALSE}
+x <- c("tidyverse", "plyr", "vegan", "lubridate", "readxl", "ggthemes", "ggrepel", "extrafont", "nlme", "knitr", "kableExtra")
+lapply(x, library, character.only = TRUE)
+attributes <- read_xlsx("../Data/Data for Tables/Site Attribute Table.xlsx")
+ffg_results <- read_xlsx("../Data/Data for Tables/FFG results.xlsx")
+```
+
+```{r table1, echo=FALSE}
+kable(attributes, format = 'latex', booktabs = TRUE, caption = "Study site attributes") %>% 
+  kable_styling(latex_options = c("scale_down")) 
+```
+
 
 ## Study Design {-}
 
@@ -79,9 +92,7 @@ Photosynthetically active radiation (PAR) was estimated from flourescien decay r
 
 ### Chlorophyll *a* {-}
 
-In each study reach every ten meters, three ceramic tiles (dimension x dimension) were placed every 10 meters within a stream reach and left for at least three weeks before they were collected so periphyton communities could establish. Tiles were deployed and collected at the same time for both the control and treatment reaches of each stream to keep within unit measures consistent. After collection, tiles were kept in the dark, submerged in water for two hours to avoid potential photosasturation issues with the BenthoTorch_^TM^ measurements. Chlorophyll *a* concentrations were then quanitified using a BenthoTorch^TM^.
-
-During collection at the two streams with snails as the dominant scraper , the number of snails (Juga) and cased caddisfly (observed taxa being Uenoidae and Glossosomatidae primarily) on each tile were recorded and then removed.  before taking readings with a BenthoTorch^TM^. 
+In each study reach every ten meters, three ceramic tiles (dimension x dimension) were placed every 10 meters within a stream reach and left for at least three weeks before they were collected so periphyton communities could establish. Tiles were deployed and collected at the same time for both the control and treatment reaches of each stream to keep within unit measures consistent. After collection, tiles were kept in the dark, submerged in water for two hours to avoid potential photosasturation issues with the BenthoTorch_^TM^ measurements. Chlorophyll *a* (abbreviated as Chla for the remainder of this text) concentrations were then quanitified using a BenthoTorch^TM^.
 
 ### Benthic Invertebrate Sampling {-}
 
@@ -91,34 +102,37 @@ In the lab, the three benthic samples per reach were combined into a single pool
 \begin{equation}
 \frac{1}{3*s*0.09}
 \end{equation}
-Where $s$ is the fraction subsampled, 0.09 is the area of the Surber sampler in square meters, and the result is divided by three because three samples from meters fifteen, forty-five and seventy-five were pooled. Singleton taxa (taxa occurring in only one reach) were removed from the original matrix and density values were log transformed to reduce the effect of abundant taxa (Chironomidae, **Baetis**, **Micrasema**) on community relationships by applying the formula $ln(n + 1)$ where $n$ is the density of a given taxon. The resulting matrix of benthic invertebrates at the LTU level of identification (20 reaches by 64 taxa) was then used for analysis. 
+Where $s$ is the fraction subsampled, 0.09 is the area of the Surber sampler in square meters, and the result is divided by three because three samples from meters fifteen, forty-five and seventy-five were pooled. Singleton taxa (taxa occurring in only one reach) were removed from the original matrix and density values were log transformed to reduce the effect of abundant taxa (Chironomidae, *Baetis*, *Micrasema*) on community relationships by applying the formula $ln(n + 1)$ where $n$ is the density of a given taxon. The resulting matrix of benthic invertebrates at the LTU level of identification (20 reaches by 64 taxa) was then used for analysis. 
 
 Functional feeding groups were assigned using @ Merritt and Cummins using only the primary feeding habit of each taxon. For 
 
-During chlorophyll **a** tile collection at the two streams with snails as the dominant scraper, the number of snails (Juga) and cased caddisfly (observed taxa being Uenoidae and Glossosomatidae primarily) on each tile were recorded and then removed.  before taking readings with a BenthoTorch^TM^. 
+During Chla tile collection at the two streams with snails as the dominant scraper, the number of snails (Juga) and cased caddisfly (observed taxa being Uenoidae and Glossosomatidae primarily) on each tile were recorded and then removed.  before taking readings with a BenthoTorch^TM^. 
 
 ### Trout Diets {-}
 
-To avoid influencing the benthic invertebrate community, streams were electroshocked to collect cutthroat trout diets either immediately following, or the day after invertebrate sampling. Trout diets were collected during three-pass depletion of fish standing stock and were only taken from a subset of fish greater than 100 mm in length. Fish were anesthetized using NOT CLOVE OIL and gastro-lavaged. Stomach contents were evacuated using two 60 mL syringes of water injected with a piece of 4 inch long tubing. Diet samples were collected in filter paper and preserved in 95% ethanol for lab processing.
+Trout diets were collected during the post-treatment year, Trout diets were collected during three-pass depletion of fish standing stock and were only taken from a subset of fish greater than 100 mm in length. Fish were anesthetized using AQUI-S and gastric lavaged. Stomach contents were evacuated by inecting water into the fish stomach using a piece of small plastic tubing attached to a syringe. Diet samples were collected in filter paper and preserved in 95% ethanol for lab processing.
 
 All trout diets were processed (9 to 13 diets per reach) with aquatic invertebrates identified down to the family level and terrestrial invertebrates identified to order. Because the number of fish dieted in each reach varied, the average of all fish diets was used. The resulting matrix was then filtered for aquatic species and appended to a matrix of 2018 benthic invertebrate families (10 reaches by 38 families), producing a matrix of 20 sample units (SU’s) by 40 families consisting of both fish diets and benthic samples. Singleton taxa were then removed to create a matrix of combined diet and benthic families of 20 SU’s by 36 families. At this point, the combined matrix was relativized by row maxima to compensate for the difference between benthic sampling—measured in density per m2—and fish diets.
 
 ## Data Analysis {-}
 
-BACI for light, chla, invert densities, ffg density, 
+### BACI Analysis {-}
 
+ The BACI analysis was perfomed in R, and consisted of calculating reach-pair ratios by dividing the treatment reach value by the control reach value. Reach ratios were calculated for light, chla, total invertebrate density and invertebrate densities by functional feeding group. A paired t-test was then performed for each metric by subtracting the reach ratio from the pre-treatment year from the ratio value in the post-treatment yearfor each stream.  assuming the difference between the two reach ratios should be zero, and the degrees of freedom equal four. Statistical analyses were performed in PC-ORD (@PC-ORD) and R (@R-base) using the Vegan package (@vegan).
 
+### Nonparametric Community Analysis {-}
 
-Statistical analyses were performed in PC-ORD (@PC-ORD) and R (@R-base) using the Vegan package (@vegan). Blocked multi-response permutation procedure (MRBP) was used to assess differences between treatment and control reaches in the pre and post treatment years. MRBP was followed up with blocked indicator species analysis (ISA) to determine underlying taxa driving any grouping detected by MRBP. This two-step procedure was performed twice for the benthic community, once with family level community data and once at the LTU level in order to compare any differences in results. The combined benthic and diet matrix was subsequently tested for any differences between treatment and control reaches using the same MRBP and ISA methods. 
+Blocked multi-response permutation procedure (MRBP) was used to assess differences between treatment and control reaches in the pre and post treatment years. MRBP was followed up with blocked indicator species analysis (ISA) to determine underlying taxa driving any grouping detected by MRBP. This two-step procedure was performed twice for the benthic community, once with family level community data and once at the LTU level in order to compare any differences in results. The combined benthic and diet matrix was subsequently tested for any differences between treatment and control reaches using the same MRBP and ISA methods. 
 
 To test for any pre-treatment reach differences in 2017, MRBP was run on 2017 data only with Treatment as the two a priori groups and blocked by Stream. The 2018 post-treatment data was then assessed using the same MRBP grouping and blocking. MRBP is a nonparametric method used to test for differences between groups. This method accommodates paired or blocked study designs by accounting for variation related to study design variables that have little bearing on the question being addressed. In this case, MRBP accounts for any between-stream variation. MRBP outputs a p-value for the observed within-group distance (smaller distances constituting stronger grouping) by shuffling SU’s between groups to generate a distribution of possible within-group distances (@McCune2002).
 
 The follow-up ISA calculates an indicator value (IV) for each species. The IV is a composite of a taxon’s fidelity and exclusivity to a group. If a taxon is consistently abundant in one group and never present in any other, then it would receive a high IV. Conversely, a taxon rarely abundant in SU’s of one group and present in other groups would receive a low IV (@McCune2002). A Monte Carlo test of 1,000 permutations of the taxa matrix was used to generate a p-value for each taxon’s IV.
 
-The taxon resolution was lowered from the LTU level to family level for benthic samples in order to create a matrix of both fish and benthic samples. In order to judge the impact of reducing taxon resolution on interpreting benthic community relationships, two ordinations of benthic invertebrates were performed, one in LTU space and one in family space using nonmetric multidimensional scaling (NMS) in order to determine whether different conclusions would be drawn from lower levels of identification (Kruskal, 1964). Sorensen distance was used for both ordinations to reduce the impact of outliers. Ties were not penalized, although there were no ties in either matrix, and the ordination was rotated to maximize the environmental variable BenthoTotal along axis 1. A random start was used 
+The taxon resolution was lowered from the LTU level to family level for benthic samples in order to create a matrix of both fish and benthic samples. In order to judge the impact of reducing taxon resolution on interpreting benthic community relationships, two ordinations of benthic invertebrates were performed, one in LTU space and one in family space using nonmetric multidimensional scaling (NMS) in order to determine whether different conclusions would be drawn from lower levels of identification (Kruskal, 1964). Sorensen distance was used for both ordinations to reduce the impact of outliers. Ties were not penalized, although there were no ties in either matrix, and the ordination was rotated to maximize the environmental variable BenthoTotal along axis 1. A random start was used and the real data were run 250 times to ensure an absolute stress minima was reached. A Monte Carlo test with 100 permutations was used to generate a p-value for the probability of the final ordination have a lower than expected p-value by chance.To further test for differences between the level of identification used, a mantel test was applied to the original family and LTU benthic distance matrices. The distance matrices were calculated using Sorensen distances and a Monte Carlo test of 1000 permutations was used to generate a p-value.
 
-and the real data were run 250 times to ensure an absolute stress minima was reached. A Monte Carlo test with 100 permutations was used to generate a p-value for the probability of the final ordination have a lower than expected p-value by chance.To further test for differences between the level of identification used, a mantel test was applied to the original family and LTU benthic distance matrices. The distance matrices were calculated using Sorensen distances and a Monte Carlo test of 1000 permutations was used to generate a p-value.
+### Analysis of Trout Diets {-}
 
+Trout diets were only collected in the post-treatment year
 
 # Results {-}
 
@@ -143,31 +157,35 @@ There was little difference between benthic LTU-level communities in the treatme
 
 
 
-![](Final_Figures_and_Stats_files/figure-html/AvgFFGratio-1.png)
-
-|FFG|t-value |  p-value |
-|---|:------:|----------|
-|SH	|  0.07	 |      0.95|
-|P	|  0.52  |      0.62|
-|SCe|	-1.55	 |      0.16|
-|CG	|  0.60  |      0.57|
-|SCi|	 0.86  |      0.42|
-|CF	|  2.13	 |      0.07|
-|All Bugs|0.84|     0.43|
-
+![Log ratio of treatment reach divided by control reach for each FFG. CF = Collector-filterer, CG = Collector-gatherer, SH = Shredder, SC = Scrapers, SCe = Edible Scrapers, SCi = Inedible Scrapers, P = Predators, and All Bugs is the total macroinvertebrate density](Final_Figures_and_Stats_files/figure-html/AvgFFGratio-1.png){width=400px}
+```{r ffgtable, echo = FALSE}
+kable(ffg_results, format = 'latex', booktabs = TRUE, caption = "BACI t-test results for various metrics") %>% 
+  kable_styling(position = "float_right") 
+```
 ## Trout Diet {-}
 
-![](Final_Figures_and_Stats_files/figure-html/Diet-Fam-Linear-1.png)
+![](Final_Figures_and_Stats_files/figure-html/Diet-FFG-D-1.png){width=400px}
+
+![](Final_Figures_and_Stats_files/figure-html/Diet-Fam-D-1.png){width=400px}
 
 # Discussion {-}
 
-Light and Chla responded as expected to an opening of the riparian canopy. 
+Gaps are, by definition, patches in a larger, forested system. Therefore, significant localized responses to increases in light within a gap may not translate to significant system-wide responses at the stream or even the reach level. Our study design emphasizes the effects of gaps that comprise only a fraction of a stream reach, focusing on the integrated effect of small gaps embedded in a larger forested matrix. While light and Chla responded as expected to an opening of the riparian canopy, our reach-scale metrics for the invertebrate community do not show a response to increases in primary production. This does not match our original hypothesis that increases in high quality algae would lead to increased abundance of scraping invertebrate taxa. Instead, we find that the scale of the effect--increases in light are limited to within the gap--may outweigh the local magnitude. Even though algae is an energetically preferential food source, and primary production increased within treatment reaches, we see a limited invertebrate response at the reach level.
+
+The results for higher trophic levels seem to be in contradiction with previous studies on stream light (@ Heaston, Kaylor, Wooton), but these studies focused on 
+
+Is a lack of system response to a local perturbation considered resilience?
+
+The overall response of the benthic invertebrate community to the canopy gaps was slight and indicates that no one species or functional group confers a competitive advantage from either increases in light or increased autochthonous production. 
+
+When we replace taxonomy with functional groups, we still see no real changes in the relative abundance of functional feeding groups, which fits with our results from NMS.
+
+Trout diets also showed no response.
 
 The *Juga* snail response fits our hypothesis, but hadn't been anticipated prior to field observations.  
 
-The overall response of the benthic invertebrate community to the canopy gaps was slight and indicates that no one species confers a competitive advantage from either increases in light or increased autochthonous production. 
+Gap versus reach size.  How large of a gap results in more than a local-within-gap response? When looking at a local response of grazers on tiles
 
-When we replace taxonomy with functional groups, we still see no real changes in the relative abundance of functional feeding groups, which fits with our results from NMS.
 
 Power and Dietrich advocate for species exculsion studies to determine the top-down pressure of upper level consumers on lower members of the stream community (2002), but experimentally enhancing a particular basal resource can also reveal energy pathways and which community members are poised to take advantage of specific energy subsidies. 
 

@@ -1,0 +1,25 @@
+﻿Stream,Year.2,Reach.2,Q,filter_variable,GapEllipse,Bankful,Light_Extent_Meters ,light_meters
+CHUCK,Post,Reference,21,1,1113,5.19825,30-60,30
+CHUCK,Post,Treatment,21,2,1113,5.19825,30-60,30
+CHUCK,Pre,Reference,21,3,1113,5.19825,30-60,30
+CHUCK,Pre,Treatment,21,4,1113,5.19825,30-60,30
+LOON,Post,Reference,12.5,1,514,4.1317,20-45,25
+LOON,Post,Treatment,12.5,2,514,4.1317,20-45,25
+LOON,Pre,Reference,12.5,3,514,4.1317,20-45,25
+LOON,Pre,Treatment,12.5,4,514,4.1317,20-45,25
+MCTE,Post,Reference,5,1,1374,2.9,20-80,60
+MCTE,Post,Treatment,5,2,1374,2.9,20-80,60
+MCTE,Pre,Reference,5,3,1374,2.9,20-80,60
+MCTE,Pre,Treatment,5,4,1374,2.9,20-80,60
+W-100,Post,Reference,43.9,1,1164,5.39,25-50,25
+W-100,Post,Treatment,43.9,2,1164,5.39,25-50,25
+W-100,Pre,Reference,43.9,3,1164,5.39,25-50,25
+W-100,Pre,Treatment,43.9,4,1164,5.39,25-50,25
+W-113,Post,Reference,9,1,713,3.3,20-45,25
+W-113,Post,Treatment,9,2,713,3.3,20-45,25
+W-113,Pre,Reference,9,3,713,3.3,20-45,25
+W-113,Pre,Treatment,9,4,713,3.3,20-45,25
+W-122,Post,Reference,50.18,1,892,6.419,20-55,35
+W-122,Post,Treatment,50.18,2,892,6.419,20-55,35
+W-122,Pre,Reference,50.18,3,892,6.419,20-55,35
+W-122,Pre,Treatment,50.18,4,892,6.419,20-55,35

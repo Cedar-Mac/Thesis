@@ -19,8 +19,6 @@ csl: citation-styles/canadian-journal-of-fisheries-and-aquatic-sciences.csl
 
 ```{r Load-Packages, include = FALSE}
 # load required packages
-x <- c("tidyverse", "plyr", "vegan", "lubridate", "readxl", "ggthemes", "ggrepel", "extrafont", "nlme")
-lapply(x, library, character.only = TRUE)
 
 # import data
 bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
@@ -784,6 +782,8 @@ ggplot(aes(x = FFG, y = Mean.L, color = Treatment), data = avg.ffg.diet) +
           aspect.ratio = 1,
           axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
+
+
 ```{r Diet-FFG-D}
 ggplot(aes(x = FFG, y = Mean.D, color = Treatment), data = avg.ffg.diet) +
   geom_point(position = position_dodge(width = .6)) +
