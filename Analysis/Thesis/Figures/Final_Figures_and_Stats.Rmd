@@ -6,11 +6,8 @@ output:
   html_document:
     theme: sandstone
     highlight: tango
-    keep_md: true
+    keep_md: false
     includes:
-      before_body: header.html
-      after_body: footer.html
-    css: styles.css
     code_folding: "hide"
 bibliography: thesis.bib
 link-citations: yes
@@ -19,19 +16,27 @@ csl: citation-styles/canadian-journal-of-fisheries-and-aquatic-sciences.csl
 
 ```{r Load-Packages, include = FALSE}
 # load required packages
+x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis", "DT", "ggrepel", "here", "plyr", "dplyr")
+lapply(x, library, character.only = TRUE)
 
 # import data
-bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned")
-ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
-sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
-ffg.ratios <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Density Ratio's", range = "K1:P61")
-bugndiet.fam <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Benthic and Diet", range = "P1:V125")
-bugndiet.ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Benthic and Diet", range = "AA1:AF54")
-Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
-Bentho <- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
-Both_years<- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
-FL <- readxl::read_xlsx("./Data/2018_Fluorescein.xlsx", sheet = "Compiled")
-Enviro <- readxl::read_xlsx("./Data/benthic2.xlsx")
+bugs <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                  sheet = "Cleaned")
+ffg <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                         sheet = "FFG")
+sizes <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                           sheet = "Size")
+ffg.ratios <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                                sheet = "Density Ratio's", range = "K1:P61")
+bugndiet.fam <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                                  sheet = "Benthic and Diet", range = "P1:V125")
+bugndiet.ffg <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
+                                  sheet = "Benthic and Diet", range = "AA1:AF54")
+Diets <- readxl::read_xlsx(here::here("Analysis", "Data", "2018 Diets.xlsx"))
+Bentho <- readxl::read_xlsx(here::here("Analysis", "Data", "2018 Tiles Allison's Computer.xlsx"), sheet = "Tiles")
+Both_years<- readxl::read_xlsx(here::here("Analysis", "Data", "2018 Tiles Allison's Computer.xlsx"), sheet = "2017 and 2018")
+FL <- readxl::read_xlsx(here::here("Analysis", "Data", "2018_Fluorescein.xlsx"), sheet = "Compiled")
+Enviro <- readxl::read_xlsx(here::here("Analysis", "Data", "benthic2.xlsx"))
 #Replace Ssp. in Taxon with Family
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 
@@ -40,11 +45,8 @@ bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
 
 
-
 ## PAR {.tabset .tabset-fade .tabset-pills}
 ***
-
-### 
 
 
 ### Methods
@@ -134,7 +136,7 @@ bugs$CollDate <- as.Date(bugs$CollDate, format = "%m/%d/%y") %>% year() %>% as.f
 
 bugs.agg <- bugs %>%
   group_by(CollDate, Stream, Treatment, Taxon) %>%
-  summarise_at(vars(Density), funs(sum)) %>% ungroup
+  summarise_at(vars(Density), sum) %>% ungroup
 
 bugs.agg$Density <- bugs.agg$Density / 3    #Divide by number of samples pooled
 ```
@@ -212,13 +214,16 @@ Next we plot log ratios between years (2018Y / 2017Y and 2018N / 2017N) for a si
 A log ratio of 0 indicates no change in abundance between 2017 and 2018. Positive values mean an increase in abundance in the post-treatment year, and a negative value would suggest a decline in abundance in the post-treatment year.  We then compare the yearly ratio's of each reach (control or treatment) to assess the effect of the treatment.
 
 ```{r W-113 Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+ffg.ratios$Year <- as.factor(ffg.ratios$Year)
+ffg.ratios %>%  group_by(Stream, Year) %>% 
+  summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+  
   filter(Stream == "W-113") %>% 
-  ggplot(aes(x = Treatment, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Year, y = Difference, fill = Year)) +
   geom_col() +
   labs(title = "W-113 Log of Invertebrate Density Ratio's \n (2018 / 2017)",
        x = "Treatment \n (Y = Treatment reach, N = Control reach)",
-       y = "Log(Ratio) of Invertebrate Density") +
+       y = "Difference of Invert Density") +
   scale_fill_grey() +
     scale_color_grey()
 ```
@@ -227,12 +232,14 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ra
 Now we plot all the log ratios
 
 ```{r All Streams Total Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
-  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = Treatment)) +
-  geom_col(position = "dodge") +
-  labs(title = "Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
-       y = "Log(Ratio) of Invertebrate Density") +
+ffg.ratios %>%  group_by(Stream, Year) %>% 
+  summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+  
+  ggplot(aes(x = Year, y = Difference, fill = Year)) +
+  geom_col() +
+  labs(title = "W-113 Log of Invertebrate Density Ratio's \n (2018 / 2017)",
+       x = "Year",
+       y = "Reach Difference of Invert Density") +
   scale_fill_grey() +
     scale_color_grey()
 ```
@@ -242,43 +249,50 @@ And now the average log ratio across streams for each reach with 95% confidence 
 
 ```{r Total-Avg-Ratio, echo = TRUE}
 
-bug.ratios <- ffg.ratios %>% group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean)
+bug.ratios <- ffg.ratios %>% group_by(Stream, Year) %>% 
+  summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean)
 
-#t.test(`Log(Ratio) Year` ~ Treatment, data = bug.ratios)
+bug.ratios$Year <- as.factor(bug.ratios$Year)
 
-avg.ratio <- ddply(bug.ratios, .(Treatment), summarize,
+#t.test(Difference ~ Year, data = bug.ratios)
+
+avg.ratio <- ddply(bug.ratios, .(Year), summarize,
                    Mean = mean(`Log(Ratio) Year`),
                    SD = sd(`Log(Ratio) Year`))
 
-avg.ratio %>% 
-  ggplot(aes(x = Treatment, y = Mean, fill = Treatment)) +
-  geom_col(position = "dodge") +
-  geom_errorbar(aes(x = Treatment, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), #2.345 is the critical value 7.2983 degrees of freedom 
-                    color = Treatment, size = .5), position = "dodge") +
-  labs(title = "Average of the log ratio of 2018/2017",
-       x = "Treatment",
-       y = "Log ratio") +
+avg.difference <- ddply(bug.ratios, .(Year), summarize,
+                   Mean = mean(`Difference`),
+                   SD = sd(`Difference`))
+
+
+avg.difference %>% 
+  ggplot(aes(x = Year, y = as.numeric(Mean), color = Year)) +
+  geom_point(position = "dodge") +
+  geom_errorbar(aes(x = Year, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), #2.345 is the critical value 7.2983 degrees of freedom 
+                    color = Year), position = "dodge") +
+  labs(title = "Average of the Reach Difference",
+       x = "Year",
+       y = "Difference") +
   theme_bw(base_family = "LM Roman 10") +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         plot.title = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
-        legend.title = element_text(face = "bold")) +
-  scale_fill_grey() +
-    scale_color_grey()
+        legend.title = element_text(face = "bold")) 
+
 
 ```
 
 And now do it *all* again for FFG's.  We start with looking at one stream, then the log ratio for that stream, then the log ratio for all streams and finally the average log ratio for each FFG with error bars of one SD.
 
 ```{r W-113 FFG ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% 
+ffg.ratios %>%  group_by(Stream, Year) %>% 
   filter(Stream == "W-113") %>% 
-  ggplot(aes(x = Treatment, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Year, y = Difference, fill = Year)) +
   geom_col() +
   labs(title = "W-113 Log of Invertebrate FFG Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
-       y = "Log(Ratio) of Invertebrate Density") +
+       x = "Year",
+       y = "Difference") +
   facet_wrap("FFG") +
   scale_fill_grey() +
     scale_color_grey()
@@ -287,11 +301,11 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>%
 
 ```{r All FFG ratios, fig.height = 10, fig.width = 12, echo = TRUE}
 ffg.ratios %>%  
-  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Stream, y = Difference, fill = Year)) +
   geom_col(position = "dodge") +
-  labs(title = "Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
-       y = "Log(Ratio) of Invertebrate Density") +
+  labs(title = "Invert Density Difference",
+       x = "Year",
+       y = "Difference") +
   theme_bw(base_family = "LM Roman 10") +
   theme(legend.position = c(.1, .4), 
           legend.key.width = unit(5, "cm"),
@@ -308,9 +322,13 @@ ffg.ratios %>%
 
 
 ```{r AvgFFGratio, echo = TRUE}
-ffg.avg.ratio <- ddply(ffg.ratios, .(FFG, Treatment), summarize,
+ffg.avg.ratio <- ddply(ffg.ratios, .(FFG, Year), summarize,
       Mean = mean(`Log(Ratio) Year`),
       SD = sd(`Log(Ratio) Year`))
+
+ffg.avg.diff <- ddply(ffg.ratios, .(FFG, Year), summarize,
+      Mean = mean(`Difference`),
+      SD = sd(`Difference`))
 
 ffg_names <- c("SH", "P", "SCe", "CG", "SCi", "CF")
 
@@ -318,25 +336,25 @@ ffg_results <- data.frame("FFG" = numeric(6), "tval" = numeric(6), "pval" = nume
 for (i in ffg_names){
   k = match(i, ffg_names)  #find the index of i in ffg_names
   x <- filter(ffg.ratios, FFG == i) %>%
-  t.test(`Log(Ratio) Year` ~ Treatment, data = .)
+  t.test(`Difference` ~ Year, data = .)
   ffg_results[k, "FFG"] <- i
   ffg_results[k, "tval"] <- x$statistic
   ffg_results[k, "pval"] <- x$p.value
 }
 
 
-ffg.avg.ratio %>% 
-  ggplot(aes(x = FFG, y = Mean, fill = Treatment)) +
+ffg.avg.diff %>% 
+  ggplot(aes(x = FFG, y = Mean, fill = Year)) +
   geom_col(position = "dodge") +
-  geom_errorbar(aes(x = FFG, ymin = Mean - .1, ymax = Mean + ((SD*2.345)/sqrt(5)), 
-                    color = Treatment), width = .7, 
+  geom_errorbar(aes(x = FFG, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), 
+                    color = Year), width = .7, 
                     position = position_dodge(.9)) +
   labs(title = "Average of the log ratio of 2018/2017",
        x = "Treatment",
        y = "Log ratio") +
  theme_bw(base_family = "LM Roman 10") +
   theme(panel.grid.minor = element_blank(),
-        panel.grid.major = element_blank(),
+        #panel.grid.major = element_blank(),
         plot.title = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
         legend.title = element_text(face = "bold")) + 

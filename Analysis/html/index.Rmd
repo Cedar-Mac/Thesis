@@ -45,16 +45,16 @@ lapply(x, library, character.only = TRUE)
 
 ```{r Import data, echo = TRUE}
 # import data
-bugs <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Cleaned", col_types = c("date", "guess", "guess", "guess","guess", "guess", "guess","guess", "guess", "guess","guess", "guess"))
-ffg <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "FFG")
-sizes <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Size")
-ffg.ratios <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Density Ratio's", range = "K1:P61")
-ffg.ratio.diff <- readxl::read_xlsx("./Data/2017-18 bugs.xlsx", sheet = "Density Ratio's", range = "R1:T31")
-Diets <- readxl::read_xlsx("./Data/2018 Diets.xlsx")
-Bentho <- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
-Both_years<- readxl::read_xlsx("./Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
-FL <- readxl::read_xlsx("./Data/2018_Fluorescein.xlsx", sheet = "Compiled")
-Enviro <- readxl::read_xlsx("./Data/benthic2.xlsx")
+bugs <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "Cleaned", col_types = c("date", "guess", "guess", "guess","guess", "guess", "guess","guess", "guess", "guess","guess", "guess"))
+ffg <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "FFG")
+sizes <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "Size")
+ffg.ratios <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "Density Ratio's", range = "K1:P61")
+ffg.ratio.diff <- readxl::read_xlsx("../Data/2017-18 bugs.xlsx", sheet = "Density Ratio's", range = "R1:T31")
+Diets <- readxl::read_xlsx("../Data/2018 Diets.xlsx")
+Bentho <- readxl::read_xlsx("../Data/2018 Tiles Allison's Computer.xlsx", sheet = "Tiles")
+Both_years<- readxl::read_xlsx("../Data/2018 Tiles Allison's Computer.xlsx", sheet = "2017 and 2018")
+FL <- readxl::read_xlsx("../Data/2018_Fluorescein.xlsx", sheet = "Compiled")
+Enviro <- readxl::read_xlsx("../Data/benthic2.xlsx")
 #Replace Ssp. in Taxon with Family
 bugs$Taxon[bugs$Taxon == "Ssp."] <- bugs$Family[bugs$Taxon == "Ssp."]
 ```
