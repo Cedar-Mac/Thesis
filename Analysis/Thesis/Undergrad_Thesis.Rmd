@@ -14,7 +14,7 @@ advisor: 'Dana Warren'
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 output: 
-  beaverdown::thesis_pdf: default
+#  beaverdown::thesis_pdf: default
   beaverdown::thesis_word: default
 #  beaverdown::thesis_epub: default
 bibliography: bib/thesis.bib
@@ -24,7 +24,7 @@ abstract: >
   Stream light availability is an important factor influencing aquatic food webs. In forested headwaters, stream algal production is highly light-limited, and an increase in light often enhances benthic algal growth, which in turn increases food availability for primary consumers in the stream. In forested headwater streams, light availability is almost entirely mediated by the canopy structure of stream-side vegetation. Over the last century, many streamside forests in the Pacific Northwest were heavily harvested, leaving dense second-growth vegetation for the time being. Under current conditions we would expect dense closed canopies, little primary production, and a low abundance of invertebrates that feed on stream algae. We investigated the response of benthic periphyton, stream macroinvertebrates, and prey consumption by trout to a release from light limitation in a paired-reach study design. We hypothesized that increases in light availability would have a positive response on grazing macroinvertebrates due to elevated algal production, and predicted that this change in community structure would be reflected in the diets of trout. We found that the presence of a canopy gap had little influence on the invertebrate community, and this lack of change was reflected in summer trout diets.
 
 acknowledgements: >
-  I would like to thank Allison Swartz, Dana Warren and the whole Warren lab for several years of sometimes-grueling-always-fun work, and the opportunity and support to work on this thesis project.  Additionally, I would like to acknowledge both Dave Roon and Dave Lytle, my thesis committee members, for their novel insights and unique perspective. The parts of this thesis that I am most proud of came about through collaboration with with all of the people mentioned above, and of course it was all made possible through the love and encouragement of my family.
+  I would like to thank Allison Swartz, Dana Warren and the whole Warren lab for several years of sometimes-grueling-always-fun work, and the opportunity and support to work on this thesis project.  Additionally, I would like to acknowledge both Dave Roon and Dave Lytle, my thesis committee members, for their novel insights and unique perspective. The parts of this thesis that I am most proud of came about through collaboration with all of the people mentioned above, and of course it was all made possible through the love and encouragement of my family.
 #contributors: > 
   #Dave Roon, Dave Lytle, Dana Warren, Allison Swartz, Matt Kaylor all helped with analyses and edits.
 #dedication: >
@@ -52,15 +52,15 @@ ffg_results <- read_xlsx("../Data/Data for Tables/FFG results.xlsx")
 
 In forested systems, streams and their biota are intrinsically linked to riparian vegetation (@Vannote1980). Stream food webs depend on direct carbon subsidies from the terrestiral environment in the form of both leaf litter and terrestrial invertebrates, but riparian controls on stream systems aren't limited to biological inputs. Riparian canopy cover also has an indirect effect on stream food webs through the control of light available for benthic primary production. In the Pacific Northwest (PNW) region of North America, riparian forests have changed substantially in the past half century. After a legacy of heavy harvesting, riparian forest protections have created dense second-growth vegetation along streams in contrast with old-growth forests containing multiple canopy gaps. The dense vegetation in these regenerating forests decreases light availability and limits benthic primary production. As forest stand development continues natural disturbances and individual tree mortality will increase canopy heterogeneity through the introduction of gaps.To understand how aquatic food webs respond to an increase in light associated with canopy gaps, we investigate the response of macroinvertebrates and fish feeding to canopy-opening manipulations.
 
-Light, and its impact on primary productivity in streams is of particular interest because autochthonous carbon can be disproportionately represented in consumer biomass relative to its availability in many aquatic environments (@Lau2009, @McCutchan2002). In forested headwater systems specifically, basal carbon availability is dominated by leaf litter (@McCutchan2002); however, energetically, algae is a higher quality food source and is preferentially assimilated into higher trophic levels (@Macarelli2011). Stream secondary production is dominated by aquatic macroinvertebrates which play an important role in assimilating and transducing energy to higher trophic levels such as insectivorous fish and other vertebrate predators.  Because macroinvertebrates play a crucial role in mediating food web interactions, understanding their community dynamics can provide key insights into broader ecosystem functioning. Invertebrates in the scraper functional feeding group in particular have evolved specialized mouthparts for consuming benthic algal biofilms (periphyton), and increases in algal production often elicits a positive response among these scraping taxa (@ sources). 
+Light, and its impact on primary productivity in streams is of particular interest because autochthonous carbon can be disproportionately represented in consumer biomass relative to its availability in many aquatic environments (@Lau2009, @McCutchan2002). In forested headwater systems specifically, basal carbon availability is dominated by leaf litter (@McCutchan2002); however, energetically, algae is a higher quality food source and is preferentially assimilated into higher trophic levels (@Macarelli2011). Stream secondary production is dominated by aquatic macroinvertebrates which play an important role in assimilating and transducing energy to higher trophic levels such as insectivorous fish and other vertebrate predators.  Because macroinvertebrates play a crucial role in mediating food web interactions, understanding their community dynamics can provide key insights into broader ecosystem functioning. Invertebrates in the scraper functional feeding group in particular have evolved specialized mouthparts for consuming benthic algal biofilms (periphyton), and increases in algal production in high light areas can elicit a positive response among these scraping taxa (@ sources). 
 
 Macroinvertebrate community data has historically been used to evaluate stream health. Indicies such as the B-IBI or, benthic index of biological integrity, rely on total taxa richness and taxa richness of key families, such as Plecoptera, Ephemeroptera and Trichoptera, to evaluate the biological condition of streams.  More broadly, an assesement of the whole community can be used to evaluate overall food web and ecosystem responses to a multitude of variables. For example, studies using nonmetric multidimensional scaling (NMS) have been used to assess community responses along a variety of environmental gradients (@ citations). 
 
-The benthic invertebrate community represents the primary food source for fish in headwater streams (@ citation). Trout are the dominant fish species in many headwater systems across North America, and can influence both invertebrate behavior and community structure (@ McIntosh and Peckarsky papers – and maybe something from PNW). In headwater streams trout are oportunistic foragers, eating whatever is available in their habitat. Cutthroat trout feed from the water column using visual cues to capture prey. Because salmonids are visual predators, their feeding efficiency can be influenced by light conditions and visibility (@Wilzbach1986), therefore gaps have the potential to affect fish feeding not only though potential increases in scraper invertebrate food resources, but also by increasing foraging efficiency. 
+The benthic invertebrate community represents the primary food source for fish in headwater streams (@ citation). Trout are the dominant fish species in many headwater systems across North America, and can influence both invertebrate behavior and community structure (@ McIntosh and Peckarsky papers – and maybe something from PNW). In headwater streams trout are oportunistic foragers, eating whatever is available in their habitat. Cutthroat trout feed from the water column using visual cues to capture prey. Because salmonids are visual predators, their feeding efficiency can be influenced by light conditions and visibility (@Wilzbach1986), therefore gaps have the potential to affect fish feeding not only though potential increases in scraper invertebrate food resources, but also by increasing foraging capture rates of all taxa and functional feeding groups. 
 
-Clear cutting and the resultant reach-level increase in stream light can increase stream primary and secondary productivity, but increases in light also lead to increases in temperature, and cutting to the stream edge can increase sediment loads. Given these negative impacts, clear cutting along streams is no longer a common practice in the Pacific Northwest--even in managed landscapes riparian buffers are left. In unmanaged forests, and in these riparian forest buffers, stands are in the early to mid-seral stages with dense homogenous canopy cover and low stream light (@Kaylor2017FS). Canopy gaps will begin developing naturally along streams as stands mature, and restoration efforts focused on emulating natural disturbance may expedite forest shifts toward late-succession and old-growth structural conditions (@Kreutzweiser2012). While studies on reach-scale forest clearing demonstrate a clear response in benthic primary producers, invertebrates, and trout to release from light limitation, this does not reflect future stream conditions in most forested landscapes. As stands progress toward late succesional forest structure, localized light patches (rather than large openings) will become increasingly prevelant, and have not been widely evaluated. 
+Clear cutting and the resultant reach-level increase in stream light can increase stream primary and secondary productivity, but increases in light also lead to increases in temperature, and cutting to the stream edge can increase sediment loads. Given these negative impacts, clear cutting along streams is no longer a common practice in the Pacific Northwest--even in managed landscapes riparian buffers are left. In unmanaged forests, and in these riparian buffers, stands are recovering from past land clearing, and are currently in the early to mid-seral stage of development with dense homogenous canopy cover and low stream light (@Kaylor2017FS). Canopy gaps will begin developing naturally along streams as stands mature, and restoration efforts focused on emulating natural disturbance may expedite forest shifts toward late-succession and old-growth structural conditions (@Kreutzweiser2012). While studies on reach-scale forest clearing demonstrate a clear response in benthic primary producers, invertebrates, and trout to release from light limitation, this does not reflect future stream conditions in most forested landscapes. Rather, as stands progress toward late succesional forest structure, localized light patches (as opposed to large openings) will become increasingly prevelant. The more moderate influence of these small canopy gaps have not been widely investigated, especially in an experimental context.
 
-We hypothesize that canopy gaps will produce a dampened response in comparison to clear cutting but, should increase primary production, causing the macroinvertebrate community to shift in response to resource availability, and resultant changes in the invertebrate community will be reflected in the opportunistic foraging of trout.
+We implemented a two-year long before-after, control-impact study designed to detect accurately capture the effect of canopy gaps in the natural environment. In this work, we hypothesized that primary production would increase when canopy gaps were created, and this would cause the invertebrate community to shift toward more scraping taxa. However, we expect the response to be dampended in comparison observed responses in large scale riparian clearing studies. In addition to evaluating the macroinvertebrate community, we quantified trout diets with the expectation that shifts in the invertebrate community would be reflected proportionally in the diet of opportunistic foraging of trout, but also to ensure that a potential signal in invertebrate scraper taxa was not being masked by increased foraging of apex consumers. 
 
 # Methods {-}
 
@@ -71,8 +71,7 @@ The study consists of five reach pairs on five replicate streams in the western 
 All of the streams are wadeable, fish-bearing streams with bankfull widths of 1-8 meters. Fish-bearing streams were purposefully selected to provide management-relevant results for key species such as salmonids. The streams run through 40-60-year-old riparian forests regenerating from previous harvest. These forests have a homogenous canopy structure with heavy understory shading, as defined by their early seral stage. Small streams were chosen for ease of sampling and to maximize the effect of a canopy opening manipulation since small streams may be completely shaded by overhead vegetation due to their high edge to area ratio. 
 
 ```{r table1, echo=FALSE}
-kable(attributes, format = 'latex', booktabs = TRUE, caption = "Study site attributes") %>% 
-  kable_styling(latex_options = c("scale_down")) 
+kable(attributes, format = 'latex', booktabs = TRUE, caption = "Study site attributes") %>% kable_styling(latex_options = c("scale_down")) 
 ```
 
 
@@ -137,7 +136,11 @@ Trout diets were collected in the post-treatment year, which limits analysis to 
 
 In 2017, before treatment, the average daily PAR reaching the stream benthos among the five streams was consistently low in both reference and treatment reaches and there was an average difference between the treatment and reference reach of -0.163 mol m^-2^ day^-1^.  In 2018, after gaps were cut, light went up by 2.604 mol m^-2^ day^-1^ on average in the treatment reach compared to the reference reach (Figure 1) resulting in a final yearly difference between reach differences of 2.767 mol m^-2^ day^-1^ (p-value = 0.01862, t-value = -3.8296).
 
-Again, for chlorophyll *a*, values across all sites in the pre-treatment year were low (mean = 0.095 ug cm^-2^), and there was little difference between reaches. After gaps were cut in the post-treatment year, Chla values went up by 0.44 ug cm^-2^ in the gap reach, and only 0.175 ug cm^-2^ in the reference reach (final BACI difference = 0.265 ug cm^-2^, p-value = 0.0017). ![Light and Chla reach differences in the pre and post-treament years](Figures/Vars_Reach_Diffs.png){width=400px}
+Again, for chlorophyll *a*, values across all sites in the pre-treatment year were low (mean = 0.095 ug cm^-2^), and there was little difference between reaches. After gaps were cut in the post-treatment year, Chla values went up by 0.44 ug cm^-2^ in the gap reach, and only 0.175 ug cm^-2^ in the reference reach (final BACI difference = 0.265 ug cm^-2^, p-value = 0.0017). 
+
+```{r fig.cap = "Light and Chla reach differences in the pre and post-treament years \\label{Chla-Light}", out.width="60%", echo=FALSE}
+knitr::include_graphics("Figures/Vars_Reach_Diffs.png")
+```
 
 ## *Juga* on Tiles {-}
 
@@ -145,44 +148,61 @@ In the pre-treatment year, the average density of  *Juga* on tiles among the two
 
 ## Benthic Invertebrate Community {-}
 
-There was little difference between benthic invertebrate communities in the treatment and reference reaches in the pre-treatment year (MRBP: A = 0.041, p = 0.071), or the post-treatment year (A = -0.022, p = 0.838).  The results from the NMS ordinations support the results of the MRBP (Figure 2). ![NMS of each reach in invertebrate community space. Each point represents a single stream reach, shapes identify stream, and color identifies treament and year.](Figures/NMS Benthic-1.png){width=400px} The NMS ordination of benthic invertebrates  converged on a 2D solution with a final stress of 12.031. BenthoTotal (total chlorophyll values from the BenthoTorch) and YearTreatQ (a binary variable coded with 1’s for 2018 treated reaches and 0’s for all other reaches) both had positive r^2^ values with axis 1 (YearTreatQ r^2^ = 0.272, BenthoTotal r^2^ = 0.304).
+There was little difference between benthic invertebrate communities in the treatment and reference reaches in the pre-treatment year (MRBP: A = 0.041, p = 0.071), or the post-treatment year (A = -0.022, p = 0.838).  The results from the NMS ordinations support the results of the MRBP (Figure 2). 
+```{r fig.cap = "NMS of each reach in invertebrate community space. Each point represents a single stream reach, shapes identify stream, and color identifies treament and year.", out.width="60%", echo=FALSE}
+knitr::include_graphics("Figures/NMS-Benthic-1.png")
+```
+
+ The NMS ordination of benthic invertebrates  converged on a 2D solution with a final stress of 12.031. BenthoTotal (total chlorophyll values from the BenthoTorch) and YearTreatQ (a binary variable coded with 1’s for 2018 treated reaches and 0’s for all other reaches) both had positive r^2^ values with axis 1 (YearTreatQ r^2^ = 0.272, BenthoTotal r^2^ = 0.304).
 
 ## Invertebrate Functional Feeding Groups {-}
 
+```{r fig.cap = "Log ratio of treatment reach divided by control reach for each FFG. CF = Collector-filterer, CG = Collector-gatherer, SH = Shredder, SC = Scrapers, SCe = Edible Scrapers, SCi = Inedible Scrapers, P = Predators, and All Bugs is the total macroinvertebrate density", out.width="60%", echo=FALSE}
+knitr::include_graphics("Figures/AvgFFGratio-1.png")
+```
 
 
-![Log ratio of treatment reach divided by control reach for each FFG. CF = Collector-filterer, CG = Collector-gatherer, SH = Shredder, SC = Scrapers, SCe = Edible Scrapers, SCi = Inedible Scrapers, P = Predators, and All Bugs is the total macroinvertebrate density](Figures/AvgFFGratio-1.png){width=400px}
 ```{r ffgtable, echo = FALSE}
 kable(ffg_results, format = 'latex', booktabs = TRUE, caption = "BACI t-test results for various metrics") 
 ```
+
 ## Trout Diet {-}
 
-![](Figures/Diet-FFG-D-1.png){width=400px}
+```{r out.width="60%", echo=FALSE}
+knitr::include_graphics("Figures/Diet-FFG-D-1.png")
+```
 
-![](Figures/Diet-Fam-D-1.png){width=400px}
+
+```{r out.width="60%", echo=FALSE}
+knitr::include_graphics("Figures/Diet-Fam-D-1.png")
+```
+
+
 
 # Discussion {-}
 
-Gaps are, by definition, patches in a larger, forested system. Therefore, significant localized responses to increases in light within a gap may not translate to significant system-wide responses at the stream or even the reach level. Our study design emphasizes the effects of gaps that comprise only a fraction of a stream reach, focusing on the integrated effect of small gaps embedded in a larger forested matrix. While light and Chla responded as expected to an opening of the riparian canopy, our reach-scale metrics for the invertebrate community do not show a response to increases in primary production. This does not match our original hypothesis that increases in high quality algae would lead to increased abundance of scraping invertebrate taxa. Instead, we find that the scale of the effect--increases in light are limited to within the gap--may outweigh the local magnitude. Even though algae is an energetically preferential food source, and primary production increased within treatment reaches, we see a limited invertebrate response at the reach level.
+Gaps are, by definition, open canopy patches in a larger, forested system. While localized responses may occur, we were particularly interested in whether the effect of an individual canopy gap could be measured at the stream reach scale. Studies have found that systems with multiple gaps, or with patches of high shade, had an effect on the overall invertebrate community. Yet, significant localized responses to increases in light beneath a single gap may not translate to significant system-wide responses at the stream or even the reach level. Our study design emphasizes the effects of gaps that comprise only a fraction of a stream reach, focusing on the integrated effect of small gaps embedded in a larger forested matrix. While light and Chla responded as expected to an opening of the riparian canopy, our reach-scale metrics for the invertebrate community do not show a response to increases in primary production. This does not match our original hypothesis that increases in high quality algae would lead to increased abundance of scraping invertebrate taxa. Instead, we found magnitude of the invertebrate response were not large enough to manifest at the reach scale and that fish consumption was unlikely to have been a factor affecting this in the context of community compisiton or functional feeding group relative abundance. In the one taxa group for which we did evaluate local responses, snails had a strong response to the treatment in meters adjacent to the gap treatment, but our reach-scale metrics for other invertebrate community members showed little BACI response.
 
-The results for higher trophic levels seem to be in contradiction with previous studies on stream light (@ Heaston, Kaylor, Wooton), but these studies focused on 
+While light increases in our study were large due to previous heavy shading, they were not outside the realm of what occurs naturally in these systems. Canopy gaps can be seen as a natural disturbance, not only to the riparian system, but to adjacent aquatic systems as well. While these small-scale distrubances may have localized impacts on stream biota, the system response seems to be limited. Previous studies on forest shading, a long-term perturbation to headwater systems, indicate a strong linear relationship between light and GPP, this may indicate potential photosaturation limiting distrubance response to gaps, or there may be other consumer interactions at play. 
 
-Is a lack of system response to a local perturbation considered resilience?
+Complex trophic dynamics and limits on primary productivity such as photosaturation and nutrient limitation make it hard to capture a per unit light biotic response. Studies demonstrate clear differences between old-growth and second-growth light dynamics and system productivity, but how frequently or how large of gaps are necessary to get a response?    
 
-The overall response of the benthic invertebrate community to the canopy gaps was slight and indicates that no one species or functional group confers a competitive advantage from either increases in light or increased autochthonous production. 
+The reach-scale metrics seem to be in contradiction with previous studies on stream light (@ Heaston, Kaylor, Wooton), but these studies focused on the immediate, within-treatment response of invertebrates and fish to various alterations to light availability. In that regard, our snails responded as expected, but the relative size of our canopy manipulations, one similar to small scale natural disturbances and individual tree mortality, limited reach-level trophic responses.
 
-When we replace taxonomy with functional groups, we still see no real changes in the relative abundance of functional feeding groups, which fits with our results from NMS.
+Community PCA results what have others (in Dave’s lab) found and what did we find here? How might these results change if you were to look at other seasons?  Overall communities were more similar within a stream than across treatments.  This is to be expected but we thought tehre would be a shift in the same direction that would show up.  We did see trends in SC that fit our hypothesis, that were not significant, however what is interesting is that with such different communities between streams the shifts that we saw were a result of changes across a wide range of taxa, not just one taxa group changing.  So even though there is skepticism about the FFG’s and how they relate to diet (Revisiting RCC sites in ID Rosi and Baxter are co-authors), the trends from our sites suggest that applying an FFG here may be reasonable.
 
-Trout diets also showed no response.
-
-The *Juga* snail response fits our hypothesis, but hadn't been anticipated prior to field observations.  
-
-Gap versus reach size.  How large of a gap results in more than a local-within-gap response? When looking at a local response of grazers on tiles
+IBI what did we see with basic stuff like EPT – any evidence that a gap would negatively affect community?  No – not positive or negative. Seems realtively site-specific.  In
 
 
-Power and Dietrich advocate for species exculsion studies to determine the top-down pressure of upper level consumers on lower members of the stream community (2002), but experimentally enhancing a particular basal resource can also reveal energy pathways and which community members are poised to take advantage of specific energy subsidies. 
+Fish diets were all over the map. No clear preference or greater abundance of scrapers or any other FFG (or taxa group if we went order) so limited evidence to suggest that the lack of a FFG response was due to preferential feeding.  Fish were eating in all sites, few (#) empty stomachs.
 
-In resiliency theory, the ability of a community to resist change is dependent on both the magnitude of disturbance and the degree of interspecific competition.
+
+# Conclusion
+
+Gaps do have an effect but it appears to be local – at least for gaps of this size and the effect is muted at the whole reach scale.  But more gaps may give us a different answer since there is clearly some local impact.
+
+
+
 
 \pagebreak
 
