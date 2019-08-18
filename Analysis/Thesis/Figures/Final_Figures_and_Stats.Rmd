@@ -104,7 +104,7 @@ Both_years <- Both_years %>% filter(Stream != "W-122")
 # Calculate mean of the three tiles for each meter
 bentho_both.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Meter + Year, mean, data = Both_years)
 bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Year, mean, data = Both_years)
-write_csv(bentho.reach, "./Data/bentho.reach.csv")
+
 
 ggplot(data = bentho_both.mean) +
   geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
@@ -330,6 +330,8 @@ ffg.avg.diff <- ddply(ffg.ratios, .(FFG, Year), summarize,
       Mean = mean(`Difference`),
       SD = sd(`Difference`))
 
+ffg.avg.diff$Year <- as.factor(ffg.avg.diff$Year)
+
 ffg_names <- c("SH", "P", "SCe", "CG", "SCi", "CF")
 
 ffg_results <- data.frame("FFG" = numeric(6), "tval" = numeric(6), "pval" = numeric(6))  #initialize data frame
@@ -349,9 +351,9 @@ ffg.avg.diff %>%
   geom_errorbar(aes(x = FFG, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), 
                     color = Year), width = .7, 
                     position = position_dodge(.9)) +
-  labs(title = "Average of the log ratio of 2018/2017",
+  labs(title = "Average of the difference 2018 - 2017",
        x = "Treatment",
-       y = "Log ratio") +
+       y = "Difference") +
  theme_bw(base_family = "LM Roman 10") +
   theme(panel.grid.minor = element_blank(),
         #panel.grid.major = element_blank(),
@@ -502,14 +504,15 @@ Actually maybe cool result, all of the treatment reaches now plot closer post-ga
 ***
 
 ```{r Density By Stream, fig.height=10, fig.width=12, echo = TRUE}
-bugs.agg %>% mutate(CollDate.Treatment = interaction(Treatment, CollDate)) %>%
-group_by(Stream, CollDate.Treatment) %>%
-  summarise_at(vars(Density), funs(sum)) %>%
+bugs.reach.diff %>%
+group_by(Stream, Treatment, FFG) %>%
+  summarise_at(vars(Diff), funs(sum)) %>%
   
-  ggplot(aes(x = Stream, y = Density, fill = CollDate.Treatment)) + 
+  ggplot(aes(x = FFG, y = Diff, fill = Treatment)) + 
   geom_col(position = "dodge") +
   ggtitle("Total Inverebrate Density (m^2)") +
-  scale_fill_viridis_d(option = "E") 
+  scale_fill_viridis_d(option = "E") +
+  facet_wrap("Stream")
 ```
 
 The gap has no real effect, except maybe MCTE. We saw this in the t tests and bar plots, and in the ordination.  

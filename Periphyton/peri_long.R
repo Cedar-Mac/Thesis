@@ -1,4 +1,4 @@
-# Prep Periphyton data for PC-ORD
+# Prep Periphyton data for PC-ORD/Basic MDS in R
 x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "viridis", "ggrepel")
 lapply(x, library, character.only = TRUE)
 
