@@ -419,8 +419,7 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ra
 
 And now the average log ratio across streams for each reach with error bars of 1 standard deviation.
 
-```{r Total Average Log Ratio, echo = 
-FALSE, fig.height=10, fig.width=12}
+```{r Total Average Log Ratio, echo = FALSE, fig.height=10, fig.width=12}
 avg.ratio <- ffg.ratios %>% group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean)
 avg.ratio <- data_summary(data = avg.ratio, varname = "Log(Ratio) Year", 
                                 groupnames = c("Treatment"))
