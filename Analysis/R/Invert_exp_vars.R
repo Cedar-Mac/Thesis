@@ -1,3 +1,4 @@
+
 x <- c("tidyverse", "vegan", "lubridate", "readxl", "ggthemes", "vegan", "viridis", "DT", "ggrepel", 
        "here", "cowplot", "grid", "here")
 lapply(x, library, character.only = TRUE)
@@ -9,6 +10,8 @@ ffgs <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"),
                   sheet = "Density Ratio's", range = "D1:H121")
 single_Q_estimates <- read.csv(here::here("Analysis", "Data", "discharge.csv"))
 temp_light <- read.csv(here::here("Analysis", "Data", "canopy_light.csv"))
+
+
 
 ffgs <- dplyr::rename(ffgs, Year = CollDate)
 
@@ -25,9 +28,8 @@ Q <- filter(single_Q_estimates, filter_variable == "1")
 Q <- Q %>% filter(Stream != "W-122")
 
 
-Reach_Means <- Bentho %>%
-  group_by(Stream, Year, Treatment, Year.Treatment) %>%
-  summarise(Mean_Chla = mean(BenthoTotal), SD_Chla = sd(BenthoTotal, na.rm = TRUE))
+Reach_Means <- Bentho %>% dplyr::group_by(Stream, Year, Treatment, Year.Treatment) %>%
+  dplyr::summarise(Mean_Chla = mean(BenthoTotal), SD_Chla = sd(BenthoTotal, na.rm = TRUE))
 
 
 # Fabricating data... Missing CHUCK 2017 N Chla Data, I am making conservative estimate that 
@@ -67,6 +69,8 @@ Diffs$d_7max <- (Diffs$Max7MovingAMaxT.y - Diffs$Max7MovingAMaxT.x)
 
 Diffs_only <- Diffs %>% select(Stream, Year, d_PAR, d_Chla, d_CF, d_All, d_SCe, d_SCi, d_SC, d_7max, d_P, d_SH, d_CG)
 
+Diffs_only$EPT <- c(2, 0, 1, -3, -1, -1, 5, -2, -6, -1)
+
 ####### YEAR DOUBLE DIFF ###############
 Pre <- filter(Diffs_only, Year == 2017)
 Post <- filter(Diffs_only, Year == 2018)
@@ -87,6 +91,9 @@ Dubs_only$Q <- Q$Q
 Dubs_only$Bankful<-Q$Bankful
 Dubs_only$GapEllipse<-Q$GapEllipse
 Dubs_only$light_meters<-Q$light_meters
+
+Dubs_only$EPT <- c(-2,-4,0,-7,5)
+
 
 
 ####### ALL SCRAPER PLOTS #############
@@ -117,6 +124,7 @@ Dubs_only$light_meters<-Q$light_meters
     theme_bw(base_size = 14) + 
     geom_smooth(method = 'lm', size = .25, se = T) + 
     geom_point(aes(shape = Stream), size = 2) )
+
 
 leg <- get_legend(Q)
 
@@ -379,55 +387,66 @@ SC <- tibble("Mean_SC" =
               "Year" = as.factor(c(2017, 2018))
 )
 
+EPT <- tibble("Mean_EPT" = 
+               c(mean(Diffs_only$EPT[Diffs_only$Year == 2017]),
+                 mean(Diffs_only$EPT[Diffs_only$Year == 2018])), 
+             "SD_EPT" = c(sd(Diffs_only$EPT[Diffs_only$Year == 2017]), 
+                         sd(Diffs_only$EPT[Diffs_only$Year == 2018])),
+             "Year" = as.factor(c(2017, 2018))
+)
+
 
 (PAR_plot <- ggplot(data = PAR, aes(x = Year, y = Mean_PAR, group = Year)) +
    labs(x = expression(paste('Year')),
-        y = "PAR") +
+        y = bquote("PAR " (mol ~m^-2 ~day^-1))) +
    theme_bw(base_size = 14) + 
    geom_col(aes(fill = Year)) +
    geom_errorbar(aes(x = Year, ymin = Mean_PAR - ((SD_PAR*2.345)/sqrt(5)), 
                      ymax = Mean_PAR + ((SD_PAR*2.345)/sqrt(5)), color = Year)) +
+    geom_hline(yintercept = 0, color = "black", size = .5) +
     theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.major = element_blank(),
           plot.title = element_text(hjust = 0.5),
           plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
           legend.title = element_text(face = "bold")) + 
-    scale_fill_viridis_d(option = "E", end = .8) +
-    scale_color_viridis_d(option = "E", end = .8) )
+    scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) )
 
 (Chla_plot <- ggplot(data = Chla, aes(x = Year, y = Mean_Chla)) +
     labs(x = expression(paste('Year')),
-         y = "Chla") +
+         y = bquote("Chla " (ug ~cm^-2))) +
     theme_bw(base_size = 14) + 
     geom_col(aes(fill = Year)) +
     geom_errorbar(aes(x = Year, ymin = Mean_Chla - ((SD_Chla*2.345)/sqrt(5)), 
                       ymax = Mean_Chla + ((SD_Chla*2.345)/sqrt(5)), color = Year)) +
+    geom_hline(yintercept = 0, color = "black", size = .5) +
     theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.major = element_blank(),
           plot.title = element_text(hjust = 0.5),
           plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
           legend.title = element_text(face = "bold")) + 
-    scale_fill_viridis_d(option = "E", end = .8) +
-    scale_color_viridis_d(option = "E", end = .8) )
+    scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) )
 
 (All_plot <- ggplot(data = All, aes(x = Year, y = Mean_All)) +
     labs(x = expression(paste('Year')),
-         y = "Total Inverts") +
+         y = bquote("Total Invertebrate Density " (~m^-2))) +
     theme_bw(base_size = 14) + 
     geom_col(aes(fill = Year)) +
     geom_errorbar(aes(x = Year, ymin = Mean_All - ((SD_All*2.345)/sqrt(5)), 
                       ymax = Mean_All + ((SD_All*2.345)/sqrt(5)), color = Year)) +
+    geom_hline(yintercept = 0, color = "black", size = .5) +
     theme_bw(base_family = "LM Roman 10") +
     theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.major = element_blank(),
           plot.title = element_text(hjust = 0.5),
           plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
           legend.title = element_text(face = "bold")) + 
-    scale_fill_viridis_d(option = "E", end = .8) +
-    scale_color_viridis_d(option = "E", end = .8) )
+    scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) )
 
 (SC_plot <- ggplot(data = SC, aes(x = Year, y = Mean_SC)) +
     labs(x = expression(paste('Year')),
@@ -436,27 +455,45 @@ SC <- tibble("Mean_SC" =
     geom_col(aes(fill = Year)) +
     geom_errorbar(aes(x = Year, ymin = Mean_SC - ((SD_SC*2.345)/sqrt(5)), 
                       ymax = Mean_SC + ((SD_SC*2.345)/sqrt(5)), color = Year)) +
+    geom_hline(yintercept = 0, color = "black", size = .5) +
     theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.major = element_blank(),
           plot.title = element_text(hjust = 0.5),
           plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
           legend.title = element_text(face = "bold")) + 
-    scale_fill_viridis_d(option = "E", end = .8) +
-    scale_color_viridis_d(option = "E", end = .8) )
+    scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) )
+
+(EPT_plot <- ggplot(data = EPT, aes(x = Year, y = Mean_EPT)) +
+    labs(x = expression(paste('Year')),
+         y = "EPT Index") +
+    theme_bw(base_size = 14) + 
+    geom_col(aes(fill = Year)) +
+    geom_errorbar(aes(x = Year, ymin = Mean_EPT - ((SD_EPT*2.345)/sqrt(5)), 
+                      ymax = Mean_EPT + ((SD_EPT*2.345)/sqrt(5)), color = Year)) +
+    geom_hline(yintercept = 0, color = "black", size = .5) +
+    theme_bw(base_family = "LM Roman 10") +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          plot.title = element_text(hjust = 0.5),
+          plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
+          legend.title = element_text(face = "bold")) + 
+    scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) )
 
 baci_leg <- get_legend(PAR_plot)
 
 (baci_plots <- plot_grid(PAR_plot + theme(legend.position = "none"),
-                      All_plot + theme(legend.position = "none"),
                       Chla_plot + theme(legend.position = "none"),
-                      #SC_plot + theme(legend.position = "none"),
-                      labels = c("a", "b", "c", "d"), nrow = 2) )
+                      All_plot + theme(legend.position = "none"),
+                      EPT_plot + theme(legend.position = "none"),
+                      labels = c("a", "b", "c", "d"), nrow = 1) )
 
-All_baci <- plot_grid(baci_plots, baci_leg, nrow = 1, rel_widths = c(1, 0.15))
+All_baci <- plot_grid(baci_plots, baci_leg, nrow = 1, rel_widths = c(8,1))
 
 ggsave("Vars_Reach_Diffs.png", All_baci, 
-       path = "~/Desktop/", width = 10, height = 10)
+       path = "~/Desktop/", width = 8, height = 4)
 
 
 

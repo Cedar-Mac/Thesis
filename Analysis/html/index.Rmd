@@ -155,7 +155,7 @@ Both_years <- Both_years %>% filter(Stream != "W-122")
 # Calculate mean of the three tiles for each meter
 bentho_both.mean <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Meter + Year, mean, data = Both_years)
 bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Year, mean, data = Both_years)
-write_csv(bentho.reach, "./Data/bentho.reach.csv")
+#write_csv(bentho.reach, "../Data/bentho.reach.csv")
 
 ggplot(data = bentho_both.mean) +
   geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
@@ -393,12 +393,12 @@ Next we plot log ratios between years (2018Y / 2017Y and 2018N / 2017N) for a si
 A log ratio of 0 indicates no change in abundance between 2017 and 2018. Positive values mean an increase in abundance in the post-treatment year, and a negative value would suggest a decline in abundance in the post-treatment year.  We then compare the yearly ratio's of each reach (control or treatment) to assess the effect of the treatment.
 
 ```{r W-113 Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+ffg.ratios %>%  group_by(Stream, Year) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
   filter(Stream == "W-113") %>% 
-  ggplot(aes(x = Treatment, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Year, y = `Log(Ratio) Year`, fill = as.factor(Year))) +
   geom_col() +
-  labs(title = "W-113 Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
+  labs(title = "W-113 Log of Invertebrate Density Ratio's \n (Treatment / Control)",
+       x = "Year",
        y = "Log(Ratio) of Invertebrate Density") +
   scale_fill_grey()
 ```
@@ -407,11 +407,11 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ra
 Now we plot all the log ratios
 
 ```{r All Streams Total Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
-  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = Treatment)) +
+ffg.ratios %>%  group_by(Stream, Year) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = as.factor(Year))) +
   geom_col(position = "dodge") +
-  labs(title = "Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
+  labs(title = "Log of Invertebrate Density Ratio's \n (Treatment / Control)",
+       x = "Year",
        y = "Log(Ratio) of Invertebrate Density") +
   scale_fill_grey()
 ```
@@ -420,15 +420,15 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ra
 And now the average log ratio across streams for each reach with error bars of 1 standard deviation.
 
 ```{r Total Average Log Ratio, echo = FALSE, fig.height=10, fig.width=12}
-avg.ratio <- ffg.ratios %>% group_by(Stream, Treatment) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean)
+avg.ratio <- ffg.ratios %>% group_by(Stream, Year) %>% summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean)
 avg.ratio <- data_summary(data = avg.ratio, varname = "Log(Ratio) Year", 
-                                groupnames = c("Treatment"))
+                                groupnames = c("Year"))
 avg.ratio %>% 
-  ggplot(aes(x = Treatment, y = Mean, fill = Treatment)) +
+  ggplot(aes(x = Year, y = Mean, fill = as.factor(Year))) +
   geom_col(position = "dodge") +
-  geom_errorbar(aes(x = Treatment, ymin = Mean - SD, ymax = Mean + SD)) +
+  geom_errorbar(aes(x = Year, ymin = Mean - SD, ymax = Mean + SD)) +
   labs(title = "Average of the log ratio of 2018/2017",
-       x = "Treatment",
+       x = "Year",
        y = "Log ratio") +
   scale_fill_grey()
 ```
@@ -436,12 +436,12 @@ avg.ratio %>%
 And now do it all again for FFG
 
 ```{r W-113 FFG ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Treatment) %>% 
+ffg.ratios %>%  group_by(Stream, Year) %>% 
   filter(Stream == "W-113") %>% 
-  ggplot(aes(x = Treatment, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Year, y = `Log(Ratio) Year`, fill = as.factor(Year))) +
   geom_col() +
-  labs(title = "W-113 Log of Invertebrate FFG Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
+  labs(title = "W-113 Log of Invertebrate FFG Density Ratio's \n (Treatment / Control)",
+       x = "Year",
        y = "Log(Ratio) of Invertebrate Density") +
   facet_wrap("FFG") +
   scale_fill_grey()
@@ -450,10 +450,10 @@ ffg.ratios %>%  group_by(Stream, Treatment) %>%
 
 ```{r All FFG ratios, fig.height = 10, fig.width = 12, echo = TRUE}
 ffg.ratios %>%  
-  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = Treatment)) +
+  ggplot(aes(x = Stream, y = `Log(Ratio) Year`, fill = as.factor(Year))) +
   geom_col(position = "dodge") +
-  labs(title = "Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
+  labs(title = "Log of Invertebrate Density Ratio's \n (Treatment / Control)",
+       x = "Year",
        y = "Log(Ratio) of Invertebrate Density") +
   theme(legend.position = c(.1, .4), 
           legend.key.width = unit(5, "cm"),
@@ -465,12 +465,12 @@ ffg.ratios %>%
 
 ```{r Avg FFG ratio, fig.height = 10, fig.width = 12, echo = TRUE}
 ffg.avg.ratio <- data_summary(data = ffg.ratios, varname = "Log(Ratio) Year", 
-                                groupnames = c("Treatment", "FFG"))
+                                groupnames = c("Year", "FFG"))
 ffg.avg.ratio %>% 
-  ggplot(aes(x = FFG, y = Mean, fill = Treatment)) +
+  ggplot(aes(x = FFG, y = Mean, fill = as.factor(Year))) +
   geom_col(position = "dodge") +
   geom_errorbar(aes(x = FFG, ymin = Mean - SD, ymax = Mean + SD), position = "dodge") +
-  labs(title = "Average of the log ratio of 2018/2017",
+  labs(title = "Average of the log ratio \n (Treatment / Control)",
        x = "Treatment",
        y = "Log ratio") +
   scale_fill_grey()
@@ -539,8 +539,6 @@ hull.data <- rbind(Reach17N, Reach17Y, Reach18Y, Reach18N)
 vec.env <- envfit(sol, grouping, perm = 1000, na.rm = TRUE)
 vec.env.df <- scores(vec.env, display = "vectors") %>% as.tibble() %>% slice(2:n())
 vec.env.df$names <- c("Chla", "YearTreatQ") 
-
-
 ```
 
 

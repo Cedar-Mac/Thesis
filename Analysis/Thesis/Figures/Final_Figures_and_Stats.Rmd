@@ -9,9 +9,6 @@ output:
     keep_md: false
     includes:
     code_folding: "hide"
-bibliography: thesis.bib
-link-citations: yes
-csl: citation-styles/canadian-journal-of-fisheries-and-aquatic-sciences.csl
 ---
 
 ```{r Load-Packages, include = FALSE}
@@ -22,6 +19,7 @@ lapply(x, library, character.only = TRUE)
 # import data
 bugs <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
                   sheet = "Cleaned")
+snails <- readxl::read_xlsx(here::here("Analysis", "Data", "2018 Tiles Allison's Computer.xlsx"), sheet = "Snails", range = "A1:E81")
 ffg <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
                          sheet = "FFG")
 sizes <- read_xlsx(here::here("Analysis", "Data", "2017-18 bugs.xlsx"), 
@@ -67,9 +65,9 @@ PAR.mean %>% filter(Stream != "W-122") %>%
   
   ggplot(aes(x = Meter, y = PAR, color = Reach, group = Reach)) +
     geom_line(size = 3) +
-    ylab("PAR (mol/m^2 day)")+ scale_x_discrete(breaks = seq(0, 90, by = 15)) +
-    labs(title = "Post Treatment",
-         y = "PAR (mol/m^2 day)",
+    ylab("PAR (mol/m^2 day^-1)")+ scale_x_discrete(breaks = seq(0, 90, by = 15)) +
+    labs(
+         y = "PAR (mol m^-2 day^-1)",
          x = "Meter",
          color = "Reach") + 
     ylim(0,18) +
@@ -77,6 +75,8 @@ PAR.mean %>% filter(Stream != "W-122") %>%
     scale_color_viridis_d(option = "E") +
     theme(legend.position = c(.84, .27), legend.key.width = unit(3, "cm"),
           aspect.ratio = 1)
+mean(PAR.mean$PAR[PAR.mean$Reach == "Treatment"])
+mean(PAR.mean$PAR[PAR.mean$Reach == "Reference"])
 ```
 
 ## Chlorophyll $\alpha$ {.tabset .tabset-fade .tabset-pills}
@@ -109,7 +109,7 @@ bentho.reach <- aggregate(BenthoTotal ~ Stream + Treatment + Year.Treatment + Ye
 ggplot(data = bentho_both.mean) +
   geom_line(mapping = aes(x = Meter, y = BenthoTotal, color = Treatment, 
   linetype = Year, group = Year.Treatment), size = 3) +
-  labs(title = "Chlorophyll a by Meter Pre and Post Treatment", 
+  labs(
        y = "Chlorophyll a (ug/cm^2)",
        x = "Meter",
        color = "Reach") + 
@@ -135,7 +135,7 @@ bugs$Density <- bugs$Count / bugs$PercentSub / .09  #Calculate total in pooled s
 bugs$CollDate <- as.Date(bugs$CollDate, format = "%m/%d/%y") %>% year() %>% as.factor()
 
 bugs.agg <- bugs %>%
-  group_by(CollDate, Stream, Treatment, Taxon) %>%
+  dplyr::group_by(CollDate, Stream, Treatment, Taxon) %>%
   summarise_at(vars(Density), sum) %>% ungroup
 
 bugs.agg$Density <- bugs.agg$Density / 3    #Divide by number of samples pooled
@@ -181,14 +181,13 @@ bugs.treat <- bugs.agg %>% select(-c("Density", "CollDate")) %>% unique()
 
 
 
-
 ### Statistics
 
 ```{r Calculate Density Totals}
 # Find total density for all bugs per stream-reach and total density by FFG
-bug_totals <- bugs.agg %>% group_by(Stream, Treatment, CollDate, YearTreat, StreamTreat) %>% 
+bug_totals <- bugs.agg %>% dplyr::group_by(Stream, Treatment, CollDate, YearTreat, StreamTreat) %>% 
   summarise_at(vars(Density), sum)
-ffg_totals <- bugs.agg %>% group_by(Stream, Treatment, CollDate, YearTreat, StreamTreat, FFG) %>% 
+ffg_totals <- bugs.agg %>% dplyr::group_by(Stream, Treatment, CollDate, YearTreat, StreamTreat, FFG) %>% 
   summarise_at(vars(Density), sum)
 
 # Log transform density
@@ -202,47 +201,53 @@ We will start with plotting total invertebrate density for a single stream with 
 bug_totals %>% filter(Stream == "W-113") %>%
   ggplot(aes(x = YearTreat, y = Density, group = CollDate, fill = Treatment)) +
   geom_col() +
-  labs(title = "W-113 Invertebrate Density by Year and Reach",
+  labs(
        x = "Year and Treatment \n (Y = Treatment reach, N = Control reach)",
        y = "Invertebrate Density") +
-  scale_fill_grey() +
-    scale_color_grey()
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) +
+    scale_fill_viridis_d(option = "E", end = .9)
 ```
 
 Next we plot log ratios between years (2018Y / 2017Y and 2018N / 2017N) for a single stream
 
 A log ratio of 0 indicates no change in abundance between 2017 and 2018. Positive values mean an increase in abundance in the post-treatment year, and a negative value would suggest a decline in abundance in the post-treatment year.  We then compare the yearly ratio's of each reach (control or treatment) to assess the effect of the treatment.
 
-```{r W-113 Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios$Year <- as.factor(ffg.ratios$Year)
-ffg.ratios %>%  group_by(Stream, Year) %>% 
-  summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
+```{r W-113 Reach Diffs, echo = TRUE}
+bug_diffs <- bug_totals %>% ungroup() %>% select(Stream, Treatment, CollDate, Density) %>% spread(key = Treatment, value = Density) 
+bug_diffs <- bug_diffs %>% mutate(difference = `Y` - `N`) 
+
+bug_diffs %>% filter(Stream == "W-113") %>%
   
-  filter(Stream == "W-113") %>% 
-  ggplot(aes(x = Year, y = Difference, fill = Year)) +
+  ggplot(aes(x = CollDate, y = difference, fill = CollDate)) +
   geom_col() +
-  labs(title = "W-113 Log of Invertebrate Density Ratio's \n (2018 / 2017)",
-       x = "Treatment \n (Y = Treatment reach, N = Control reach)",
-       y = "Difference of Invert Density") +
-  scale_fill_grey() +
-    scale_color_grey()
-```
-
-
-Now we plot all the log ratios
-
-```{r All Streams Total Log Ratios, fig.height = 10, fig.width = 12, echo = TRUE}
-ffg.ratios %>%  group_by(Stream, Year) %>% 
-  summarise_at(vars(Difference, Ratio, `Log(Ratio) Year`), mean) %>% 
-  
-  ggplot(aes(x = Year, y = Difference, fill = Year)) +
-  geom_col() +
-  labs(title = "W-113 Log of Invertebrate Density Ratio's \n (2018 / 2017)",
+  labs(
        x = "Year",
-       y = "Reach Difference of Invert Density") +
-  scale_fill_grey() +
-    scale_color_grey()
+       y = "Difference of Invert Density (Treatment - Control)") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) +
+  scale_fill_viridis_d(option = "E", end = .9) +
+  geom_hline(aes(yintercept = 0))
 ```
+
+```{r all streams}
+bug_diffs %>% 
+  
+  ggplot(aes(x = CollDate, y = difference, fill = CollDate)) +
+  geom_col() +
+  labs(
+       x = "Year",
+       y = "Difference of Invert Density (Treatment - Control)") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank()) +
+  scale_fill_viridis_d(option = "E", end = .9) +
+  geom_hline(aes(yintercept = 0)) +
+  facet_wrap('Stream')
+```
+
 
 
 And now the average log ratio across streams for each reach with 95% confidence interval calculated using the t score from Welch's t-test.
@@ -321,7 +326,7 @@ ffg.ratios %>%
 ```
 
 
-```{r AvgFFGratio, echo = TRUE}
+```{r AvgFFGdiff, echo = TRUE}
 ffg.avg.ratio <- ddply(ffg.ratios, .(FFG, Year), summarize,
       Mean = mean(`Log(Ratio) Year`),
       SD = sd(`Log(Ratio) Year`))
@@ -351,36 +356,21 @@ ffg.avg.diff %>%
   geom_errorbar(aes(x = FFG, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), 
                     color = Year), width = .7, 
                     position = position_dodge(.9)) +
-  labs(title = "Average of the difference 2018 - 2017",
-       x = "Treatment",
-       y = "Difference") +
+  labs(
+       x = "Functional Feeding Group",
+       y = bquote('Density Difference'~("Treatment - Control; "~m^-2))) +
  theme_bw(base_family = "LM Roman 10") +
   theme(panel.grid.minor = element_blank(),
-        #panel.grid.major = element_blank(),
+        panel.grid.major = element_blank(),
         plot.title = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0.5, face = "italic", color = "grey"),
-        legend.title = element_text(face = "bold")) + 
-  scale_fill_viridis_d(option = "E", end = .8) +
-    scale_color_viridis_d(option = "E", end = .8) 
+        legend.title = element_text(face = "bold")) +
+        geom_hline(yintercept = 0, color = "black", size = .4) +
+  scale_fill_viridis_d(option = "E", end = .9) +
+    scale_color_viridis_d(option = "E", end = .9) 
 ```
 
-Use differences instead of ratio's to see if there's a difference.
 
-```{r Scraper Taxa 2018, fig.height = 10, fig.width = 12, echo = TRUE}
-bugs.reach.diff %>% filter(FFG == "SCe" | FFG == "SCi") %>% group_by(Treatment, Taxon) %>% 
-  ddply(.(Treatment, Taxon), summarize,
-        Mean = mean(Diff),
-        SD = sd(Diff)) %>%
-  ggplot(aes(x = Taxon, y = Mean, fill = Treatment)) +
-    geom_col(position = "dodge") +
-  geom_errorbar(aes(x = Taxon, ymin = Mean - ((SD*2.345)/sqrt(5)), ymax = Mean + ((SD*2.345)/sqrt(5)), color = Treatment), position = "dodge") +
-    labs(title = "Mean Difference of Scraper Taxa (2018-2017)",
-         x = "Taxon",
-         y = "Mean Difference in Density") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-    scale_fill_grey() +
-    scale_color_grey()
-```
 
 ### NMS
 ***
@@ -389,7 +379,7 @@ Who knows what I'm actually doing, all of this ordination stuff is currently pre
 ```{r Prep benthic NMS Data, echo = TRUE}
 # Spread data to get a taxon matrix, create factor of CollDate and Treatment
 bugs.mds <- bugs.agg %>% 
-  select(-c("FFG", "Size")) %>%
+  select(-c("FFG", "Size", "EPT")) %>%
   group_by(Stream, Treatment, CollDate, Taxon) %>%  
   spread(key = "Taxon", value = "Density") %>%
   mutate_if(is.numeric , replace_na, replace = 0) %>% ungroup() %>%
@@ -402,7 +392,9 @@ bugs.mds <- bugs.agg %>%
 Density <- bugs.mds %>% 
   select("Ameletus":"Zapada")
 
-grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat, YearTreatQ, BenthoTotal)
+env_bugs <- Density %>% select_if(funs(sum(.) > 200))
+
+grouping <- select(Enviro, Stream, Treatment, CollDate, YearTreat, YearTreatQ, Chla, PAR) %>% cbind(env_bugs)
 ```
 
 
@@ -419,8 +411,9 @@ NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2],
                    Treatment = select(grouping, Treatment), 
                    CollDate = select(grouping, CollDate),
                    YearTreat = select(grouping, YearTreat),
-                   Chla = select(grouping, BenthoTotal),
-                   YearTreatQ = select(grouping, YearTreatQ))
+                   Chla = select(grouping, Chla),
+                   YearTreatQ = select(grouping, YearTreatQ),
+                   PAR = select(grouping, PAR))
 ```
 
 
@@ -442,10 +435,12 @@ hull.data <- rbind(Reach17N, Reach17Y, Reach18Y, Reach18N)
 
 ```{r env vectors}
 vec.env <- envfit(sol, grouping, perm = 1000, na.rm = TRUE)
-vec.env.df <- scores(vec.env, display = "vectors") %>% as_tibble() %>% slice(2:n())
-vec.env.df$names <- c("Chla", "YearTreatQ") 
+vec.env.df <- scores(vec.env, display = "vectors") %>% as_tibble()
+vec.env.df$r <- vec.env$vectors$r
+vec.env.df$pval <- vec.env$vectors$pvals
+vec.env.df$names <- colnames(grouping[-c(1,2,4)])
+vec.env.df <- vec.env.df %>% filter(r > .36) %>% slice(2:3)
 ```
-
 
 ```{r Mean NMS, eval=FALSE, include=FALSE}
 #Get mean x,y values 
@@ -470,19 +465,20 @@ for(g in NMDS$YearTreat){
 ```
 
 
-```{r NMS Benthic, fig.height = 10, fig.width = 12, echo = TRUE}
+```{r NMS-Benthic, fig.height = 10, fig.width = 12, echo = TRUE}
 ggplot(data = NMDS, aes(x, y)) +
-  annotate("text", x = (NMDS$x), y = (NMDS$y) + .02, label = NMDS$Stream, size = 8) +
-  geom_polygon(hull.data, mapping = aes(x = x, y = y, fill = YearTreat, group = YearTreat), alpha = .2) +
+  geom_polygon(hull.data, mapping = aes(x = x, y = y, color = YearTreat, group = YearTreat, linetype = Treatment), size = 2, alpha = 0) +
   geom_point(aes(x = x, y = y, shape = Stream), size = 5) +
   geom_segment(data = vec.env.df, aes(x = 0, xend = NMDS1, y = 0, yend = NMDS2),
-      arrow = arrow(length = unit(0.1, "cm")), colour = "red", inherit_aes = FALSE, size = 4) +
-  geom_text(data = vec.env.df, aes(x = NMDS1, y = NMDS2, label = names), size = 18, color = "red") +
-  labs(title = "NMS of Benthic Invertebrate Community",
+      arrow = arrow(length = unit(0, "cm")), colour = "red", inherit_aes = FALSE, size = 1) +
+  geom_text(data = vec.env.df, aes(x = NMDS1, y = NMDS2, label = names), size = 8, color = "red") +
+  geom_text_repel(data = NMDS, aes(x = x, y = y, label = Stream), size = 6) +
+  labs(
        x = "Axis 1",
        y = "Axis 2") +
-  scale_fill_viridis_d() +
-  theme(axis.text.x = element_blank(),  # remove x-axis text
+  scale_color_viridis_d() +
+  theme_bw(base_family = "LM Roman 10") +
+    theme(axis.text.x = element_blank(),  # remove x-axis text
         axis.text.y = element_blank(), # remove y-axis text
         axis.ticks = element_blank(),  # remove axis ticks
         panel.background = element_blank(), 
@@ -490,11 +486,13 @@ ggplot(data = NMDS, aes(x, y)) +
         panel.grid.minor = element_blank(),  #remove minor-grid labels
         plot.background = element_blank(),
         legend.position = c(.08, .76)) 
+
+
 ed_scraper_totals <- ffg_totals %>% filter(FFG == "SCe")
 in_scraper_totals <- ffg_totals %>% filter(FFG == "SCi")
 scraper_totals <- rbind(ed_scraper_totals, in_scraper_totals)
 scraper_agg <- scraper_totals %>% group_by(Stream, Treatment, YearTreat, CollDate) %>% summarise_at(vars(Density, logDensity), .funs = sum)
-write_csv(scraper_agg, "~/Desktop/scraper_agg.csv")
+
 ```
 
 Actually maybe cool result, all of the treatment reaches now plot closer post-gap year. The controls show a similar pattern though maybe a little less pronounced. Everything also shifted left between the two years, although this isn't because of the treatment, just annual changes. Maybe the gap amplified whatever effect the year had, extra, extra light or temperature maybe.
@@ -555,7 +553,7 @@ bugndiet.ffg <- bugndiet.ffg %>% mutate(D =
 bugndiet.ffg <- bugndiet.ffg %>% mutate(Q = (frac.diet*(1-frac.benthic)) / (frac.benthic*(1-frac.diet)))
       
 
-# Calculate average proportion of FFG's in benthos and diet of all streams and avg idex values
+# Calculate average proportion of FFG's in benthos and diet of all streams and avg index values
 avg.ffg.diet <- ddply(bugndiet.ffg, .(Treatment, FFG), summarize,
                    Mean.benthic = mean(frac.benthic),
                    SD.benthic = sd(frac.benthic),
@@ -683,10 +681,11 @@ ggplot(aes(x = Mean.benthic, y = Mean.diet), data = avg.fam.diet) +
 ggplot(aes(x = Family, y = Mean.D, color = Treatment, group = Treatment), data = avg.fam.diet) +
   geom_point(position = position_dodge(width = .6)) +
   geom_errorbar(aes(ymin = Mean.D - SD.D, ymax = Mean.D + SD.D, color = Treatment), position = position_dodge(width = .6)) +
-    labs(title = "Difference Selection Index of Trout Feeding on Invert Taxa", 
+    labs( 
          x = "Family",
          y = "Difference Selection Index") +
-    scale_color_viridis_d(option = "E", end = .8) +
+    scale_color_viridis_d(option = "E", end = .9) +
+  theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         panel.background = element_rect(fill = "white", color = "grey"),
@@ -695,6 +694,7 @@ ggplot(aes(x = Family, y = Mean.D, color = Treatment, group = Treatment), data =
         legend.title = element_text(face = "bold"),
           aspect.ratio = 1,
           axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
 ```
 
 
@@ -769,13 +769,28 @@ ffg_diet_results <- data.frame("FFG" = numeric(6), "tval" = numeric(6), "pval" =
 for (i in ffg_names){
   k = match(i, ffg_names)  #find the index of i in ffg_names
   x <- filter(bugndiet.ffg, FFG == i) %>%
-  t.test(L ~ Treatment, data = .)
+  t.test(D ~ Treatment, data = .)
   ffg_diet_results[k, "FFG"] <- i
   ffg_diet_results[k, "tval"] <- x$statistic
   ffg_diet_results[k, "pval"] <- x$p.value
 }
 
-ffg_diet_results
+write_csv(ffg_diet_results, "~/Desktop/ffg_diet_results.csv")
+
+fam_names <- c("Baetid", "Brachy", "Chiro", "Dixid", "Elmid", "Ostro", "Perlid", "Rhyaco")
+
+fam_diet_results <- data.frame("Family" = numeric(8), "tval" = numeric(8), "pval" = numeric(8))  #initialize data frame
+
+for (i in fam_names){
+  k = match(i, fam_names)  #find the index of i in ffg_names
+  x <- filter(bugndiet.select.fam, Family == i) %>%
+  t.test(D ~ Treatment, data = .)
+  fam_diet_results[k, "Family"] <- i
+  fam_diet_results[k, "tval"] <- x$statistic
+  fam_diet_results[k, "pval"] <- x$p.value
+}
+
+fam_diet_results
 ```
 
 ```{r FFG Diet LM, eval=FALSE, include=FALSE}
@@ -790,10 +805,11 @@ anova(model1)
 ggplot(aes(x = FFG, y = Mean.L, color = Treatment), data = avg.ffg.diet) +
   geom_point(position = position_dodge(width = .6)) +
   geom_errorbar(aes(ymin = Mean.L - SD.L, ymax = Mean.L + SD.L, color = Treatment), position = position_dodge(width = .6)) +
-    labs(title = "Linear Selection Index of Trout Feeding on FFG's", 
+    labs( 
          x = "Functional Feeding Group",
          y = "Linear Selection Index") +
-    scale_color_viridis_d(option = "E", end = .8) +
+    scale_color_viridis_d(option = "E", end = .9) +
+  theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         panel.background = element_rect(fill = "white", color = "grey"),
@@ -809,10 +825,11 @@ ggplot(aes(x = FFG, y = Mean.L, color = Treatment), data = avg.ffg.diet) +
 ggplot(aes(x = FFG, y = Mean.D, color = Treatment), data = avg.ffg.diet) +
   geom_point(position = position_dodge(width = .6)) +
   geom_errorbar(aes(ymin = Mean.D - SD.D, ymax = Mean.D + SD.D, color = Treatment), position = position_dodge(width = .6)) +
-    labs(title = "Linear Selection Index of Trout Feeding on FFG's", 
+    labs(
          x = "Functional Feeding Group",
-         y = "Linear Selection Index") +
-    scale_color_viridis_d(option = "E", end = .8) +
+         y = "Difference Selection Index") +
+    scale_color_viridis_d(option = "E", end = .9) +
+  theme_bw(base_family = "LM Roman 10") +
     theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
         panel.background = element_rect(fill = "white", color = "grey"),
@@ -918,12 +935,6 @@ NMDS <- data.frame(x = sol$points[, 1], y = sol$points[ ,2],
 ```
 
 
-```{r Diet Mean NMS, eval=FALSE, include=FALSE}
-#Get mean x,y values 
-NMDS.mean <- select(NMDS, x, y) %>% aggregate(grouping, mean)
-```
-
-
 ```{r Diet ELlipse, eval=FALSE, include=FALSE}
 #Load ellipse for NMDS
 plot.new()
@@ -972,6 +983,50 @@ ggplot(data = NMDS, aes(x, y, color = Treatment)) +
 ```
 
 There seems to be total overlap of the diet communities in the control versus treatment reaches.  This seems to be consistent with what we saw in other plots.
+
+```{r}
+diet.table <- merge(Diets, ffg, by.x = "Family", by.y = "Taxon")
+```
+
+
+```{r EPT Metric}
+ept <- bugs.agg
+ept <- ept %>% filter(Density > 0 ) %>% dplyr::group_by(Stream, Treatment, CollDate) %>% summarise_at(vars(EPT), funs(sum), na.rm = T) %>% ungroup()
+ept <- ept %>% spread(Treatment, EPT)
+ept$rat <- ept$`Y` / ept$`N`
+ept <- ept %>% select(-c(`Y`, `N`))
+ept <- ept %>% spread(CollDate, rat)
+ept$ddiff <- ept$`2018` / ept$`2017`
+```
+
+
+```{r}
+Snail <- merge(snails, bentho_both.mean, by.x = c("Stream", "Year", "Treatment", "Meter"), by.y = c("Stream", "Year", "Treatment", "Meter"))
+
+ggplot(aes(BenthoTotal, Snail), data = Snail) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+lm.snail <- lm(BenthoTotal ~ Snail, data = Snail)
+summary(lm.snail)
+
+stream_snail <- snails %>% group_by(Stream, Treatment, Year) %>%
+            summarise_at(vars(Snail), sum)
+
+snail_baci <- stream_snail %>% spread(key = Treatment, value = Snail) %>% mutate(diff = Y - N) %>% select(-c("N", "Y"))
+```
+
+
+```{r}
+Diets %>% group_by(Stream, Treatment, Rep) %>% summarise_at(vars(Count), sum) %>% ungroup() %>% summarise_at(vars(Count), mean)
+```
+
+
+```{r}
+top_diet <- bugndiet.fam %>% group_by(Stream, Family) %>% summarise_at(vars(frac.diet), sum) %>% 
+  spread(key = "Stream", value = "frac.diet") 
+write_csv(top_diet, "~/Desktop/top_diet.csv")
+```
 
 
 ## Citations

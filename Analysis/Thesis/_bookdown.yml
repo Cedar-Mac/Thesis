@@ -1,7 +1,6 @@
 book_filename: "thesis"
 chapter_name: "Chapter "
-rmd_files: ["Undergrad_Thesis.Rmd",
-  "chapters/99-references.Rmd"
+rmd_files: ["Undergrad_Thesis.Rmd"
   ]
 download: [["thesis.pdf", "PDF"],
   ["thesis.epub", "EPUB"],
