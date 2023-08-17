@@ -1,4 +1,4 @@
-# A guide to all the documents contained within "Undergrad Thesis"
+# A guide to all the thesis stuff (undergrad verison)
 
 The analysis folder has all of the statistical analyses, figures, and other supporting documents for my undergrad thesis.
 
